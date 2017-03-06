@@ -27,7 +27,7 @@
             db41b04ac20143315a471efd205321cb
         </meta-data>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -11,41 +11,11 @@
     app:umanoOverlay="true"
     app:umanoPanelHeight="100dp"
     app:umanoParallaxOffset="100dp"
-    app:umanoScrollableView="@+id/scrollview_chart"
     app:umanoShadowHeight="4dp"
     >
 
     <!--MAIN CONTENT-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.amap.api.maps2d.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bottom_bar"
-            />
-
-        <android.support.v7.widget.SearchView
-            android:id="@+id/sv_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:background="#fff"
-            android:elevation="4dp"
-            android:iconifiedByDefault="false"
-            />
-
-        <com.ashokvarma.bottomnavigation.BottomNavigationBar
-            android:id="@+id/bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            app:bnbElevation="12dp"
-            />
-
-    </RelativeLayout>
+    <include layout="@layout/main_layout_main_content"/>
 
     <!--Sliding CONTENT-->
     <include layout="@layout/main_layout_sliding_content"/>
