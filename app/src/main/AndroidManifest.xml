@@ -27,7 +27,9 @@
             db41b04ac20143315a471efd205321cb
         </meta-data>
 
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity"
+            android:theme="@style/ThemeFullscreen"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
