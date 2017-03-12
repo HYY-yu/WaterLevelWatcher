@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">水情监测</string>
+    
+    <array name="chart_yaxis_text">
+        <item>闸门开度</item>
+        <item>闸前水位</item>
+        <item>闸后水位</item>
+    </array>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="station_name" formatted="true">监测站：%d</string>
+    <string name="station_introduce" formatted="true">详细介绍: \n 经度:%1$s \n 纬度: %2$s</string>
 </resources>

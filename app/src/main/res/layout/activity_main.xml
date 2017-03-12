@@ -1,23 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
-    android:id="@+id/spl_main_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    app:umanoAnchorPoint="0.6"
-    app:umanoDragView="@+id/dragView"
-    app:umanoOverlay="true"
-    app:umanoPanelHeight="100dp"
-    app:umanoParallaxOffset="100dp"
-    app:umanoShadowHeight="4dp"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+
     >
 
-    <!--MAIN CONTENT-->
-    <include layout="@layout/main_layout_main_content"/>
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/spl_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        app:umanoDragView="@+id/dragView"
+        app:umanoOverlay="true"
+        app:umanoPanelHeight="100dp"
+        app:umanoParallaxOffset="100dp"
+        app:umanoShadowHeight="4dp"
+        >
 
-    <!--Sliding CONTENT-->
-    <include layout="@layout/main_layout_sliding_content"/>
+        <!--MAIN CONTENT-->
+        <include layout="@layout/main_layout_main_content"/>
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+        <!--Sliding CONTENT-->
+        <include layout="@layout/main_layout_sliding_content"/>
+
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_close_panel_mini"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="120dp"
+        android:layout_marginStart="8dp"
+        android:visibility="gone"
+        app:backgroundTint="@color/white"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/ic_close_black_24dp"
+        />
+
+</FrameLayout>
+

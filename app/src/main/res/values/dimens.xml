@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">0dp</dimen>
+
+    <dimen name="map_marker_width">18dp</dimen>
+    <dimen name="map_marker_height">16dp</dimen>
+    <dimen name="map_offset">3dp</dimen>
+</resources>

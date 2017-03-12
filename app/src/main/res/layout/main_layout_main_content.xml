@@ -16,6 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:bnbElevation="12dp"
+        app:bnbBackgroundColor="@color/white_"
+
         />
 
 </RelativeLayout>
