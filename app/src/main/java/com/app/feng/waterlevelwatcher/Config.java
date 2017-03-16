@@ -8,6 +8,7 @@ public class Config {
 
     public static String SP_NAME = "waterlevelwatcher";
     public static boolean LOG_SWITCH = true;
+    public static int MAP_ZOOM_LEVEL = 10;
 
     public static class Constant {
         public static String MAP = "map";

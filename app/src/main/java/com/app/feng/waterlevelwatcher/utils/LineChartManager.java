@@ -95,6 +95,7 @@ public class LineChartManager {
         chartView.setInteractive(true);
         chartView.setValueSelectionEnabled(true);
         chartView.setZoomType(ZoomType.HORIZONTAL);
+        chartView.invalidate();
 
         if (mode == MODE_PANEL) {
             return;

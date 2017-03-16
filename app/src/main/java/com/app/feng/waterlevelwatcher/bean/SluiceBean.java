@@ -1,5 +1,7 @@
 package com.app.feng.waterlevelwatcher.bean;
 
+import com.app.feng.waterlevelwatcher.Config;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -57,7 +59,7 @@ public class SluiceBean extends RealmObject{
 
     public void setTime(Date time) {
         this.time = time;
-        timeFormatString = (new SimpleDateFormat("yyyy/MM/dd HH:mm")).format(time);
+        timeFormatString = (new SimpleDateFormat(Config.Constant.TIME_FORMAT)).format(time);
     }
 
     public String getFormatTime() {

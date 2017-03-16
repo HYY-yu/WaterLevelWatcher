@@ -27,15 +27,15 @@
         app:textColor="@color/select_segmented_style"
         />
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_chang_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_marginTop="8dp"
+        app:useCompatPadding="true"
         app:fabSize="normal"
+        app:borderWidth="0dp"
+        app:rippleColor="@color/ripple_color"
         app:srcCompat="@drawable/ic_calendar_time_fab"
         />
 

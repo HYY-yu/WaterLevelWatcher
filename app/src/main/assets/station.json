@@ -1,0 +1,374 @@
+[
+  {
+    "latitude": 32.671478,
+    "longitude": 111.715668,
+    "name": "\u9676\u5c94\u6e20\u9996\u95f8",
+    "sluiceID": 1
+  },
+  {
+    "latitude": 32.736999,
+    "longitude": 111.880718,
+    "name": "\u5201\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 13
+  },
+  {
+    "latitude": 33.121775,
+    "longitude": 112.668718,
+    "name": "\u6e4d\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 23
+  },
+  {
+    "latitude": 33.831146,
+    "longitude": 113.4805,
+    "name": "\u4e25\u9675\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 37
+  },
+  {
+    "latitude": 34.167528,
+    "longitude": 113.792463,
+    "name": "\u6dc7\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 51
+  },
+  {
+    "latitude": 34.992427,
+    "longitude": 113.448165,
+    "name": "\u5341\u4e8c\u91cc\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 83
+  },
+  {
+    "latitude": 35.260232,
+    "longitude": 113.453508,
+    "name": "\u767d\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 101
+  },
+  {
+    "latitude": 35.39174,
+    "longitude": 113.966282,
+    "name": "\u4e1c\u8d75\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 113
+  },
+  {
+    "latitude": 35.925839,
+    "longitude": 114.323963,
+    "name": "\u9ec4\u91d1\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 141
+  },
+  {
+    "latitude": 36.296394,
+    "longitude": 114.383756,
+    "name": "\u8349\u58a9\u6cb3\u5012\u8679\u5438\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 165
+  },
+  {
+    "latitude": 37.234503,
+    "longitude": 114.501695,
+    "name": "\u6fa7\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 181
+  },
+  {
+    "latitude": 38.199624,
+    "longitude": 114.635316,
+    "name": "\u6f8e\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 199
+  },
+  {
+    "latitude": 38.904505,
+    "longitude": 115.72631,
+    "name": "\u6c99\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 215
+  },
+  {
+    "latitude": 39.26992,
+    "longitude": 117.03586,
+    "name": "\u7389\u5e26\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 239
+  },
+  {
+    "latitude": 39.414244,
+    "longitude": 116.881538,
+    "name": "\u5317\u6c5d\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 263
+  },
+  {
+    "latitude": 39.558568,
+    "longitude": 116.727216,
+    "name": "\u5170\u6cb3\u6db5\u6d1e\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 285
+  },
+  {
+    "latitude": 39.702893,
+    "longitude": 116.572894,
+    "name": "\u988d\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 309
+  },
+  {
+    "latitude": 39.847217,
+    "longitude": 116.418572,
+    "name": "\u5c0f\u6d2a\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 331
+  },
+  {
+    "latitude": 38.941354,
+    "longitude": 115.970288,
+    "name": "\u53cc\u6d0e\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 359
+  },
+  {
+    "latitude": 38.978202,
+    "longitude": 116.214267,
+    "name": "\u6885\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 377
+  },
+  {
+    "latitude": 39.015051,
+    "longitude": 116.458246,
+    "name": "\u4e08\u516b\u6c9f\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 391
+  },
+  {
+    "latitude": 39.051899,
+    "longitude": 116.702225,
+    "name": "\u6f6e\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 411
+  },
+  {
+    "latitude": 39.088748,
+    "longitude": 116.946203,
+    "name": "\u91d1\u6c34\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 431
+  },
+  {
+    "latitude": 38.333231,
+    "longitude": 114.804719,
+    "name": "\u987b\u6c34\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 447
+  },
+  {
+    "latitude": 38.466837,
+    "longitude": 114.974122,
+    "name": "\u7d22\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 465
+  },
+  {
+    "latitude": 38.600444,
+    "longitude": 115.143525,
+    "name": "\u7a7f\u9ec4\u96a7\u6d1e\u8fdb\u53e3\u95f8",
+    "sluiceID": 1460
+  },
+  {
+    "latitude": 38.73405,
+    "longitude": 115.312928,
+    "name": "\u7a7f\u9ec4\u96a7\u6d1e\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 477
+  },
+  {
+    "latitude": 37.400806,
+    "longitude": 114.494538,
+    "name": "\u6d4e\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 489
+  },
+  {
+    "latitude": 37.567109,
+    "longitude": 114.487382,
+    "name": "\u95eb\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 535
+  },
+  {
+    "latitude": 37.733412,
+    "longitude": 114.480226,
+    "name": "\u6e83\u57ce\u5be8\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 577
+  },
+  {
+    "latitude": 37.899715,
+    "longitude": 114.473069,
+    "name": "\u5cea\u6cb3\u6697\u6e20\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 599
+  },
+  {
+    "latitude": 36.489345,
+    "longitude": 114.41503,
+    "name": "\u9ec4\u6c34\u6cb3\u652f\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 633
+  },
+  {
+    "latitude": 36.682297,
+    "longitude": 114.446303,
+    "name": "\u5b5f\u575f\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 661
+  },
+  {
+    "latitude": 36.875248,
+    "longitude": 114.477577,
+    "name": "\u9999\u6cc9\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 693
+  },
+  {
+    "latitude": 35.480864,
+    "longitude": 114.048572,
+    "name": "\u6dc7\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 725
+  },
+  {
+    "latitude": 35.569988,
+    "longitude": 114.130863,
+    "name": "\u6c64\u6cb3\u6db5\u6d1e\u5f0f\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 765
+  },
+  {
+    "latitude": 35.659112,
+    "longitude": 114.213153,
+    "name": "\u5b89\u9633\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 801
+  },
+  {
+    "latitude": 35.281424,
+    "longitude": 113.668749,
+    "name": "\u6f33\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 821
+  },
+  {
+    "latitude": 34.312099,
+    "longitude": 113.758864,
+    "name": "\u7264\u725b\u6cb3\u5357\u652f\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 857
+  },
+  {
+    "latitude": 34.456671,
+    "longitude": 113.725264,
+    "name": "\u6c81\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 887
+  },
+  {
+    "latitude": 34.601242,
+    "longitude": 113.691665,
+    "name": "\u6d3a\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 923
+  },
+  {
+    "latitude": 33.927051,
+    "longitude": 113.653281,
+    "name": "\u5357\u6c99\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 955
+  },
+  {
+    "latitude": 33.244468,
+    "longitude": 112.796518,
+    "name": "\u4e03\u91cc\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 963
+  },
+  {
+    "latitude": 33.367161,
+    "longitude": 112.924318,
+    "name": "\u767d\u9a6c\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 981
+  },
+  {
+    "latitude": 33.489855,
+    "longitude": 113.052118,
+    "name": "\u674e\u9633\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 999
+  },
+  {
+    "latitude": 33.612548,
+    "longitude": 113.179918,
+    "name": "\u5348\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1041
+  },
+  {
+    "latitude": 32.80252,
+    "longitude": 112.045768,
+    "name": "\u69d0\u6cb3(\u4e00)\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1065
+  },
+  {
+    "latitude": 32.86804,
+    "longitude": 112.210818,
+    "name": "\u6d28\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1097
+  },
+  {
+    "latitude": 32.933561,
+    "longitude": 112.375868,
+    "name": "\u53e4\u8fd0\u6cb3\u6697\u6e20\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1127
+  },
+  {
+    "latitude": 32.999082,
+    "longitude": 112.540918,
+    "name": "\u6ef9\u6cb1\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1141
+  },
+  {
+    "latitude": 33.735241,
+    "longitude": 113.307718,
+    "name": "\u78c1\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1159
+  },
+  {
+    "latitude": 34.022956,
+    "longitude": 113.826063,
+    "name": "\u6c99\u6cb3\uff08\u5317\uff09\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1173
+  },
+  {
+    "latitude": 34.745814,
+    "longitude": 113.658065,
+    "name": "\u6f20\u9053\u6c9f\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1193
+  },
+  {
+    "latitude": 35.23904,
+    "longitude": 113.238266,
+    "name": "\u5510\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1203
+  },
+  {
+    "latitude": 35.302616,
+    "longitude": 113.883991,
+    "name": "\u653e\u6c34\u6cb3\u6e21\u69fd\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1221
+  },
+  {
+    "latitude": 35.748236,
+    "longitude": 114.295444,
+    "name": "\u84b2\u9633\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1241
+  },
+  {
+    "latitude": 36.103442,
+    "longitude": 114.352482,
+    "name": "\u5c97\u5934\u96a7\u6d1e\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1281
+  },
+  {
+    "latitude": 37.0682,
+    "longitude": 114.508851,
+    "name": "\u897f\u9ed1\u5c71\u8282\u5236\u95f8",
+    "sluiceID": 1299
+  },
+  {
+    "latitude": 38.066018,
+    "longitude": 114.465913,
+    "name": "\u7011\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1321
+  },
+  {
+    "latitude": 38.867657,
+    "longitude": 115.482331,
+    "name": "\u5317\u6613\u6c34\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1353
+  },
+  {
+    "latitude": 39.125596,
+    "longitude": 117.190182,
+    "name": "\u575f\u5e84\u6cb3\u5012\u8679\u5438\u51fa\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1377
+  },
+  {
+    "latitude": 39.991541,
+    "longitude": 116.26425,
+    "name": "\u5317\u62d2\u9a6c\u6cb3\u6697\u6e20\u8fdb\u53e3\u8282\u5236\u95f8",
+    "sluiceID": 1415
+  }
+]

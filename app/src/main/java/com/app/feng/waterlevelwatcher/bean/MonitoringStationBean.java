@@ -9,8 +9,9 @@ import io.realm.RealmObject;
 
 public class MonitoringStationBean extends RealmObject {
     private int sluiceID;
-    private String longitude; // 经度
-    private String latitude;  // 纬度
+    private String name;
+    private float longitude; // 经度
+    private float latitude;  // 纬度
 
     public int getSluiceID() {
         return sluiceID;
@@ -20,19 +21,27 @@ public class MonitoringStationBean extends RealmObject {
         this.sluiceID = sluiceID;
     }
 
-    public String getLongitude() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 }

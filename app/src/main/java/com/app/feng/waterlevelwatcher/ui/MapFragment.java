@@ -1,5 +1,6 @@
 package com.app.feng.waterlevelwatcher.ui;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,14 +11,22 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.CameraUpdate;
+import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
+import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.Marker;
+import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
+import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.inter.ISlidePanelEventControl;
-import com.app.feng.waterlevelwatcher.log.XLog;
 import com.app.feng.waterlevelwatcher.utils.MarkerManager;
+import com.app.feng.waterlevelwatcher.utils.RealmUtils;
 
 import java.util.Iterator;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 public class MapFragment extends Fragment {
@@ -27,13 +36,14 @@ public class MapFragment extends Fragment {
 
     AMap aMap;
 
+    Realm realm;
+
     public MarkerManager markerManager;
 
     private ISlidePanelEventControl panelControl;
 
     public MapFragment() {
         // Required empty public constructor
-        XLog.d("MapFragment : " + "MapFragment");
     }
 
 
@@ -45,7 +55,6 @@ public class MapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        XLog.d("MapFragment : " + "onCreate");
 
     }
 
@@ -53,21 +62,29 @@ public class MapFragment extends Fragment {
     public View onCreateView(
             LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map,container,false);
+        searchView = (SearchView) v.findViewById(R.id.sv_map_station);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(
+                Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getActivity().getComponentName()));
         mapView = (MapView) v.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         if (aMap == null) {
             aMap = mapView.getMap();
         }
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+                new LatLng(32.671478,111.715668),Config.MAP_ZOOM_LEVEL);
+        aMap.animateCamera(cameraUpdate);
         aMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 markerManager.clickMarker(marker);
-
                 return false;
             }
         });
 
-        XLog.d("MapFragment : " + "onCreateView");
+        realm = Realm.getDefaultInstance();
 
         return v;
     }
@@ -83,8 +100,11 @@ public class MapFragment extends Fragment {
 
     private void initMarker() {
 
+        RealmResults<MonitoringStationBean> monitoringStationBeen = RealmUtils.loadAllStation(
+                realm);
+
         markerManager = new MarkerManager(getContext());
-        markerManager.generateMarker();
+        markerManager.generateMarker(monitoringStationBeen);
         markerManager.setPanelControl(panelControl);
 
         Iterator<MarkView> markViewIterator = markerManager.iteratorAllMarkView();
@@ -93,6 +113,9 @@ public class MapFragment extends Fragment {
             Marker marker = aMap.addMarker(markView.getMarkerOptions());
             marker.setObject(markView.getFlag());
         }
+
+        //aMap.addPolyline(markerManager.getPolylineOptions());
+
         markerManager.addMarkerFromAMap(aMap.getMapScreenMarkers());
     }
 
@@ -105,23 +128,18 @@ public class MapFragment extends Fragment {
             throw new RuntimeException(
                     context.toString() + " must implement ISlidePanelEventControl");
         }
-        XLog.d("MapFragment : " + "onAttach");
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         panelControl = null;
-        XLog.d("MapFragment : " + "onDetach");
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
-
-        XLog.d("MapFragment : " + "onResume");
 
     }
 
@@ -130,16 +148,13 @@ public class MapFragment extends Fragment {
         super.onPause();
         mapView.onPause();
 
-        XLog.d("MapFragment : " + "onPause");
-
     }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mapView.onSaveInstanceState(outState);
-        XLog.d("MapFragment : " + "onSaveInstanceState");
-
 
     }
 
@@ -148,6 +163,14 @@ public class MapFragment extends Fragment {
         super.onDestroy();
         mapView.onDestroy();
 
-        XLog.d("MapFragment : " + "onDestroy");
+        realm.close();
+    }
+
+    public void moveMapToStation(int id) {
+        MonitoringStationBean stationBean = RealmUtils.loadStationDataById(realm,id);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+                new LatLng(stationBean.getLatitude(),stationBean.getLongitude()),
+                Config.MAP_ZOOM_LEVEL);
+        aMap.animateCamera(cameraUpdate);
     }
 }

@@ -75,12 +75,12 @@ public class MarkView extends View {
         }
         a.recycle();
 
-        //        widthOval = context.getResources()
-        //                .getDimensionPixelOffset(R.dimen.map_marker_width);
-        //        heightOval = context.getResources()
-        //                .getDimensionPixelOffset(R.dimen.map_marker_height);
-        //        offset = context.getResources()
-        //                .getDimensionPixelOffset(R.dimen.map_offset);
+        widthOval = context.getResources()
+                .getDimensionPixelOffset(R.dimen.map_marker_width);
+        heightOval = context.getResources()
+                .getDimensionPixelOffset(R.dimen.map_marker_height);
+        offset = context.getResources()
+                .getDimensionPixelOffset(R.dimen.map_offset);
 
         colorAccent = context.getResources()
                 .getColor(R.color.colorAccent);
@@ -221,6 +221,10 @@ public class MarkView extends View {
         return this;
     }
 
+    public LatLng getPosition(){
+        return laLng;
+    }
+
 
     public MarkerOptions getMarkerOptions() {
         MarkerOptions markerOptions = new MarkerOptions();
@@ -243,11 +247,13 @@ public class MarkView extends View {
     }
 
     private int flag;
+
     public MarkView setFlag(int flag) {
         this.flag = flag;
         return this;
     }
-    public int getFlag(){
+
+    public int getFlag() {
         return flag;
     }
 }

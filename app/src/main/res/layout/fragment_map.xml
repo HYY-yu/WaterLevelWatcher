@@ -12,7 +12,7 @@
         />
 
     <android.support.v7.widget.SearchView
-        android:id="@+id/sv_main"
+        android:id="@+id/sv_map_station"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

@@ -3,12 +3,17 @@ package com.app.feng.waterlevelwatcher.utils;
 import android.content.Context;
 
 import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.PolylineOptions;
+import com.app.feng.waterlevelwatcher.R;
+import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.inter.ISlidePanelEventControl;
 import com.app.feng.waterlevelwatcher.ui.MarkView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import io.realm.RealmResults;
 
 /**
  * Created by feng on 2017/3/11.
@@ -30,18 +35,15 @@ public class MarkerManager {
         return markViewList.iterator();
     }
 
-    public void generateMarker() {
-        MarkView markView1 = new MarkView(context);
-        MarkView markView2 = new MarkView(context);
+    public void generateMarker(RealmResults<MonitoringStationBean> monitoringStationBeen) {
 
-        markView1.setPosition(116.397972,39.906901)
-                .setFlag(1);
-        markView2.setMode(MarkView.MODE_ALARM)
-                .setFlag(13)
-                .setPosition(116.490841,39.826784);
+        for (MonitoringStationBean b : monitoringStationBeen) {
+            MarkView markView = new MarkView(context);
+            markView.setPosition(b.getLongitude(),b.getLatitude()).setFlag(b.getSluiceID());
 
-        markViewList.add(markView1);
-        markViewList.add(markView2);
+            markViewList.add(markView);
+
+        }
     }
 
     public void addMarkerFromAMap(List<Marker> mapScreenMarkers) {
@@ -64,4 +66,16 @@ public class MarkerManager {
     public void setPanelControl(ISlidePanelEventControl panelControl) {
         panelControler = panelControl;
     }
+
+    public PolylineOptions getPolylineOptions(){
+        PolylineOptions polylineOptions =  new PolylineOptions();
+        for (MarkView markView : markViewList) {
+            polylineOptions.add(markView.getPosition());
+        }
+        polylineOptions.width(3);
+        polylineOptions.color(context.getResources()
+                                      .getColor(R.color.colorAccent));
+        return polylineOptions;
+    }
+
 }

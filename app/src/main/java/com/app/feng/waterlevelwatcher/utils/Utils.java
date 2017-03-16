@@ -3,6 +3,7 @@ package com.app.feng.waterlevelwatcher.utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 
+import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,44 +15,32 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
 
-import io.realm.Realm;
-
 /**
  * Created by feng on 2017/3/8.
  */
 
 public class Utils {
 
-    public static List<SluiceBean> fromJson(Context context) {
+    public static int LODD_JSON_MODE_WATERLEVEL = 1;
+    public static int LODD_JSON_MODE_STATION = 2;
+
+    public static <T> List<T> fromJson(Context context,String jsonPath,int mode) {
         Gson gson = new GsonBuilder().create();
 
         AssetManager assetManager = context.getAssets();
-        try {
-            InputStreamReader inputStreamReader = new InputStreamReader(
-                    assetManager.open("result.json"));
-            BufferedReader reader = new BufferedReader(inputStreamReader);
-
-            List<SluiceBean> tempList = gson.fromJson(reader,
-                                                      new TypeToken<List<SluiceBean>>() {}.getType());
-            reader.close();
-
-            return tempList;
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(assetManager.open(jsonPath)))) {
+            if (mode == LODD_JSON_MODE_WATERLEVEL) {
+                return gson.<List>fromJson(reader,new TypeToken<List<SluiceBean>>() {}.getType());
+            } else {
+                return gson.<List>fromJson(reader,
+                                           new TypeToken<List<MonitoringStationBean>>() {}.getType());
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
             return Collections.emptyList();
         }
-    }
-
-    public static void saveToRealm(List<SluiceBean> sluiceBeanList) {
-        if (isListEmpty(sluiceBeanList)) {
-            return;
-        }
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.copyToRealm(sluiceBeanList);
-        realm.commitTransaction();
-        realm.close();
     }
 
     public static <E> boolean isListEmpty(List<E> list) {

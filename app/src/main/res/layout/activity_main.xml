@@ -38,6 +38,7 @@
         android:visibility="gone"
         app:backgroundTint="@color/white"
         app:fabSize="mini"
+        app:rippleColor="@color/ripple_color"
         app:srcCompat="@drawable/ic_close_black_24dp"
         />
 

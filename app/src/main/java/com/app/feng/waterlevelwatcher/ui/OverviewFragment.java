@@ -16,7 +16,6 @@ import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
 import com.app.feng.waterlevelwatcher.inter.ISlidePanelEventControl;
-import com.app.feng.waterlevelwatcher.log.XLog;
 import com.app.feng.waterlevelwatcher.utils.AnimSet;
 import com.app.feng.waterlevelwatcher.utils.LineChartManager;
 import com.app.feng.waterlevelwatcher.utils.RealmUtils;
@@ -66,7 +65,6 @@ public class OverviewFragment extends Fragment {
     String selectTime;
 
     public OverviewFragment() {
-        XLog.d("OverviewFragment : " + "OverviewFragment");
         scaleAnimation_show = AnimSet.getScaleAnimationFABSHOW();
         scaleAnimation_hidden = AnimSet.getScaleAnimationFABHIDDEN();
     }
@@ -95,7 +93,6 @@ public class OverviewFragment extends Fragment {
 
         lineChartManager = LineChartManager.getInstanse(getContext().getApplicationContext());
 
-        XLog.d("OverviewFragment : " + "onCreateView");
 
         return v;
     }
@@ -151,7 +148,6 @@ public class OverviewFragment extends Fragment {
             --hour;
         }
         currentCalendar.set(Calendar.HOUR_OF_DAY,hour);
-        XLog.d(currentCalendar.toString());
 
         if (BuildConfig.DEBUG) {
             //取定值
@@ -162,7 +158,6 @@ public class OverviewFragment extends Fragment {
 
         selectTime = DateUtil.format(currentCalendar.getTime(),Config.Constant.TIME_FORMAT);
         realmResults = RealmUtils.loadDataByTime(realm,selectTime);
-        XLog.d(realmResults.toString());
 
     }
 
@@ -176,7 +171,6 @@ public class OverviewFragment extends Fragment {
                                                                  @Override
                                                                  public void handle(String time) {
                                                                      //select new Time
-                                                                     XLog.d("select:" + time);
 
                                                                      selectTime = time;
                                                                      // 加载其它时间的数据
@@ -225,13 +219,6 @@ public class OverviewFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        XLog.d("OverviewFragment : " + "onResume");
-
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof ISlidePanelEventControl) {
@@ -240,7 +227,6 @@ public class OverviewFragment extends Fragment {
             throw new RuntimeException(
                     context.toString() + " must implement ISlidePanelEventControl");
         }
-        XLog.d("OverviewFragment : " + "onAttach");
 
     }
 
@@ -248,24 +234,8 @@ public class OverviewFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         panelControl = null;
-        XLog.d("OverviewFragment : " + "onDetach");
     }
 
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        XLog.d("OverviewFragment : " + "onPause");
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        XLog.d("OverviewFragment : " + "onSaveInstanceState");
-
-    }
 
     @Override
     public void onDestroy() {
@@ -273,6 +243,5 @@ public class OverviewFragment extends Fragment {
         if (realm != null && !realm.isClosed()) {
             realm.close();
         }
-        XLog.d("OverviewFragment : " + "onDestroy");
     }
 }
