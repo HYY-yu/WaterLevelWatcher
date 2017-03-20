@@ -27,7 +27,6 @@ public class FragmentUtil {
         overviewFragment = OverviewFragment.getInstance();
 
         mainActivityWeakReference = new WeakReference<>(mainActivity);
-
     }
 
     public Fragment getCurrentFragment() {
@@ -77,6 +76,5 @@ public class FragmentUtil {
 
         currentFragment = overviewFragment;
     }
-
 
 }

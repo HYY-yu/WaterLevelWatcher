@@ -10,5 +10,6 @@
     <string name="station_Id" formatted="true">监测站编号：%d</string>
     <string name="station_latitude">纬度：%f</string>
     <string name="station_longitude">经度：%f</string>
-    <string name="search_station_string">搜索 监测站</string>
+
+    <string name="search_station_string">搜索 监测站名或ID</string>
 </resources>

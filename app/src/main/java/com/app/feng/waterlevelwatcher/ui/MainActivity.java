@@ -25,6 +25,7 @@ import com.eleven.lib.library.ECSegmentedControl;
 import com.orhanobut.logger.Logger;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,6 +148,24 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
                 }
             }
         });
+
+        ec_change_data_type.setECSegmentedControlListener(
+                new ECSegmentedControl.ECSegmentedControlListener() {
+                    @Override
+                    public void onSelectIndex(int index) {
+                        switch (index) {
+                            case 0:
+                                lineChartManager.changeData(lineChart,dataValueOpening);
+                                break;
+                            case 1:
+                                lineChartManager.changeData(lineChart,dataValueFront);
+                                break;
+                            case 2:
+                                lineChartManager.changeData(lineChart,dataValueBack);
+                                break;
+                        }
+                    }
+                });
     }
 
     private void initFragment() {
@@ -204,23 +223,7 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         lineChart = (LineChartView) findViewById(R.id.lc_station);
         ec_change_data_type = (ECSegmentedControl) findViewById(R.id.ec_station_change_data);
 
-        ec_change_data_type.setECSegmentedControlListener(
-                new ECSegmentedControl.ECSegmentedControlListener() {
-                    @Override
-                    public void onSelectIndex(int index) {
-                        switch (index) {
-                            case 0:
-                                lineChartManager.changeData(lineChart,dataValueOpening);
-                                break;
-                            case 1:
-                                lineChartManager.changeData(lineChart,dataValueFront);
-                                break;
-                            case 2:
-                                lineChartManager.changeData(lineChart,dataValueBack);
-                                break;
-                        }
-                    }
-                });
+
     }
 
     @Override
@@ -253,6 +256,16 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         lineChartManager.initChart(lineChart,null,LineChartManager.MODE_PANEL);
         lineChartManager.initChartData(lineChart,axisValues,data,"  ",LineChartManager.MODE_PANEL);
         ec_change_data_type.setSelectedIndex(0);
+        try {
+            Field field = ec_change_data_type.getClass()
+                    .getDeclaredField("mTouchIndex");
+            field.setAccessible(true);
+            field.set(ec_change_data_type,-1);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
         //打开Panel
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
@@ -298,19 +311,17 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         } else if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             //处理建议点击(因为建议都使用ACTION_VIEW)
             String data = intent.getDataString();
-            Logger.d("收到 data + " + data);
 
             try {
                 int id = Integer.parseInt(data);
 
                 //通知高德地图转移到相应的监测站
-                if(fragmentUtil.getCurrentFragment() instanceof MapFragment){
+                if (fragmentUtil.getCurrentFragment() instanceof MapFragment) {
                     MapFragment mapFragment = (MapFragment) fragmentUtil.getCurrentFragment();
                     mapFragment.moveMapToStation(id);
                     openPanel(id);
-
                 }
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 Logger.d("此 Intent 不来自搜索" + intent);
             }
         }

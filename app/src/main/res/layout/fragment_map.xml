@@ -19,5 +19,6 @@
         android:background="#fff"
         android:elevation="4dp"
         android:iconifiedByDefault="false"
+        app:suggestionRowLayout="@layout/sv_suggestion_list"
         />
 </RelativeLayout>

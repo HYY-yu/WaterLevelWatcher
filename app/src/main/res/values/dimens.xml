@@ -5,4 +5,9 @@
     <dimen name="map_marker_width">18dp</dimen>
     <dimen name="map_marker_height">16dp</dimen>
     <dimen name="map_offset">3dp</dimen>
+    <dimen name="sv_list_margin">8dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_240">240dp</dimen>
+    <dimen name="sv_list_height">240dp</dimen>
+
 </resources>

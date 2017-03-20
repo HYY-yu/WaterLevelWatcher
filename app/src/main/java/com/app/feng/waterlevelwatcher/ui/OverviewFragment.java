@@ -93,7 +93,6 @@ public class OverviewFragment extends Fragment {
 
         lineChartManager = LineChartManager.getInstanse(getContext().getApplicationContext());
 
-
         return v;
     }
 

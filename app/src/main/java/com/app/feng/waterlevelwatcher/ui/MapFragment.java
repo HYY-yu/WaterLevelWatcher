@@ -9,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.CameraUpdate;
@@ -23,6 +24,7 @@ import com.app.feng.waterlevelwatcher.inter.ISlidePanelEventControl;
 import com.app.feng.waterlevelwatcher.utils.MarkerManager;
 import com.app.feng.waterlevelwatcher.utils.RealmUtils;
 
+import java.lang.reflect.Field;
 import java.util.Iterator;
 
 import io.realm.Realm;
@@ -64,15 +66,32 @@ public class MapFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_map,container,false);
         searchView = (SearchView) v.findViewById(R.id.sv_map_station);
 
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(
-                Context.SEARCH_SERVICE);
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getActivity().getComponentName()));
         mapView = (MapView) v.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
+
+        realm = Realm.getDefaultInstance();
+
+        return v;
+    }
+
+
+    @Override
+    public void onViewCreated(
+            View view,@Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view,savedInstanceState);
+
+        initMarker();
+
+        initSearchView();
+
+        initMap();
+    }
+
+    private void initMap() {
         if (aMap == null) {
             aMap = mapView.getMap();
         }
+
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
                 new LatLng(32.671478,111.715668),Config.MAP_ZOOM_LEVEL);
         aMap.animateCamera(cameraUpdate);
@@ -83,23 +102,67 @@ public class MapFragment extends Fragment {
                 return false;
             }
         });
-
-        realm = Realm.getDefaultInstance();
-
-        return v;
     }
 
-    @Override
-    public void onViewCreated(
-            View view,@Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view,savedInstanceState);
+    private void initSearchView() {
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(
+                Context.SEARCH_SERVICE);
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getActivity().getComponentName()));
+        fitForSuggestionList();
+    }
 
-        initMarker();
+    private void fitForSuggestionList() {
+        Class clazz = searchView.getClass();
+        try {
+            Field mDDA = clazz.getDeclaredField("mDropDownAnchor");
+            Field mSSTV = clazz.getDeclaredField("mSearchSrcTextView");
+            mDDA.setAccessible(true);
+            mSSTV.setAccessible(true);
+            final View mDDA_View = (View) mDDA.get(searchView);
+            final SearchView.SearchAutoComplete mSSTV_IMPL = (SearchView.SearchAutoComplete) mSSTV.get(
+                    searchView);
+            //最大高度
+            final int list_height = getResources().getDimensionPixelSize(R.dimen.sv_list_height);
+            mSSTV_IMPL.setMaxHeight(list_height);
+
+            //拿 mPopup
+            final Field mPOP = mSSTV_IMPL.getClass()
+                    .getSuperclass()
+                    .getSuperclass()
+                    .getDeclaredField("mPopup");
+            mPOP.setAccessible(true);
+            final android.widget.ListPopupWindow mPop_IMPL = (android.widget.ListPopupWindow) mPOP.get(
+                    mSSTV_IMPL);
+
+            //            int widthDp = ConfigurationHelper.getScreenWidthDp(getResources());
+            //            final int screenWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+            //                                                                    widthDp,
+            //                                                                    getResources().getDisplayMetrics());
+            final int list_margin = getResources().getDimensionPixelOffset(R.dimen.sv_list_margin);
+
+            mDDA_View.getViewTreeObserver()
+                    .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            //                            Logger.d(
+                            //                                    "screenWidth: " + screenWidth + "searchWidth" + searchView.getMeasuredWidth());
+                            mPop_IMPL.setWidth(searchView.getMeasuredWidth() - list_margin * 3);
+                            mPop_IMPL.setHorizontalOffset(list_margin / 2);
+                            mPop_IMPL.setVerticalOffset(list_margin);
+                        }
+                    });
+
+
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
 
     }
 
     private void initMarker() {
-
         RealmResults<MonitoringStationBean> monitoringStationBeen = RealmUtils.loadAllStation(
                 realm);
 
@@ -148,6 +211,7 @@ public class MapFragment extends Fragment {
         super.onPause();
         mapView.onPause();
 
+        searchView.clearFocus();
     }
 
 

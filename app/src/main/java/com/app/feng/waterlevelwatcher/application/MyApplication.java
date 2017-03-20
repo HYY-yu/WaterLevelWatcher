@@ -2,7 +2,6 @@ package com.app.feng.waterlevelwatcher.application;
 
 import android.app.Application;
 
-import com.amap.api.maps2d.AMap;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
@@ -23,15 +22,18 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initRealm();
+        loadJSON();
 
+    }
+
+    private void initRealm() {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().name("database.realm")
                 .schemaVersion(2)
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
-        loadJSON();
-
     }
 
 

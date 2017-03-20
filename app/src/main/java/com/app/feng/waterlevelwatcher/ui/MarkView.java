@@ -51,10 +51,6 @@ public class MarkView extends View {
     public MarkView(Context context,@Nullable AttributeSet attrs,int defStyleAttr) {
         super(context,attrs,defStyleAttr);
 
-
-        /**
-         * 获得我们所定义的自定义样式属性
-         */
         TypedArray a = context.getTheme()
                 .obtainStyledAttributes(attrs,R.styleable.markView,defStyleAttr,0);
         int n = a.getIndexCount();
