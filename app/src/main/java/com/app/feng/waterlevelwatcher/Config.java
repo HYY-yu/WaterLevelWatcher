@@ -16,16 +16,19 @@ public class Config {
 
         public static String TIME_FORMAT = "yyyy/MM/dd HH:mm";
 
-        public enum CHART_YAXIS_TYPE {
-            OPENING ,// 开度
-            FRONT, // 前水位
-            BACK // 后水位
-        }
+//        public enum CHART_YAXIS_TYPE {
+//            OPENING,// 开度
+//            FRONT, // 前水位
+//            BACK // 后水位
+//        }
 
     }
 
     public static class KEY {
-        public static String FIRST_RUN = "FIRST_RUN";
-        public static String SHOW_MASK = "SHOW_MASK";
+        public static final String DEFAULT_START_TIME = "DEFAULT_START_TIME";
+        public static final String DEFAULT_END_TIME = "DEFAULT_END_TIME";
+        public static final String USER_EDIT_DEFAULT_TIME = "USER_EDIT_DEFAULT_TIME";
+        public static final String FIRST_RUN = "FIRST_RUN";
+        public static final String SHOW_MASK = "SHOW_MASK";
     }
 }

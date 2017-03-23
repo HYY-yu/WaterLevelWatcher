@@ -27,6 +27,8 @@ import com.app.feng.waterlevelwatcher.utils.RealmUtils;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -204,6 +206,21 @@ public class MapFragment extends Fragment {
         super.onResume();
         mapView.onResume();
 
+        //提示用户如何点击搜索框
+        showSearchViewMask();
+
+    }
+
+    private void showSearchViewMask() {
+        new MaterialIntroView.Builder(getActivity()).enableDotAnimation(true)
+                .enableFadeAnimation(true)
+                .enableIcon(false)
+                .dismissOnTouch(true)
+                .setTarget(searchView)
+                .setInfoText("点击搜索图标进行搜索")
+                .setUsageId("mask3")
+                .setShape(ShapeType.RECTANGLE)
+                .show();
     }
 
     @Override
@@ -211,7 +228,6 @@ public class MapFragment extends Fragment {
         super.onPause();
         mapView.onPause();
 
-        searchView.clearFocus();
     }
 
 
@@ -230,6 +246,14 @@ public class MapFragment extends Fragment {
         realm.close();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(searchView != null){
+            searchView.clearFocus();
+        }
+    }
+
     public void moveMapToStation(int id) {
         MonitoringStationBean stationBean = RealmUtils.loadStationDataById(realm,id);
         double la = Double.parseDouble(stationBean.getLatitude());
@@ -238,5 +262,11 @@ public class MapFragment extends Fragment {
                 new LatLng(la,lo),
                 Config.MAP_ZOOM_LEVEL);
         aMap.animateCamera(cameraUpdate);
+    }
+
+    public void clearSearchViewFocus() {
+        if (searchView != null) {
+            searchView.clearFocus();
+        }
     }
 }

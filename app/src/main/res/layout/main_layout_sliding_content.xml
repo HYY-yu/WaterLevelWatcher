@@ -116,16 +116,17 @@
 
     <LinearLayout
         android:id="@+id/ll_change_time_area"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:gravity="center"
-            android:padding="4dp"
-            android:layout_weight="1"
+            android:id="@+id/tv_panel_starttime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="4dp"
             android:text="@string/start_time_string"/>
 
         <View
@@ -136,11 +137,12 @@
             android:background="@color/divider_color"/>
 
         <TextView
-            android:gravity="center"
-            android:padding="4dp"
-            android:layout_weight="1"
+            android:id="@+id/tv_panel_endtime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="4dp"
             android:text="@string/end_time_string"/>
 
     </LinearLayout>

@@ -3,39 +3,48 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#11cccccc"
+              android:background="#efefef"
               android:orientation="vertical"
               tools:context="com.app.feng.waterlevelwatcher.ui.SettingFragment">
 
     <LinearLayout
+        android:id="@+id/ll_admin_panel"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
-        android:background="@color/white_"
-        android:gravity="center"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="管理员:1234552"
-            android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:background="@color/white_"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="?selectableItemBackground"
-            android:text="退出登录"
-            android:textColor="@color/colorAccent"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="管理员:1234552"
+                android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="?selectableItemBackground"
+                android:text="退出登录"
+                android:textColor="@color/colorAccent"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/layout_shadow"/>
+
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/layout_shadow"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,7 +54,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/edit_default_time_area"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -57,27 +66,43 @@
         >
 
         <TextView
+            android:id="@+id/tv_start_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/start_time_string"/>
 
         <TextView
+            android:id="@+id/tv_end_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_below="@id/tv_start_time"
+            android:layout_marginTop="4dp"
             android:text="@string/end_time_string"/>
 
         <Button
-            android:id="@+id/mask"
+            android:id="@+id/btn_edit_time"
             android:layout_width="60dp"
             android:layout_height="35dp"
-            android:layout_gravity="right|bottom"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/tv_end_time"
             android:background="?selectableItemBackground"
             android:text="修改"
             android:textColor="@color/colorAccent"
             />
 
-    </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_reset_time"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/tv_end_time"
+            android:layout_toStartOf="@id/btn_edit_time"
+            android:background="?selectableItemBackground"
+            android:text="重置"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            />
+
+    </RelativeLayout>
 
 
 </LinearLayout>

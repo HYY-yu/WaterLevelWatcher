@@ -22,17 +22,13 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         initRealm();
 
-        initDefaultTimeRange();
+        Utils.initDefaultTimeRange(getApplicationContext());
 
         //确保此方法最后执行
         loadJSON();
-
-    }
-
-    private void initDefaultTimeRange() {
-
 
     }
 

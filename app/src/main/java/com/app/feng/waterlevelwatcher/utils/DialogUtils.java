@@ -19,8 +19,8 @@ import io.realm.Realm;
 public class DialogUtils {
 
     public static void showEditPositionDialog(
-            Context context,String oldLongitude,String oldLatitude,final Realm realm,final int
-            sluiceID) {
+            Context context,String oldLongitude,String oldLatitude,final Realm realm,
+            final int sluiceID) {
         View v = LayoutInflater.from(context)
                 .inflate(R.layout.dialog_edit_position,null);
         final EditText et_longitude = (EditText) v.findViewById(R.id.editText_longitude);
@@ -35,13 +35,21 @@ public class DialogUtils {
                     @Override
                     public void onClick(DialogInterface dialog,int which) {
                         //设置新位置
-                        MonitoringStationBean b =  RealmUtils.loadStationDataById(realm,sluiceID);
+                        MonitoringStationBean b = RealmUtils.loadStationDataById(realm,sluiceID);
                         realm.beginTransaction();
-                        b.setLongitude(et_longitude.getText().toString());
-                        b.setLatitude(et_latitude.getText().toString());
+                        b.setLongitude(et_longitude.getText()
+                                               .toString());
+                        b.setLatitude(et_latitude.getText()
+                                              .toString());
                         realm.commitTransaction();
 
                         //TODO: 是否需要通知服务器修改位置呢?
+                    }
+                })
+                .setNegativeButton("取消",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,int which) {
+                        dialog.dismiss();
                     }
                 })
                 .show();

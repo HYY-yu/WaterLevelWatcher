@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
     TextView tv_stationName;
     TextView tv_stationLatitude;
     TextView tv_stationLongitude;
+    TextView tv_starttime;
+    TextView tv_endtime;
 
     View ll_change_position;
     View ll_change_time_area;
@@ -79,6 +81,22 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         initFragment();
 
         initEvent();
+
+        initTime();
+    }
+
+    private void initTime() {
+        String startTime = SharedPref.getInstance(this)
+                .getString(Config.KEY.DEFAULT_START_TIME,"");
+
+        String endTime = SharedPref.getInstance(this)
+                .getString(Config.KEY.DEFAULT_END_TIME,"");
+
+        String startTimeString = getString(R.string.start_time_string);
+        String endTimeString = getString(R.string.end_time_string);
+
+        tv_starttime.setText(String.format(startTimeString,startTime));
+        tv_endtime.setText(String.format(endTimeString,endTime));
     }
 
     private void showMask() {
@@ -89,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
                     .enableFadeAnimation(true)
                     .enableIcon(false)
                     .performClick(true)
+                    .dismissOnTouch(true)
                     .setTarget(ll_change_position)
                     .setInfoText("点击此处可修改当前监测站的地理位置")
                     .setIdempotent(true)
@@ -100,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
                                     true)
                                     .enableFadeAnimation(true)
                                     .enableIcon(false)
+                                    .dismissOnTouch(true)
                                     .setShape(ShapeType.RECTANGLE)
                                     .setFocusType(Focus.NORMAL)
                                     .performClick(false)
@@ -174,6 +194,10 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
             public void onPanelStateChanged(
                     View panel,SlidingUpPanelLayout.PanelState previousState,
                     SlidingUpPanelLayout.PanelState newState) {
+                if (fragmentUtil.getCurrentFragment() instanceof MapFragment) {
+                    MapFragment mapFragment = (MapFragment) fragmentUtil.getCurrentFragment();
+                    mapFragment.clearSearchViewFocus();
+                }
                 switch (newState) {
                     case COLLAPSED:
                         //显示close按钮
@@ -271,6 +295,8 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         tv_stationLatitude = (TextView) findViewById(R.id.station_latitude);
         tv_stationLongitude = (TextView) findViewById(R.id.station_longitude);
         tv_stationName = (TextView) findViewById(R.id.station_name);
+        tv_starttime = (TextView) findViewById(R.id.tv_panel_starttime);
+        tv_endtime = (TextView) findViewById(R.id.tv_panel_endtime);
 
         LinearLayout slideContent = (LinearLayout) findViewById(R.id.slide_panel_content);
         slideContent.setOnTouchListener(new View.OnTouchListener() {
@@ -314,7 +340,6 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
 
     @Override
     public void openPanel(int sluiceID) {
-
         //根据sluiceID 向Realm查询其数据
         MonitoringStationBean theBean = RealmUtils.loadStationDataById(realm,sluiceID);
         RealmResults<SluiceBean> stationDatas = RealmUtils.loadDataById(realm,sluiceID);
@@ -324,10 +349,8 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         tv_stationID.setText(String.format(stringID,theBean.getSluiceID()));
         tv_stationID.setTag(sluiceID);
         tv_stationName.setText(theBean.getName());
-        tv_stationLongitude.setText(String.format(stringLo,theBean.getLongitude()));
-        tv_stationLongitude.setTag(theBean.getLongitude());
-        tv_stationLatitude.setText(String.format(stringLa,theBean.getLatitude()));
-        tv_stationLatitude.setTag(theBean.getLatitude());
+
+        initStationPosition(theBean);
 
         //初始化图表
         //X 单位 时间
@@ -417,14 +440,18 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         @Override
         public void onChange(MonitoringStationBean element) {
             // 当数据有更新,Realm会自动提示
-            tv_stationLongitude.setText(String.format(stringLo,element.getLongitude()));
-            tv_stationLongitude.setTag(element.getLongitude());
-            tv_stationLatitude.setText(String.format(stringLa,element.getLatitude()));
-            tv_stationLatitude.setTag(element.getLatitude());
+            initStationPosition(element);
 
             //将此处的位置更新映射到Map上
             fragmentUtil.mapFragment.markerManager.updateMarker(element);
             fragmentUtil.mapFragment.aMap.postInvalidate();
         }
+    }
+
+    private void initStationPosition(MonitoringStationBean element) {
+        tv_stationLongitude.setText(String.format(stringLo,element.getLongitude()));
+        tv_stationLongitude.setTag(element.getLongitude());
+        tv_stationLatitude.setText(String.format(stringLa,element.getLatitude()));
+        tv_stationLatitude.setTag(element.getLatitude());
     }
 }
