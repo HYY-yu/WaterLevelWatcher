@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:background="#efefef"
               android:orientation="vertical"
-              tools:context="com.app.feng.waterlevelwatcher.ui.SettingFragment">
+              tools:context="com.app.feng.waterlevelwatcher.ui.fragment.SettingFragment">
 
     <LinearLayout
         android:id="@+id/ll_admin_panel"

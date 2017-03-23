@@ -1,4 +1,4 @@
-package com.app.feng.waterlevelwatcher.ui;
+package com.app.feng.waterlevelwatcher.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,10 +15,11 @@ import com.app.feng.waterlevelwatcher.BuildConfig;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
-import com.app.feng.waterlevelwatcher.inter.ISlidePanelEventControl;
-import com.app.feng.waterlevelwatcher.utils.AnimSet;
-import com.app.feng.waterlevelwatcher.utils.LineChartManager;
-import com.app.feng.waterlevelwatcher.utils.RealmUtils;
+import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
+import com.app.feng.waterlevelwatcher.ui.MainActivity;
+import com.app.feng.waterlevelwatcher.utils.AnimSetUtil;
+import com.app.feng.waterlevelwatcher.manager.LineChartManager;
+import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.eleven.lib.library.ECSegmentedControl;
 
 import org.feezu.liuli.timeselector.TimeSelector;
@@ -65,8 +66,8 @@ public class OverviewFragment extends Fragment {
     String selectTime;
 
     public OverviewFragment() {
-        scaleAnimation_show = AnimSet.getScaleAnimationFABSHOW();
-        scaleAnimation_hidden = AnimSet.getScaleAnimationFABHIDDEN();
+        scaleAnimation_show = AnimSetUtil.getScaleAnimationFABSHOW();
+        scaleAnimation_hidden = AnimSetUtil.getScaleAnimationFABHIDDEN();
     }
 
     public static OverviewFragment newInstance() {
@@ -110,7 +111,8 @@ public class OverviewFragment extends Fragment {
         mapData();
 
         lineChartManager.initChart(lineChart,panelControl,LineChartManager.MODE_FRAGMENT);
-        lineChartManager.initChartData(lineChart,axisValues,data,selectTime,LineChartManager.MODE_FRAGMENT);
+        lineChartManager.initChartData(lineChart,axisValues,data,selectTime,
+                                       LineChartManager.MODE_FRAGMENT);
     }
 
     private void mapData() {
@@ -156,7 +158,7 @@ public class OverviewFragment extends Fragment {
         }
 
         selectTime = DateUtil.format(currentCalendar.getTime(),Config.Constant.TIME_FORMAT);
-        realmResults = RealmUtils.loadDataByTime(realm,selectTime);
+        realmResults = RealmUtil.loadDataByTime(realm,selectTime);
 
     }
 
@@ -173,7 +175,7 @@ public class OverviewFragment extends Fragment {
 
                                                                      selectTime = time;
                                                                      // 加载其它时间的数据
-                                                                     realmResults = RealmUtils.loadDataByTime(
+                                                                     realmResults = RealmUtil.loadDataByTime(
                                                                              realm,time);
                                                                      //重新初始化图表
                                                                      initChart();
@@ -220,8 +222,8 @@ public class OverviewFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ISlidePanelEventControl) {
-            panelControl = (ISlidePanelEventControl) context;
+        if (context instanceof MainActivity) {
+            panelControl = ((MainActivity) context).slidePanelEventControlIMPL;
         } else {
             throw new RuntimeException(
                     context.toString() + " must implement ISlidePanelEventControl");

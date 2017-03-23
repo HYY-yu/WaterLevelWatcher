@@ -15,7 +15,7 @@ import static com.app.feng.waterlevelwatcher.utils.Utils.isListEmpty;
  * Created by feng on 2017/3/10.
  */
 
-public class RealmUtils {
+public class RealmUtil {
 
     public static RealmResults<SluiceBean> loadDataByTime(Realm realm,String time) {
         return realm.where(SluiceBean.class)

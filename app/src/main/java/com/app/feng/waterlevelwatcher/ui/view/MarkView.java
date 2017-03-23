@@ -1,4 +1,4 @@
-package com.app.feng.waterlevelwatcher.ui;
+package com.app.feng.waterlevelwatcher.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;

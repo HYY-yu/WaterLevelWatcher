@@ -1,4 +1,4 @@
-package com.app.feng.waterlevelwatcher.inter;
+package com.app.feng.waterlevelwatcher.interfaces;
 
 /**
  * Created by feng on 2017/3/11.

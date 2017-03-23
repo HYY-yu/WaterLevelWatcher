@@ -5,8 +5,9 @@ import android.app.Application;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
-import com.app.feng.waterlevelwatcher.utils.RealmUtils;
+import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.app.feng.waterlevelwatcher.utils.SharedPref;
+import com.app.feng.waterlevelwatcher.utils.TimeRangeUtil;
 import com.app.feng.waterlevelwatcher.utils.Utils;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class MyApplication extends Application {
 
         initRealm();
 
-        Utils.initDefaultTimeRange(getApplicationContext());
+        TimeRangeUtil.initDefaultTimeRange(getApplicationContext());
 
         //确保此方法最后执行
         loadJSON();
@@ -52,11 +53,11 @@ public class MyApplication extends Application {
         if (!checkDataExist()) {
             List<SluiceBean> sluiceBeans = Utils.fromJson(getBaseContext(),"waterlevel.json",
                                                           Utils.LODD_JSON_MODE_WATERLEVEL);
-            RealmUtils.saveToRealm(sluiceBeans);
+            RealmUtil.saveToRealm(sluiceBeans);
 
             List<MonitoringStationBean> beanList = Utils.fromJson(getBaseContext(),"station.json",
                                                                   Utils.LODD_JSON_MODE_STATION);
-            RealmUtils.saveToRealm(beanList);
+            RealmUtil.saveToRealm(beanList);
 
             SharedPref.getInstance(getBaseContext())
                     .putBoolean(Config.KEY.FIRST_RUN,true);

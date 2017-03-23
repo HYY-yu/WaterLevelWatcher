@@ -1,9 +1,9 @@
-package com.app.feng.waterlevelwatcher.utils;
+package com.app.feng.waterlevelwatcher.manager;
 
 import android.content.Context;
 
 import com.app.feng.waterlevelwatcher.R;
-import com.app.feng.waterlevelwatcher.inter.ISlidePanelEventControl;
+import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
 
 import java.util.ArrayList;
 import java.util.List;

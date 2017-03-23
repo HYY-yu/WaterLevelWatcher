@@ -1,4 +1,4 @@
-package com.app.feng.waterlevelwatcher.ui;
+package com.app.feng.waterlevelwatcher.ui.fragment;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -20,9 +20,11 @@ import com.amap.api.maps2d.model.Marker;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
-import com.app.feng.waterlevelwatcher.inter.ISlidePanelEventControl;
-import com.app.feng.waterlevelwatcher.utils.MarkerManager;
-import com.app.feng.waterlevelwatcher.utils.RealmUtils;
+import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
+import com.app.feng.waterlevelwatcher.manager.MarkerManager;
+import com.app.feng.waterlevelwatcher.ui.MainActivity;
+import com.app.feng.waterlevelwatcher.ui.view.MarkView;
+import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -38,7 +40,7 @@ public class MapFragment extends Fragment {
     private MapView mapView;
     private SearchView searchView;
 
-    AMap aMap;
+    public AMap aMap;
 
     Realm realm;
 
@@ -165,7 +167,7 @@ public class MapFragment extends Fragment {
     }
 
     private void initMarker() {
-        RealmResults<MonitoringStationBean> monitoringStationBeen = RealmUtils.loadAllStation(
+        RealmResults<MonitoringStationBean> monitoringStationBeen = RealmUtil.loadAllStation(
                 realm);
 
         markerManager = new MarkerManager(getContext());
@@ -187,8 +189,8 @@ public class MapFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ISlidePanelEventControl) {
-            panelControl = (ISlidePanelEventControl) context;
+        if (context instanceof MainActivity) {
+            panelControl = ((MainActivity) context).slidePanelEventControlIMPL;
         } else {
             throw new RuntimeException(
                     context.toString() + " must implement ISlidePanelEventControl");
@@ -255,7 +257,7 @@ public class MapFragment extends Fragment {
     }
 
     public void moveMapToStation(int id) {
-        MonitoringStationBean stationBean = RealmUtils.loadStationDataById(realm,id);
+        MonitoringStationBean stationBean = RealmUtil.loadStationDataById(realm,id);
         double la = Double.parseDouble(stationBean.getLatitude());
         double lo = Double.parseDouble(stationBean.getLongitude());
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(

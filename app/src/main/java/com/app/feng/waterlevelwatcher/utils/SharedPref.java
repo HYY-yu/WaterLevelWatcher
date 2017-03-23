@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.app.feng.waterlevelwatcher.Config;
-import com.app.feng.waterlevelwatcher.inter.ICache;
+import com.app.feng.waterlevelwatcher.interfaces.ICache;
 
 /**
  * Created by wanglei on 2016/11/27.

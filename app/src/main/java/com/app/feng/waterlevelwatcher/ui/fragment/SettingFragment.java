@@ -1,4 +1,4 @@
-package com.app.feng.waterlevelwatcher.ui;
+package com.app.feng.waterlevelwatcher.ui.fragment;
 
 
 import android.animation.ObjectAnimator;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.utils.SharedPref;
-import com.app.feng.waterlevelwatcher.utils.Utils;
+import com.app.feng.waterlevelwatcher.utils.TimeRangeUtil;
 
 public class SettingFragment extends Fragment {
 
@@ -73,7 +73,7 @@ public class SettingFragment extends Fragment {
                 //重置时间
                 SharedPref.getInstance(getContext()).putBoolean(Config.KEY.USER_EDIT_DEFAULT_TIME,false);
 
-                Utils.initDefaultTimeRange(getContext().getApplicationContext());
+                TimeRangeUtil.initDefaultTimeRange(getContext().getApplicationContext());
 
                 initTime();
             }

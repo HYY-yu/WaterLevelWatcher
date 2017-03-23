@@ -16,7 +16,7 @@ import io.realm.Realm;
  * Created by feng on 2017/3/22.
  */
 
-public class DialogUtils {
+public class DialogUtil {
 
     public static void showEditPositionDialog(
             Context context,String oldLongitude,String oldLatitude,final Realm realm,
@@ -35,7 +35,7 @@ public class DialogUtils {
                     @Override
                     public void onClick(DialogInterface dialog,int which) {
                         //设置新位置
-                        MonitoringStationBean b = RealmUtils.loadStationDataById(realm,sluiceID);
+                        MonitoringStationBean b = RealmUtil.loadStationDataById(realm,sluiceID);
                         realm.beginTransaction();
                         b.setLongitude(et_longitude.getText()
                                                .toString());

@@ -7,7 +7,7 @@ import android.view.animation.ScaleAnimation;
  * Created by feng on 2017/3/11.
  */
 
-public class AnimSet {
+public class AnimSetUtil {
 
     public static ScaleAnimation getScaleAnimationFABSHOW() {
         ScaleAnimation scaleAnimation_show = new ScaleAnimation(0,1,0,1,Animation.RELATIVE_TO_SELF,

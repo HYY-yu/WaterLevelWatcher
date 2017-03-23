@@ -5,9 +5,9 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.ui.MainActivity;
-import com.app.feng.waterlevelwatcher.ui.MapFragment;
-import com.app.feng.waterlevelwatcher.ui.OverviewFragment;
-import com.app.feng.waterlevelwatcher.ui.SettingFragment;
+import com.app.feng.waterlevelwatcher.ui.fragment.MapFragment;
+import com.app.feng.waterlevelwatcher.ui.fragment.OverviewFragment;
+import com.app.feng.waterlevelwatcher.ui.fragment.SettingFragment;
 
 import java.lang.ref.WeakReference;
 
