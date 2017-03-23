@@ -24,7 +24,6 @@ public class MarkerManager {
     Context context;
 
     List<MarkView> markViewList = new ArrayList<>();
-    List<Marker> markerList = new ArrayList<>();
     ISlidePanelEventControl panelControler;
 
     public MarkerManager(Context context) {
@@ -36,28 +35,22 @@ public class MarkerManager {
     }
 
     public void generateMarker(RealmResults<MonitoringStationBean> monitoringStationBeen) {
-
         for (MonitoringStationBean b : monitoringStationBeen) {
             MarkView markView = new MarkView(context);
-            markView.setPosition(b.getLongitude(),b.getLatitude()).setFlag(b.getSluiceID());
+            markView.setPosition(b.getLongitude(),b.getLatitude())
+                    .setSluiceID(b.getSluiceID());
 
             markViewList.add(markView);
-
         }
-    }
-
-    public void addMarkerFromAMap(List<Marker> mapScreenMarkers) {
-        markerList.addAll(mapScreenMarkers);
     }
 
     public void clickMarker(Marker marker) {
         int temp = (int) marker.getObject();
         for (MarkView m : markViewList) {
-            if (temp == m.getFlag()) {
+            if (temp == m.getSluiceID()) {
                 //find this MarkView
-
                 //提示Activity弹窗
-                panelControler.openPanel(temp);
+                panelControler.openPanel(m.getSluiceID());
                 break;
             }
         }
@@ -67,8 +60,8 @@ public class MarkerManager {
         panelControler = panelControl;
     }
 
-    public PolylineOptions getPolylineOptions(){
-        PolylineOptions polylineOptions =  new PolylineOptions();
+    public PolylineOptions getPolylineOptions() {
+        PolylineOptions polylineOptions = new PolylineOptions();
         for (MarkView markView : markViewList) {
             polylineOptions.add(markView.getPosition());
         }
@@ -78,4 +71,14 @@ public class MarkerManager {
         return polylineOptions;
     }
 
+    public void updateMarker(MonitoringStationBean theBean) {
+        for (MarkView markView : markViewList) {
+            if (markView.getSluiceID() == theBean.getSluiceID()) {
+                markView.setPosition(theBean.getLongitude(),theBean.getLatitude());
+                //更新Marker
+                Marker marker = markView.getMarker();
+                marker.setPosition(markView.getPosition());
+            }
+        }
+    }
 }

@@ -69,7 +69,7 @@ public class OverviewFragment extends Fragment {
         scaleAnimation_hidden = AnimSet.getScaleAnimationFABHIDDEN();
     }
 
-    public static OverviewFragment getInstance() {
+    public static OverviewFragment newInstance() {
         OverviewFragment overviewFragment = new OverviewFragment();
         return overviewFragment;
     }

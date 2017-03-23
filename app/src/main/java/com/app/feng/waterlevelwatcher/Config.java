@@ -25,6 +25,7 @@ public class Config {
     }
 
     public static class KEY {
-        public static String JSON_LOAD = "JSON_LOAD";
+        public static String FIRST_RUN = "FIRST_RUN";
+        public static String SHOW_MASK = "SHOW_MASK";
     }
 }

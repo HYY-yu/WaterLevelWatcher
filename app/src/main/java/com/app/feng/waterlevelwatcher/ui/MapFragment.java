@@ -49,7 +49,7 @@ public class MapFragment extends Fragment {
     }
 
 
-    public static MapFragment getInstance() {
+    public static MapFragment newInstance() {
         MapFragment mapFragment = new MapFragment();
         return mapFragment;
     }
@@ -79,12 +79,12 @@ public class MapFragment extends Fragment {
     public void onViewCreated(
             View view,@Nullable Bundle savedInstanceState) {
         super.onViewCreated(view,savedInstanceState);
-
-        initMarker();
-
         initSearchView();
 
         initMap();
+
+        initMarker();
+
     }
 
     private void initMap() {
@@ -174,12 +174,12 @@ public class MapFragment extends Fragment {
         while (markViewIterator.hasNext()) {
             MarkView markView = markViewIterator.next();
             Marker marker = aMap.addMarker(markView.getMarkerOptions());
-            marker.setObject(markView.getFlag());
+            marker.setObject(markView.getSluiceID());
+            markView.setMarker(marker);
         }
 
         //aMap.addPolyline(markerManager.getPolylineOptions());
 
-        markerManager.addMarkerFromAMap(aMap.getMapScreenMarkers());
     }
 
     @Override
@@ -232,8 +232,10 @@ public class MapFragment extends Fragment {
 
     public void moveMapToStation(int id) {
         MonitoringStationBean stationBean = RealmUtils.loadStationDataById(realm,id);
+        double la = Double.parseDouble(stationBean.getLatitude());
+        double lo = Double.parseDouble(stationBean.getLongitude());
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(stationBean.getLatitude(),stationBean.getLongitude()),
+                new LatLng(la,lo),
                 Config.MAP_ZOOM_LEVEL);
         aMap.animateCamera(cameraUpdate);
     }

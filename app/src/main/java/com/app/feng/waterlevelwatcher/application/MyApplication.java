@@ -23,7 +23,16 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initRealm();
+
+        initDefaultTimeRange();
+
+        //确保此方法最后执行
         loadJSON();
+
+    }
+
+    private void initDefaultTimeRange() {
+
 
     }
 
@@ -39,7 +48,7 @@ public class MyApplication extends Application {
 
     private boolean checkDataExist() {
         return SharedPref.getInstance(getBaseContext())
-                .contains(Config.KEY.JSON_LOAD);
+                .contains(Config.KEY.FIRST_RUN);
     }
 
     //第一次进入时加载JSON到数据库
@@ -54,7 +63,7 @@ public class MyApplication extends Application {
             RealmUtils.saveToRealm(beanList);
 
             SharedPref.getInstance(getBaseContext())
-                    .putBoolean(Config.KEY.JSON_LOAD,true);
+                    .putBoolean(Config.KEY.FIRST_RUN,true);
         }
     }
 }

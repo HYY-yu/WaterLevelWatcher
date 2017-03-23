@@ -11,14 +11,12 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
 import com.app.feng.waterlevelwatcher.inter.ISlidePanelEventControl;
-import com.app.feng.waterlevelwatcher.utils.AnimSet;
-import com.app.feng.waterlevelwatcher.utils.FragmentUtil;
-import com.app.feng.waterlevelwatcher.utils.LineChartManager;
-import com.app.feng.waterlevelwatcher.utils.RealmUtils;
+import com.app.feng.waterlevelwatcher.utils.*;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.eleven.lib.library.ECSegmentedControl;
@@ -29,7 +27,12 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.mobiwise.materialintro.animation.MaterialIntroListener;
+import co.mobiwise.materialintro.shape.Focus;
+import co.mobiwise.materialintro.shape.ShapeType;
+import co.mobiwise.materialintro.view.MaterialIntroView;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.PointValue;
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
     TextView tv_stationName;
     TextView tv_stationLatitude;
     TextView tv_stationLongitude;
+
+    View ll_change_position;
+    View ll_change_time_area;
 
     View fab_close_mini;
     private ScaleAnimation scaleAnimation_show;
@@ -73,6 +79,42 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         initFragment();
 
         initEvent();
+    }
+
+    private void showMask() {
+        if (!SharedPref.getInstance(this)
+                .getBoolean(Config.KEY.SHOW_MASK,false)) {
+
+            new MaterialIntroView.Builder(this).enableDotAnimation(true)
+                    .enableFadeAnimation(true)
+                    .enableIcon(false)
+                    .performClick(true)
+                    .setTarget(ll_change_position)
+                    .setInfoText("点击此处可修改当前监测站的地理位置")
+                    .setIdempotent(true)
+                    .setUsageId("mask1")
+                    .setListener(new MaterialIntroListener() {
+                        @Override
+                        public void onUserClicked(String s) {
+                            new MaterialIntroView.Builder(MainActivity.this).enableDotAnimation(
+                                    true)
+                                    .enableFadeAnimation(true)
+                                    .enableIcon(false)
+                                    .setShape(ShapeType.RECTANGLE)
+                                    .setFocusType(Focus.NORMAL)
+                                    .performClick(false)
+                                    .setTarget(ll_change_time_area)
+                                    .setInfoText("点击此处可浏览其它时间区间的数据")
+                                    .setUsageId("mask2")
+                                    .show();
+                        }
+                    })
+                    .show();
+
+
+            SharedPref.getInstance(this)
+                    .putBoolean(Config.KEY.SHOW_MASK,true);
+        }
 
     }
 
@@ -90,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
                     case 2:
                         break;
                     case 3:
+                        fragmentUtil.setSettingFragment();
                         break;
                     default:
 
@@ -140,6 +183,10 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
                         }
 
                         break;
+                    case EXPANDED:
+                        showMask();
+
+                        //取消break
                     default:
                         if (fab_close_mini.isShown()) {
                             fab_close_mini.startAnimation(scaleAnimation_hidden);
@@ -166,6 +213,24 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
                         }
                     }
                 });
+
+        ll_change_time_area.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        ll_change_position.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int sluiceID = (int) tv_stationID.getTag();
+                DialogUtils.showEditPositionDialog(MainActivity.this,
+                                                   (String) tv_stationLongitude.getTag(),
+                                                   (String) tv_stationLatitude.getTag(),realm,
+                                                   sluiceID);
+            }
+        });
     }
 
     private void initFragment() {
@@ -176,6 +241,9 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
     private void initView() {
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
+
+        ll_change_position = findViewById(R.id.ll_change_position);
+        ll_change_time_area = findViewById(R.id.ll_change_time_area);
 
         VectorDrawableCompat vectorDrawableCompat_map = VectorDrawableCompat.create(getResources(),
                                                                                     R.drawable.ic_map_black_24dp,
@@ -224,6 +292,11 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         ec_change_data_type = (ECSegmentedControl) findViewById(R.id.ec_station_change_data);
 
 
+        changePositionRealmListener = new ChangePositionRealmListener();
+        stringID = getResources().getString(R.string.station_Id);
+        stringLa = getResources().getString(R.string.station_latitude);
+        stringLo = getResources().getString(R.string.station_longitude);
+
     }
 
     @Override
@@ -234,20 +307,27 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
         }
     }
 
+    private ChangePositionRealmListener changePositionRealmListener;
+    String stringID;
+    String stringLa;
+    String stringLo;
+
     @Override
     public void openPanel(int sluiceID) {
-        String stringID = getResources().getString(R.string.station_Id);
-        String stringLa = getResources().getString(R.string.station_latitude);
-        String stringLo = getResources().getString(R.string.station_longitude);
 
         //根据sluiceID 向Realm查询其数据
         MonitoringStationBean theBean = RealmUtils.loadStationDataById(realm,sluiceID);
         RealmResults<SluiceBean> stationDatas = RealmUtils.loadDataById(realm,sluiceID);
 
+        theBean.addChangeListener(changePositionRealmListener);
+
         tv_stationID.setText(String.format(stringID,theBean.getSluiceID()));
+        tv_stationID.setTag(sluiceID);
         tv_stationName.setText(theBean.getName());
         tv_stationLongitude.setText(String.format(stringLo,theBean.getLongitude()));
+        tv_stationLongitude.setTag(theBean.getLongitude());
         tv_stationLatitude.setText(String.format(stringLa,theBean.getLatitude()));
+        tv_stationLatitude.setTag(theBean.getLatitude());
 
         //初始化图表
         //X 单位 时间
@@ -330,5 +410,21 @@ public class MainActivity extends AppCompatActivity implements ISlidePanelEventC
     @Override
     public void closePanel() {
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+    }
+
+    class ChangePositionRealmListener implements RealmChangeListener<MonitoringStationBean> {
+
+        @Override
+        public void onChange(MonitoringStationBean element) {
+            // 当数据有更新,Realm会自动提示
+            tv_stationLongitude.setText(String.format(stringLo,element.getLongitude()));
+            tv_stationLongitude.setTag(element.getLongitude());
+            tv_stationLatitude.setText(String.format(stringLa,element.getLatitude()));
+            tv_stationLatitude.setTag(element.getLatitude());
+
+            //将此处的位置更新映射到Map上
+            fragmentUtil.mapFragment.markerManager.updateMarker(element);
+            fragmentUtil.mapFragment.aMap.postInvalidate();
+        }
     }
 }

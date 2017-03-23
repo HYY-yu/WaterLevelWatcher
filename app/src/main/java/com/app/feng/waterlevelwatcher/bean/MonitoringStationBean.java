@@ -10,8 +10,10 @@ import io.realm.RealmObject;
 public class MonitoringStationBean extends RealmObject {
     private int sluiceID;
     private String name;
-    private float longitude; // 经度
-    private float latitude;  // 纬度
+    // 教训: 经纬度不参与计算,完全可以使用String类型,使用float类型会导致舍入问题
+
+    private String longitude; // 经度
+    private String latitude;  // 纬度
 
     public int getSluiceID() {
         return sluiceID;
@@ -29,19 +31,19 @@ public class MonitoringStationBean extends RealmObject {
         this.name = name;
     }
 
-    public float getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 }

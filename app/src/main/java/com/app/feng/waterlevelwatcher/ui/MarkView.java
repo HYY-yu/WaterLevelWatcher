@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.app.feng.waterlevelwatcher.R;
 
@@ -212,8 +213,10 @@ public class MarkView extends View {
     }
 
     //经纬度
-    public MarkView setPosition(double longitude,double latitude) {
-        laLng = new LatLng(latitude,longitude);
+    public MarkView setPosition(String longitude,String latitude) {
+        double la = Double.parseDouble(latitude);
+        double lo = Double.parseDouble(longitude);
+        laLng = new LatLng(la,lo);
         return this;
     }
 
@@ -244,12 +247,23 @@ public class MarkView extends View {
 
     private int flag;
 
-    public MarkView setFlag(int flag) {
+    public MarkView setSluiceID(int flag) {
         this.flag = flag;
         return this;
     }
 
-    public int getFlag() {
+    public int getSluiceID() {
         return flag;
+    }
+
+    private Marker marker;
+
+    public Marker getMarker() {
+        return marker;
+    }
+
+    public MarkView setMarker(Marker marker) {
+        this.marker = marker;
+        return this;
     }
 }
