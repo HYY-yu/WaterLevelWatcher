@@ -8,6 +8,9 @@ import io.realm.RealmObject;
  */
 
 public class MonitoringStationBean extends RealmObject {
+    public static final String SLUICEID = "sluiceID";
+    public static final String NAME = "name";
+
     private int sluiceID;
     private String name;
     // 教训: 经纬度不参与计算,完全可以使用String类型,使用float类型会导致舍入问题

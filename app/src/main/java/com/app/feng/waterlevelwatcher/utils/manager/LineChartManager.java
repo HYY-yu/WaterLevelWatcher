@@ -1,4 +1,4 @@
-package com.app.feng.waterlevelwatcher.manager;
+package com.app.feng.waterlevelwatcher.utils.manager;
 
 import android.content.Context;
 

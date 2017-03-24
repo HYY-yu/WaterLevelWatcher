@@ -8,4 +8,8 @@
     <color name="white_">#fdfdfd</color>
     <color name="ripple_color">#77ececec</color>
 
+    <color name="full_white">#ffffff</color>
+
+    <color name="fg_setting_bg">#efefef</color>
+
 </resources>

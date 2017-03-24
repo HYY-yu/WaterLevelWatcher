@@ -3,7 +3,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#efefef"
+              android:background="@color/fg_setting_bg"
               android:orientation="vertical"
               tools:context="com.app.feng.waterlevelwatcher.ui.fragment.SettingFragment">
 
@@ -44,7 +44,6 @@
             android:background="@drawable/layout_shadow"/>
 
     </LinearLayout>
-
 
     <TextView
         android:layout_width="wrap_content"

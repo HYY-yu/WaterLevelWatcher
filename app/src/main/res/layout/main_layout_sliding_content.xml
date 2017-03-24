@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/full_white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -154,38 +154,52 @@
         android:layout_marginTop="6dp"
         android:background="@color/divider_color"/>
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/lc_station"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"/>
+        android:layout_height="wrap_content">
 
-    <com.eleven.lib.library.ECSegmentedControl
-        android:id="@+id/ec_station_change_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        app:segmentedBackground="@drawable/selector_segmented_bg"
-        app:segmentedDivider="@drawable/selector_segmented_divider"
-        app:segmentedEnableDivider="true"
-        app:segmentedForeground="@drawable/selector_segmented_fg"
-        app:segmentedTexts="@array/chart_yaxis_text"
-        app:textColor="@color/select_segmented_style"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_close_panel_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:backgroundTint="@color/white"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_close_black_24dp"
-        app:useCompatPadding="true"
-        />
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/lc_station"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"/>
+
+            <com.eleven.lib.library.ECSegmentedControl
+                android:id="@+id/ec_station_change_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                app:segmentedBackground="@drawable/selector_segmented_bg"
+                app:segmentedDivider="@drawable/selector_segmented_divider"
+                app:segmentedEnableDivider="true"
+                app:segmentedForeground="@drawable/selector_segmented_fg"
+                app:segmentedTexts="@array/chart_yaxis_text"
+                app:textColor="@color/select_segmented_style"
+                />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_close_panel_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:backgroundTint="@color/full_white"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_close_black_24dp"
+                app:useCompatPadding="true"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>
 

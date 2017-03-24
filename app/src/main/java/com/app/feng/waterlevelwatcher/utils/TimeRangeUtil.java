@@ -1,6 +1,7 @@
 package com.app.feng.waterlevelwatcher.utils;
 
 import android.content.Context;
+import android.widget.TextView;
 
 import com.app.feng.waterlevelwatcher.Config;
 
@@ -55,5 +56,34 @@ public class TimeRangeUtil {
             calendar.add(Calendar.HOUR_OF_DAY,-1);
         }
         calendar.set(Calendar.MINUTE,0);
+    }
+
+    public static void showTimeRangeSelector(
+            final Context context,TextView tvStartTime,TextView
+            tvEndTime) {
+
+        String startTimeString = (String) tvStartTime.getTag();
+        String endTimeString = (String) tvEndTime.getTag();
+
+//        //  开启 start 时间选择
+//        final TimeSelector timeSelectorStart = new TimeSelector(context,new TimeSelector.ResultHandler() {
+//            @Override
+//            public void handle(String s) {
+//                //在这里 开启 end 时间选择
+//                TimeSelector timeSelectorEnd = new TimeSelector(context,new TimeSelector.ResultHandler() {
+//                    @Override
+//                    public void handle(String s) {
+//
+//                    }
+//                },,);
+//                timeSelectorEnd.setTitle(context.getString(R.string.chioce_end_time_string));
+//                timeSelectorEnd.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
+//                timeSelectorEnd.show();
+//            }
+//        },, );
+//
+//        timeSelectorStart.setTitle(context.getString(R.string.chioce_start_time_stirng));
+//        timeSelectorStart.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
+//        timeSelectorStart.show();
     }
 }

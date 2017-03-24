@@ -4,7 +4,6 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-
     >
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -36,7 +35,7 @@
         android:layout_marginBottom="120dp"
         android:layout_marginStart="8dp"
         android:visibility="gone"
-        app:backgroundTint="@color/white"
+        app:backgroundTint="@color/full_white"
         app:fabSize="mini"
         app:rippleColor="@color/ripple_color"
         app:srcCompat="@drawable/ic_close_black_24dp"

@@ -18,7 +18,7 @@ import com.app.feng.waterlevelwatcher.bean.SluiceBean;
 import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
 import com.app.feng.waterlevelwatcher.ui.MainActivity;
 import com.app.feng.waterlevelwatcher.utils.AnimSetUtil;
-import com.app.feng.waterlevelwatcher.manager.LineChartManager;
+import com.app.feng.waterlevelwatcher.utils.manager.LineChartManager;
 import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.eleven.lib.library.ECSegmentedControl;
 

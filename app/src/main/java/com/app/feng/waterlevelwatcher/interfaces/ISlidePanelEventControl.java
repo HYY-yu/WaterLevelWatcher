@@ -7,4 +7,5 @@ package com.app.feng.waterlevelwatcher.interfaces;
 public interface ISlidePanelEventControl {
     void openPanel(int sluiceID);
     void closePanel();
+
 }

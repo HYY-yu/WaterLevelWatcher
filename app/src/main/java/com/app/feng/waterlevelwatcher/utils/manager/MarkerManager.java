@@ -1,9 +1,9 @@
-package com.app.feng.waterlevelwatcher.manager;
+package com.app.feng.waterlevelwatcher.utils.manager;
 
 import android.content.Context;
 
-import com.amap.api.maps2d.model.Marker;
-import com.amap.api.maps2d.model.PolylineOptions;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.PolylineOptions;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;

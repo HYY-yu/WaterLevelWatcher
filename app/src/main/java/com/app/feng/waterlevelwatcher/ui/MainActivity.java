@@ -16,9 +16,9 @@ import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.ui.fragment.MapFragment;
 import com.app.feng.waterlevelwatcher.utils.AnimSetUtil;
-import com.app.feng.waterlevelwatcher.utils.DialogUtil;
 import com.app.feng.waterlevelwatcher.utils.FragmentUtil;
 import com.app.feng.waterlevelwatcher.utils.SharedPref;
+import com.app.feng.waterlevelwatcher.utils.Utils;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.eleven.lib.library.ECSegmentedControl;
@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         initEvent();
 
         initTime();
+
+//        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
     private void initTime() {
@@ -85,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
         String endTimeString = getString(R.string.end_time_string);
 
         tv_starttime.setText(String.format(startTimeString,startTime));
+        tv_starttime.setTag(startTime);
         tv_endtime.setText(String.format(endTimeString,endTime));
+        tv_endtime.setTag(endTime);
     }
 
     private void showMask() {
@@ -238,10 +242,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int sluiceID = (int) tv_stationID.getTag();
-                DialogUtil.showEditPositionDialog(MainActivity.this,
-                                                  (String) tv_stationLongitude.getTag(),
-                                                  (String) tv_stationLatitude.getTag(),realm,
-                                                  sluiceID);
+                Utils.showEditPositionDialog(MainActivity.this,
+                                             (String) tv_stationLongitude.getTag(),
+                                             (String) tv_stationLatitude.getTag(),realm,
+                                             sluiceID);
             }
         });
     }

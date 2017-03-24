@@ -19,33 +19,33 @@ public class RealmUtil {
 
     public static RealmResults<SluiceBean> loadDataByTime(Realm realm,String time) {
         return realm.where(SluiceBean.class)
-                .equalTo("timeFormatString",time)
-                .findAllSorted("sluiceID",Sort.ASCENDING);
+                .equalTo(SluiceBean.TIMEFORMATSTRING,time)
+                .findAllSorted(MonitoringStationBean.SLUICEID,Sort.ASCENDING);
     }
 
     public static RealmResults<SluiceBean> loadDataById(Realm realm,int sluiceID) {
         return realm.where(SluiceBean.class)
-                .equalTo("sluiceID",sluiceID)
-                .findAllSorted("time",Sort.ASCENDING);
+                .equalTo(MonitoringStationBean.SLUICEID,sluiceID)
+                .findAllSorted(SluiceBean.TIME,Sort.ASCENDING);
     }
 
     public static MonitoringStationBean loadStationDataById(Realm realm,int sluiceID) {
         return realm.where(MonitoringStationBean.class)
-                .equalTo("sluiceID",sluiceID)
+                .equalTo(MonitoringStationBean.SLUICEID,sluiceID)
                 .findFirst();
     }
 
     public static RealmResults<MonitoringStationBean> queryStationByName(
             Realm realm,String name) {
         return realm.where(MonitoringStationBean.class)
-                .contains("name",name)
+                .contains(MonitoringStationBean.NAME,name)
                 .findAll();
     }
 
 
     public static RealmResults<MonitoringStationBean> loadAllStation(Realm realm) {
         return realm.where(MonitoringStationBean.class)
-                .findAllSorted("sluiceID",Sort.ASCENDING);
+                .findAllSorted(MonitoringStationBean.SLUICEID,Sort.ASCENDING);
     }
 
     public static void saveToRealm(List sluiceBeanList) {

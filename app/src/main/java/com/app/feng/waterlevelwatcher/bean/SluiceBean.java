@@ -13,6 +13,10 @@ import io.realm.RealmObject;
  */
 
 public class SluiceBean extends RealmObject{
+    public static final String SLUICEOPENING = "sluiceOpening";
+    public static final String TIMEFORMATSTRING = "timeFormatString";
+    public static final String TIME = "time";
+
     private int sluiceID;         //闸编号
     private float sluiceOpening;   //闸门开度
     private float waterLevel_front; //闸前水位

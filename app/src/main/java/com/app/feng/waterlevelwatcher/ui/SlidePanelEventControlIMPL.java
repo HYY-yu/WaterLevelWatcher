@@ -4,7 +4,7 @@ import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
 import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
-import com.app.feng.waterlevelwatcher.manager.LineChartManager;
+import com.app.feng.waterlevelwatcher.utils.manager.LineChartManager;
 import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -142,7 +142,6 @@ public class SlidePanelEventControlIMPL implements ISlidePanelEventControl {
 
             //将此处的位置更新映射到Map上
             mainActivity.fragmentUtil.mapFragment.markerManager.updateMarker(element);
-            mainActivity.fragmentUtil.mapFragment.aMap.postInvalidate();
         }
     }
 

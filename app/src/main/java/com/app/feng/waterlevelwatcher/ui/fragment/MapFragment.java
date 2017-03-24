@@ -11,20 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.CameraUpdate;
-import com.amap.api.maps2d.CameraUpdateFactory;
-import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.model.LatLng;
-import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdate;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
-import com.app.feng.waterlevelwatcher.manager.MarkerManager;
 import com.app.feng.waterlevelwatcher.ui.MainActivity;
 import com.app.feng.waterlevelwatcher.ui.view.MarkView;
 import com.app.feng.waterlevelwatcher.utils.RealmUtil;
+import com.app.feng.waterlevelwatcher.utils.manager.MarkerManager;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
@@ -89,12 +89,17 @@ public class MapFragment extends Fragment {
 
         initMarker();
 
+        //提示用户如何点击搜索框
+        showSearchViewMask();
+
     }
 
     private void initMap() {
         if (aMap == null) {
             aMap = mapView.getMap();
         }
+
+        aMap.setMapType(AMap.MAP_TYPE_NIGHT);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
                 new LatLng(32.671478,111.715668),Config.MAP_ZOOM_LEVEL);
@@ -208,15 +213,13 @@ public class MapFragment extends Fragment {
         super.onResume();
         mapView.onResume();
 
-        //提示用户如何点击搜索框
-        showSearchViewMask();
-
     }
 
     private void showSearchViewMask() {
         new MaterialIntroView.Builder(getActivity()).enableDotAnimation(true)
                 .enableFadeAnimation(true)
                 .enableIcon(false)
+                .performClick(false)
                 .dismissOnTouch(true)
                 .setTarget(searchView)
                 .setInfoText("点击搜索图标进行搜索")

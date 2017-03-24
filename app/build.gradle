@@ -23,7 +23,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
@@ -44,7 +43,6 @@ dependencies {
     compile 'com.eleven.lib:ecsegmentedcontrol:+'
     compile 'com.github.iammert:MaterialIntroView:1.6.0'
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
-    compile files('libs/Amap_2DMap_V4.2.0_20170120.jar')
     compile(name: 'timeselector-release', ext: 'aar')
     compile('com.ashokvarma.android:bottom-navigation-bar:1.3.0', {
         exclude group: 'com.android.support'
@@ -55,4 +53,5 @@ dependencies {
     compile('com.sothree.slidinguppanel:library:3.3.1', {
         exclude group: 'com,android.support'
     })
+    compile files('libs/Android_Map3D_SDK_V5.0.0_20170311.jar')
 }
