@@ -5,15 +5,18 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.utils.SharedPref;
 import com.app.feng.waterlevelwatcher.utils.TimeRangeUtil;
+import com.app.feng.waterlevelwatcher.utils.manager.DayNightModeManager;
 
 public class SettingFragment extends Fragment {
 
@@ -23,6 +26,8 @@ public class SettingFragment extends Fragment {
 
     private View editTime;
     private View resetTime;
+
+    private SwitchCompat switchDayNight;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -36,7 +41,7 @@ public class SettingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRetainInstance(true);
     }
 
     @Override
@@ -53,9 +58,9 @@ public class SettingFragment extends Fragment {
 
         initView(view);
         initEvent();
-
         initTime();
     }
+
 
     private void initEvent() {
         editTime.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +81,18 @@ public class SettingFragment extends Fragment {
                 TimeRangeUtil.initDefaultTimeRange(getContext().getApplicationContext());
 
                 initTime();
+            }
+        });
+
+        switchDayNight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                if(isChecked){
+                    DayNightModeManager.setNightMode(getActivity());
+
+                }else{
+                    DayNightModeManager.setDayMode(getActivity());
+                }
             }
         });
 
@@ -101,6 +118,12 @@ public class SettingFragment extends Fragment {
         tvEndTime = (TextView) view.findViewById(R.id.tv_end_time);
         editTime = view.findViewById(R.id.btn_edit_time);
         resetTime = view.findViewById(R.id.btn_reset_time);
+
+        switchDayNight = (SwitchCompat) view.findViewById(R.id.switch_daynight);
+        // 根据 SharePref 给switch设置
+        boolean isNight = SharedPref.getInstance(getContext().getApplicationContext())
+                .getBoolean(Config.KEY.ISNIGHT,false);
+        switchDayNight.setChecked(isNight);
     }
 
     @Override

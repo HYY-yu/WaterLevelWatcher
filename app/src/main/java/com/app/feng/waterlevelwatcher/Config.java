@@ -8,7 +8,7 @@ public class Config {
 
     public static String SP_NAME = "waterlevelwatcher";
     public static boolean LOG_SWITCH = true;
-    public static int MAP_ZOOM_LEVEL = 10;
+    public static int MAP_ZOOM_LEVEL = 9;
 
     public static class Constant {
         public static String MAP = "map";
@@ -30,5 +30,7 @@ public class Config {
         public static final String USER_EDIT_DEFAULT_TIME = "USER_EDIT_DEFAULT_TIME";
         public static final String FIRST_RUN = "FIRST_RUN";
         public static final String SHOW_MASK = "SHOW_MASK";
+        public static final String ISNIGHT = "ISNIGHT";
+        public static final String RECREATE_BY_DAYNIGHT = "RECREATE_BY_DAYNIGHT";
     }
 }

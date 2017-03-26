@@ -24,6 +24,7 @@ import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
 import com.app.feng.waterlevelwatcher.ui.MainActivity;
 import com.app.feng.waterlevelwatcher.ui.view.MarkView;
 import com.app.feng.waterlevelwatcher.utils.RealmUtil;
+import com.app.feng.waterlevelwatcher.utils.SharedPref;
 import com.app.feng.waterlevelwatcher.utils.manager.MarkerManager;
 
 import java.lang.reflect.Field;
@@ -61,12 +62,12 @@ public class MapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(
             LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_map,container,false);
         searchView = (SearchView) v.findViewById(R.id.sv_map_station);
 
@@ -99,7 +100,9 @@ public class MapFragment extends Fragment {
             aMap = mapView.getMap();
         }
 
-        aMap.setMapType(AMap.MAP_TYPE_NIGHT);
+        boolean isNightMode = SharedPref.getInstance(getContext().getApplicationContext())
+                .getBoolean(Config.KEY.ISNIGHT,false);
+        setMapMode(isNightMode);
 
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
                 new LatLng(32.671478,111.715668),Config.MAP_ZOOM_LEVEL);
@@ -144,6 +147,10 @@ public class MapFragment extends Fragment {
             final android.widget.ListPopupWindow mPop_IMPL = (android.widget.ListPopupWindow) mPOP.get(
                     mSSTV_IMPL);
 
+            //在夜间模式下 AnchorView有可能为空
+            mPop_IMPL.setAnchorView(mDDA_View);
+
+
             //            int widthDp = ConfigurationHelper.getScreenWidthDp(getResources());
             //            final int screenWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
             //                                                                    widthDp,
@@ -163,17 +170,14 @@ public class MapFragment extends Fragment {
                     });
 
 
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
     }
 
     private void initMarker() {
-        RealmResults<MonitoringStationBean> monitoringStationBeen = RealmUtil.loadAllStation(
-                realm);
+        RealmResults<MonitoringStationBean> monitoringStationBeen = RealmUtil.loadAllStation(realm);
 
         markerManager = new MarkerManager(getContext());
         markerManager.generateMarker(monitoringStationBeen);
@@ -235,6 +239,27 @@ public class MapFragment extends Fragment {
 
     }
 
+//    @Subscribe
+//    public void changeMapMode(Boolean isNight){
+//        if(aMap != null){
+//            setMapMode(isNight);
+//        }
+//    }
+
+    public void setMapMode(boolean isNight){
+        if (isNight) {
+            aMap.setMapType(AMap.MAP_TYPE_NIGHT);
+        } else {
+            aMap.setMapType(AMap.MAP_TYPE_NORMAL);
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -249,12 +274,14 @@ public class MapFragment extends Fragment {
         mapView.onDestroy();
 
         realm.close();
+
+//        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if(searchView != null){
+        if (searchView != null) {
             searchView.clearFocus();
         }
     }
@@ -263,9 +290,8 @@ public class MapFragment extends Fragment {
         MonitoringStationBean stationBean = RealmUtil.loadStationDataById(realm,id);
         double la = Double.parseDouble(stationBean.getLatitude());
         double lo = Double.parseDouble(stationBean.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
-                new LatLng(la,lo),
-                Config.MAP_ZOOM_LEVEL);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(la,lo),
+                                                                      Config.MAP_ZOOM_LEVEL);
         aMap.animateCamera(cameraUpdate);
     }
 

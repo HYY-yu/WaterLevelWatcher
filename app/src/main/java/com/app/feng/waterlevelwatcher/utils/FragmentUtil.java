@@ -1,6 +1,7 @@
 package com.app.feng.waterlevelwatcher.utils;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.app.feng.waterlevelwatcher.R;
@@ -25,9 +26,7 @@ public class FragmentUtil {
     Fragment currentFragment;
 
     public FragmentUtil(MainActivity mainActivity) {
-        mapFragment = MapFragment.newInstance();
-        overviewFragment = OverviewFragment.newInstance();
-        settingFragment = SettingFragment.newInstance();
+
 
         mainActivityWeakReference = new WeakReference<>(mainActivity);
     }
@@ -37,13 +36,23 @@ public class FragmentUtil {
     }
 
     public void addAllFragment() {
-        FragmentTransaction fragmentTransaction = mainActivityWeakReference.get()
-                .getSupportFragmentManager()
-                .beginTransaction();
+
+        FragmentManager fragmentManager = mainActivityWeakReference.get()
+                .getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        overviewFragment = (OverviewFragment) fragmentManager.findFragmentByTag("overview");
+        settingFragment = (SettingFragment) fragmentManager.findFragmentByTag("setting");
+
+        if(overviewFragment == null){
+            overviewFragment = OverviewFragment.newInstance();
+            settingFragment = SettingFragment.newInstance();
+            fragmentTransaction.add(R.id.fl_fragment,overviewFragment,"overview");
+            fragmentTransaction.add(R.id.fl_fragment,settingFragment,"setting");
+        }
+        mapFragment = MapFragment.newInstance();
 
         fragmentTransaction.add(R.id.fl_fragment,mapFragment,"map");
-        fragmentTransaction.add(R.id.fl_fragment,overviewFragment,"overview");
-        fragmentTransaction.add(R.id.fl_fragment,settingFragment,"setting");
         fragmentTransaction.commitNow();
     }
 

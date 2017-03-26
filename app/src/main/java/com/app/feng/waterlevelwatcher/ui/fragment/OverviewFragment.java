@@ -79,6 +79,8 @@ public class OverviewFragment extends Fragment {
     @Override
     public View onCreateView(
             LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
+        setRetainInstance(true);
+
         View v = inflater.inflate(R.layout.fragment_overview,container,false);
         v.setOnTouchListener(new View.OnTouchListener() {
             @Override

@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.graphics.drawable.VectorDrawableCompat;
+import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,6 +26,9 @@ import com.eleven.lib.library.ECSegmentedControl;
 import com.orhanobut.logger.Logger;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import co.mobiwise.materialintro.animation.MaterialIntroListener;
 import co.mobiwise.materialintro.shape.Focus;
 import co.mobiwise.materialintro.shape.ShapeType;
@@ -32,7 +36,7 @@ import co.mobiwise.materialintro.view.MaterialIntroView;
 import io.realm.Realm;
 import lecho.lib.hellocharts.view.LineChartView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LayoutInflaterFactory {
 
     BottomNavigationBar bottomNavigationBar;
     SlidingUpPanelLayout slidingUpPanelLayout;
@@ -73,7 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
         initTime();
 
-//        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault()
+                .register(this);
     }
 
     private void initTime() {
@@ -244,11 +254,19 @@ public class MainActivity extends AppCompatActivity {
                 int sluiceID = (int) tv_stationID.getTag();
                 Utils.showEditPositionDialog(MainActivity.this,
                                              (String) tv_stationLongitude.getTag(),
-                                             (String) tv_stationLatitude.getTag(),realm,
-                                             sluiceID);
+                                             (String) tv_stationLatitude.getTag(),realm,sluiceID);
             }
         });
     }
+
+    @Subscribe
+    public void onChangeMapMode(Boolean isNight) {
+        //        recreate();
+        finish();
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(intent);
+    }
+
 
     private void initFragment() {
         fragmentUtil.addAllFragment();
@@ -258,9 +276,6 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_bar);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
-
-        ll_change_position = findViewById(R.id.ll_change_position);
-        ll_change_time_area = findViewById(R.id.ll_change_time_area);
 
         VectorDrawableCompat vectorDrawableCompat_map = VectorDrawableCompat.create(getResources(),
                                                                                     R.drawable.ic_map_black_24dp,
@@ -279,6 +294,8 @@ public class MainActivity extends AppCompatActivity {
                 .addItem(new BottomNavigationItem(vectorDrawableCompat_Setting,"管理"))
                 .initialise();
 
+        ll_change_position = findViewById(R.id.ll_change_position);
+        ll_change_time_area = findViewById(R.id.ll_change_time_area);
 
         slidingUpPanelLayout = (SlidingUpPanelLayout) findViewById(R.id.spl_main_content);
         slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
@@ -317,6 +334,9 @@ public class MainActivity extends AppCompatActivity {
         if (!realm.isClosed()) {
             realm.close();
         }
+
+        EventBus.getDefault()
+                .unregister(this);
     }
 
     @Override
