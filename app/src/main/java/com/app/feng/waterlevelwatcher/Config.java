@@ -11,16 +11,18 @@ public class Config {
     public static int MAP_ZOOM_LEVEL = 9;
 
     public static class Constant {
+        public static final String SETTING = "setting";
+        public static final String STATISTICS = "statistics";
         public static String MAP = "map";
         public static String OVERVIEW = "overview";
 
         public static String TIME_FORMAT = "yyyy/MM/dd HH:mm";
 
-//        public enum CHART_YAXIS_TYPE {
-//            OPENING,// 开度
-//            FRONT, // 前水位
-//            BACK // 后水位
-//        }
+        //        public enum CHART_YAXIS_TYPE {
+        //            OPENING,// 开度
+        //            FRONT, // 前水位
+        //            BACK // 后水位
+        //        }
 
     }
 
@@ -31,6 +33,6 @@ public class Config {
         public static final String FIRST_RUN = "FIRST_RUN";
         public static final String SHOW_MASK = "SHOW_MASK";
         public static final String ISNIGHT = "ISNIGHT";
-        public static final String RECREATE_BY_DAYNIGHT = "RECREATE_BY_DAYNIGHT";
+        public static final Object CHANGE_DEFAULT_TIME = "CHANGE_DEFAULT_TIME";
     }
 }

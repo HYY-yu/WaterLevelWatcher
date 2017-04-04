@@ -12,4 +12,10 @@
     <color name="full_white">#444545</color>
 
     <color name="fg_setting_bg">#6c6c6c</color>
+
+    <color name="table_divider_color">#6c6c6c</color>
+    <color name="table_title_color">#CC9483</color>
+    <color name="table_s_color">#6B887D</color>
+    <color name="table_b_color">#444545</color>
+
 </resources>

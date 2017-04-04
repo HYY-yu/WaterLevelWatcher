@@ -3,6 +3,9 @@ package com.app.feng.waterlevelwatcher.ui;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.animation.DynamicAnimation;
+import android.support.animation.SpringAnimation;
+import android.support.animation.SpringForce;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.view.LayoutInflaterFactory;
 import android.support.v7.app.AppCompatActivity;
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements LayoutInflaterFac
     View ll_change_time_area;
 
     View fab_close_mini;
+    View fab_close_normal;
 
     private ScaleAnimation scaleAnimation_show;
     private ScaleAnimation scaleAnimation_hidden;
@@ -77,13 +81,9 @@ public class MainActivity extends AppCompatActivity implements LayoutInflaterFac
 
         initTime();
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         EventBus.getDefault()
                 .register(this);
+
     }
 
     private void initTime() {
@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements LayoutInflaterFac
                         fragmentUtil.setOverviewFragment();
                         break;
                     case 2:
+                        fragmentUtil.setStatisticsFragment();
                         break;
                     case 3:
                         fragmentUtil.setSettingFragment();
@@ -180,7 +181,8 @@ public class MainActivity extends AppCompatActivity implements LayoutInflaterFac
             }
         });
 
-        findViewById(R.id.fab_close_panel_normal).setOnClickListener(new View.OnClickListener() {
+        fab_close_normal = findViewById(R.id.fab_close_panel_normal);
+        fab_close_normal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 slidePanelEventControlIMPL.closePanel();
@@ -212,6 +214,17 @@ public class MainActivity extends AppCompatActivity implements LayoutInflaterFac
                         break;
                     case EXPANDED:
                         showMask();
+                        //Show fab_close_normal
+                        SpringAnimation springAnimation = new SpringAnimation(fab_close_normal,
+                                                                              DynamicAnimation.ROTATION,
+                                                                              180);
+                        SpringForce force = springAnimation.getSpring();
+                        force.setStiffness(SpringForce.STIFFNESS_LOW);
+                        force.setDampingRatio(SpringForce.DAMPING_RATIO_HIGH_BOUNCY);
+
+                        springAnimation.setStartVelocity(-600);
+                        springAnimation.setStartValue(0);
+                        springAnimation.start();
 
                         //取消break
                     default:
@@ -267,6 +280,10 @@ public class MainActivity extends AppCompatActivity implements LayoutInflaterFac
         startActivity(intent);
     }
 
+    @Subscribe
+    public void changeTime(String d) {
+        initTime();
+    }
 
     private void initFragment() {
         fragmentUtil.addAllFragment();

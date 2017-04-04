@@ -24,7 +24,6 @@
         <!--Sliding CONTENT-->
         <include layout="@layout/main_layout_sliding_content"/>
 
-
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
     <android.support.design.widget.FloatingActionButton

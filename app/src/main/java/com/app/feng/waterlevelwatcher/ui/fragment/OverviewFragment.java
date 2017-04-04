@@ -18,6 +18,7 @@ import com.app.feng.waterlevelwatcher.bean.SluiceBean;
 import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
 import com.app.feng.waterlevelwatcher.ui.MainActivity;
 import com.app.feng.waterlevelwatcher.utils.AnimSetUtil;
+import com.app.feng.waterlevelwatcher.utils.FragmentUtil;
 import com.app.feng.waterlevelwatcher.utils.manager.LineChartManager;
 import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.eleven.lib.library.ECSegmentedControl;
@@ -212,7 +213,7 @@ public class OverviewFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (fab_change_time != null) {
+        if (fab_change_time != null && !FragmentUtil.IS_SAME_BUTTON) {
             if (!hidden) {
                 fab_change_time.startAnimation(scaleAnimation_show);
             } else {

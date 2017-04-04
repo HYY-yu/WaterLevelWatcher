@@ -7,6 +7,22 @@
         <item>闸后水位</item>
     </array>
 
+    <array name="time_choice_string">
+        <item>最近三天</item>
+        <item>最近五天</item>
+        <item>最近十二天</item>
+        <item>最近三十天</item>
+    </array>
+
+    <array name="statistics_title">
+        <item>全线调度辅助分析</item>
+        <item>水位统计</item>
+        <item>流速统计</item>
+        <item>水深统计</item>
+        <item>分水统计</item>
+        <item>重点断面统计</item>
+    </array>
+
     <string name="station_Id" formatted="true">监测站编号：%d</string>
     <string name="station_latitude">纬度：%s</string>
     <string name="station_longitude">经度：%s</string>
@@ -19,4 +35,7 @@
     <string name="end_time_string">结束时间: %s</string>
     <string name="chioce_start_time_stirng">请选择起始时间</string>
     <string name="chioce_end_time_string">请选择结束时间</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -12,4 +12,9 @@
 
     <color name="fg_setting_bg">#efefef</color>
 
+    <color name="table_divider_color">#c7c7c7</color>
+    <color name="table_title_color">#FFB8A3</color>
+    <color name="table_s_color">#E6FFF6</color>
+    <color name="table_b_color">#fff</color>
+
 </resources>

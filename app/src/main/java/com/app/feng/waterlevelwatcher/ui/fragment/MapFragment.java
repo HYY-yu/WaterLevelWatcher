@@ -147,7 +147,7 @@ public class MapFragment extends Fragment {
             final android.widget.ListPopupWindow mPop_IMPL = (android.widget.ListPopupWindow) mPOP.get(
                     mSSTV_IMPL);
 
-            //在夜间模式下 AnchorView有可能为空
+            //在夜间模式下 AnchorView有可能为空 , 在此重新设置
             mPop_IMPL.setAnchorView(mDDA_View);
 
 
@@ -252,13 +252,6 @@ public class MapFragment extends Fragment {
         } else {
             aMap.setMapType(AMap.MAP_TYPE_NORMAL);
         }
-    };
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-
     }
 
     @Override
@@ -276,6 +269,12 @@ public class MapFragment extends Fragment {
         realm.close();
 
 //        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.app.feng.waterlevelwatcher.ui.fragment;
 
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,8 @@ import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.utils.SharedPref;
 import com.app.feng.waterlevelwatcher.utils.TimeRangeUtil;
 import com.app.feng.waterlevelwatcher.utils.manager.DayNightModeManager;
+
+import org.greenrobot.eventbus.EventBus;
 
 public class SettingFragment extends Fragment {
 
@@ -67,7 +71,40 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //弹出修改时间对话框 --- 用户修改了默认时间
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("选择时间范围")
+                        .setCancelable(true)
+                        .setItems(R.array.time_choice_string,new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,int which) {
 
+                                switch (which) {
+                                    case 0:
+                                        //三天
+                                        TimeRangeUtil.setTimeByRange(getContext(),-3);
+                                        break;
+                                    case 1:
+                                        //五天
+                                        TimeRangeUtil.setTimeByRange(getContext(),-5);
+                                        break;
+                                    case 2:
+                                        //十二天
+                                        TimeRangeUtil.setTimeByRange(getContext(),-12);
+                                        break;
+                                    case 3:
+                                        //一月
+                                        TimeRangeUtil.setTimeByRange(getContext(),-30);
+                                        break;
+                                    default:
+
+                                }
+
+                                initTime();
+                                //通知Panel修改时间
+                                EventBus.getDefault().post(Config.KEY.CHANGE_DEFAULT_TIME);
+                            }
+                        })
+                        .show();
 
             }
         });
