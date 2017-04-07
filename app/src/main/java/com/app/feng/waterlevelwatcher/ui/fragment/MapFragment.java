@@ -268,7 +268,6 @@ public class MapFragment extends Fragment {
 
         realm.close();
 
-//        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -289,9 +288,9 @@ public class MapFragment extends Fragment {
         MonitoringStationBean stationBean = RealmUtil.loadStationDataById(realm,id);
         double la = Double.parseDouble(stationBean.getLatitude());
         double lo = Double.parseDouble(stationBean.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(la,lo),
-                                                                      Config.MAP_ZOOM_LEVEL);
-        aMap.animateCamera(cameraUpdate);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.changeLatLng(new LatLng(la,lo));
+//        aMap.animateCamera(cameraUpdate,1000L,null);
+        aMap.moveCamera(cameraUpdate);
     }
 
     public void clearSearchViewFocus() {

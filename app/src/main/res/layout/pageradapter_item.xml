@@ -28,9 +28,9 @@
         app:fixtable_item_gravity="CENTER"
         app:fixtable_item_top_bottom_padding="@dimen/table_item_padding"
         app:fixtable_item_width="@dimen/table_item_width"
-        app:fixtable_s_color="@color/table_s_color"
+        app:fixtable_column_1_color="@color/table_s_color"
         app:fixtable_show_left_view_shadow="true"
-        app:fixtable_b_color="@color/table_b_color"
+        app:fixtable_column_2_color="@color/table_b_color"
         app:fixtable_title_color="@color/table_title_color"
         />
 
