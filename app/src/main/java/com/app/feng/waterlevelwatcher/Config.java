@@ -34,5 +34,8 @@ public class Config {
         public static final String SHOW_MASK = "SHOW_MASK";
         public static final String ISNIGHT = "ISNIGHT";
         public static final Object CHANGE_DEFAULT_TIME = "CHANGE_DEFAULT_TIME";
+        public static final String FIXTABLE_TITLE = "FIXTABLE_TITLE";
+        public static final String FIXTABLE_DATA = "FIXTABLE_DATA";
+        public static final String FIXTABLE_DATA_COLUMN = "FIXTABLE_DATA_COLUMN";
     }
 }

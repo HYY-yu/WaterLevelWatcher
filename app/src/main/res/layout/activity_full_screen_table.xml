@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.app.feng.waterlevelwatcher.ui.FullScreenTableActivity">
+
+    <com.app.feng.fixtablelayout.FixTableLayout
+        android:id="@+id/fixtablelayout"
+        android:transitionName="fixtable"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:fixtable_column_1_color="@color/table_s_color"
+        app:fixtable_column_2_color="@color/table_b_color"
+        app:fixtable_divider_color="@color/table_divider_color"
+        app:fixtable_divider_height="@dimen/table_divider_height"
+        app:fixtable_item_gravity="CENTER"
+        app:fixtable_item_top_bottom_padding="@dimen/table_item_padding"
+        app:fixtable_item_width="@dimen/table_item_width"
+        app:fixtable_show_left_view_shadow="true"
+        app:fixtable_title_color="@color/table_title_color"
+        />
+
+</android.support.constraint.ConstraintLayout>

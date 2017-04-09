@@ -63,7 +63,7 @@ public class StatisticsFragment extends Fragment {
     }
 
     private void initViewPager() {
-        viewPager.setAdapter(new StatisticsAdapter(getContext()));
+        viewPager.setAdapter(new StatisticsAdapter(getActivity()));
     }
 
     private void initTabLayout() {
