@@ -20,10 +20,10 @@ import java.lang.ref.WeakReference;
 
 public class FragmentUtil {
 
-    public MapFragment mapFragment;
-    public OverviewFragment overviewFragment;
-    public SettingFragment settingFragment;
-    public StatisticsFragment statisticsFragment;
+    MapFragment mapFragment;
+    OverviewFragment overviewFragment;
+    SettingFragment settingFragment;
+    StatisticsFragment statisticsFragment;
 
     private WeakReference<MainActivity> mainActivityWeakReference;
     private Fragment currentFragment;
@@ -79,17 +79,12 @@ public class FragmentUtil {
                 .getSupportFragmentManager()
                 .beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.fade_in,R.anim.fade_out);
-        //        View shareView = overviewFragment.getView()
-        //                .findViewById(R.id.fab_chang_time);
-        //        if(shareView != null){
-        //            fragmentTransaction.addSharedElement(shareView,"fab_change_time");
-        //        }
+
 
         fragmentTransaction.show(overviewFragment);
         fragmentTransaction.hide(mapFragment);
         fragmentTransaction.hide(settingFragment);
         fragmentTransaction.hide(statisticsFragment);
-        //        fragmentTransaction.replace(R.id.fl_fragment,overviewFragment);
         fragmentTransaction.commitNow();
 
 

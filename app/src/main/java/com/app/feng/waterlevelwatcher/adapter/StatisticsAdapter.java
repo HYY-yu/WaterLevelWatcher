@@ -14,10 +14,10 @@ import android.widget.TextView;
 import com.app.feng.fixtablelayout.FixTableLayout;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
+import com.app.feng.waterlevelwatcher.bean.DataBean;
 import com.app.feng.waterlevelwatcher.ui.FullScreenTableActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by feng on 2017/4/4.
@@ -25,41 +25,9 @@ import java.util.Arrays;
 
 public class StatisticsAdapter extends PagerAdapter {
 
-
     public String[] title = {"title1","title2","title3","title4","title5","title6","title7",
                              "title8","title9"};
-
-    public String[][] data = {
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"},
-            {"data1","data2","data3","data4","data5","data6","data7","data8","data9"}};
+    ArrayList<DataBean> data = new ArrayList<>();
 
     String[] pageTitleArray;
     FixTableLayout fixTableLayout;
@@ -75,6 +43,11 @@ public class StatisticsAdapter extends PagerAdapter {
                 .getStringArray(R.array.statistics_title);
 
         viewSparseArray = new SparseArray<>(pageTitleArray.length);
+
+        for (int i = 0; i < 50; i++) {
+            data.add(new DataBean("id__","data1","data2","data3","data4","data5","data6","data7",
+                                  "data8"));
+        }
         this.context = context;
     }
 
@@ -104,13 +77,9 @@ public class StatisticsAdapter extends PagerAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(context,FullScreenTableActivity.class);
                 intent.putExtra(Config.KEY.FIXTABLE_TITLE,title);
-                ArrayList<String> flatDataList = new ArrayList<>();
-                for (String[] aData : data) {
-                    flatDataList.addAll(Arrays.asList(aData)
-                                                .subList(0,data[0].length));
-                }
-                intent.putStringArrayListExtra(Config.KEY.FIXTABLE_DATA,flatDataList);
-                intent.putExtra(Config.KEY.FIXTABLE_DATA_COLUMN,data[0].length);
+
+                intent.putParcelableArrayListExtra(Config.KEY.FIXTABLE_DATA,data);
+
                 FixTableLayout fixTableLayout = (FixTableLayout) viewSparseArray.get(position)
                         .findViewById(R.id.fixtablelayout);
                 context.startActivity(intent,ActivityOptionsCompat.makeSceneTransitionAnimation(

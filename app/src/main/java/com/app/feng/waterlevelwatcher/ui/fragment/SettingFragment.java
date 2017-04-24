@@ -4,6 +4,7 @@ package com.app.feng.waterlevelwatcher.ui.fragment;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,22 +17,29 @@ import android.widget.TextView;
 
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
+import com.app.feng.waterlevelwatcher.bean.UserBean;
+import com.app.feng.waterlevelwatcher.ui.LoginActivity;
 import com.app.feng.waterlevelwatcher.utils.SharedPref;
 import com.app.feng.waterlevelwatcher.utils.TimeRangeUtil;
 import com.app.feng.waterlevelwatcher.utils.manager.DayNightModeManager;
 
 import org.greenrobot.eventbus.EventBus;
 
+import io.realm.Realm;
+
 public class SettingFragment extends Fragment {
 
     private View admin_panel;
     private TextView tvStartTime;
     private TextView tvEndTime;
+    private TextView tvAdminName;
 
     private View editTime;
     private View resetTime;
 
     private SwitchCompat switchDayNight;
+
+    private Realm realm;
 
     public SettingFragment() {
         // Required empty public constructor
@@ -46,6 +54,8 @@ public class SettingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -63,6 +73,26 @@ public class SettingFragment extends Fragment {
         initView(view);
         initEvent();
         initTime();
+        initAdmin();
+    }
+
+    private void initAdmin() {
+        String sTemp = getResources().getString(R.string.admin_name);
+        String username = realm.where(UserBean.class)
+                .findFirst()
+                .getDisplayName();
+        tvAdminName.setText(String.format(sTemp,username));
+
+    }
+
+    public void exitSystem() {
+        UserBean userBean = realm.where(UserBean.class)
+                .findFirst();
+        realm.beginTransaction();
+        userBean.deleteFromRealm();
+        realm.commitTransaction();
+        startActivity(new Intent(getActivity(),LoginActivity.class));
+        getActivity().finish();
     }
 
 
@@ -101,7 +131,8 @@ public class SettingFragment extends Fragment {
 
                                 initTime();
                                 //通知Panel修改时间
-                                EventBus.getDefault().post(Config.KEY.CHANGE_DEFAULT_TIME);
+                                EventBus.getDefault()
+                                        .post(Config.KEY.CHANGE_DEFAULT_TIME);
                             }
                         })
                         .show();
@@ -113,7 +144,8 @@ public class SettingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //重置时间
-                SharedPref.getInstance(getContext()).putBoolean(Config.KEY.USER_EDIT_DEFAULT_TIME,false);
+                SharedPref.getInstance(getContext())
+                        .putBoolean(Config.KEY.USER_EDIT_DEFAULT_TIME,false);
 
                 TimeRangeUtil.initDefaultTimeRange(getContext().getApplicationContext());
 
@@ -124,14 +156,15 @@ public class SettingFragment extends Fragment {
         switchDayNight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     DayNightModeManager.setNightMode(getActivity());
 
-                }else{
+                } else {
                     DayNightModeManager.setDayMode(getActivity());
                 }
             }
         });
+
 
     }
 
@@ -155,6 +188,15 @@ public class SettingFragment extends Fragment {
         tvEndTime = (TextView) view.findViewById(R.id.tv_end_time);
         editTime = view.findViewById(R.id.btn_edit_time);
         resetTime = view.findViewById(R.id.btn_reset_time);
+        tvAdminName = (TextView) view.findViewById(R.id.tv_admin_name);
+
+        view.findViewById(R.id.btn_exit)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        exitSystem();
+                    }
+                });
 
         switchDayNight = (SwitchCompat) view.findViewById(R.id.switch_daynight);
         // 根据 SharePref 给switch设置
@@ -176,6 +218,14 @@ public class SettingFragment extends Fragment {
                         .setDuration(400)
                         .start();
             }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (realm != null && !realm.isClosed()) {
+            realm.close();
         }
     }
 }

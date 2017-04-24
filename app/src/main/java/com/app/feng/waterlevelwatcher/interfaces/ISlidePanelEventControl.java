@@ -8,4 +8,6 @@ public interface ISlidePanelEventControl {
     void openPanel(int sluiceID);
     void closePanel();
 
+    boolean isPanelOpen();
+
 }

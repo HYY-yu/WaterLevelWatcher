@@ -25,13 +25,16 @@
             />
 
         <TextView
-            android:id="@+id/station_ID"
+            android:id="@+id/station_ID_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_drag"
             android:layout_marginTop="4dp"
             android:gravity="center"
-            android:text="@string/station_Id"
+            android:lines="2"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/station_Id_name"
             android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
@@ -41,78 +44,77 @@
         android:layout_width="match_parent"
         android:layout_height="0.6dp"
         android:layout_marginBottom="6dp"
-        android:layout_marginTop="6dp"
         android:background="@color/divider_color"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@drawable/gray_divider"
-        android:dividerPadding="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:showDividers="middle">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:divider="@drawable/gray_divider"-->
+        <!--android:dividerPadding="8dp"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:showDividers="middle">-->
 
-        <TextView
-            android:id="@+id/station_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:gravity="center"
-            android:lines="1"
-            android:marqueeRepeatLimit="marquee_forever"
+        <!--<TextView-->
+            <!--android:id="@+id/station_name"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:clickable="true"-->
+            <!--android:ellipsize="marquee"-->
+            <!--android:focusable="true"-->
+            <!--android:gravity="center"-->
+            <!--android:lines="1"-->
+            <!--android:marqueeRepeatLimit="marquee_forever"-->
 
-            android:padding="2dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:text="名称"
-            android:textAppearance="?android:attr/textAppearanceSmall"/>
+            <!--android:padding="2dp"-->
+            <!--android:paddingEnd="10dp"-->
+            <!--android:paddingStart="10dp"-->
+            <!--android:text="名称"-->
+            <!--android:textAppearance="?android:attr/textAppearanceSmall"/>-->
 
-        <View
-            android:layout_width="0.6dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="6dp"
-            android:layout_marginStart="6dp"
-            android:background="@color/divider_color"/>
+        <!--<View-->
+            <!--android:layout_width="0.6dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginEnd="6dp"-->
+            <!--android:layout_marginStart="6dp"-->
+            <!--android:background="@color/divider_color"/>-->
 
-        <LinearLayout
-            android:id="@+id/ll_change_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:divider="@drawable/gray_divider"
-            android:dividerPadding="3dp"
-            android:orientation="vertical"
-            android:paddingEnd="8dp"
-            android:showDividers="middle">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_change_position"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:divider="@drawable/gray_divider"-->
+            <!--android:dividerPadding="3dp"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingEnd="8dp"-->
+            <!--android:showDividers="middle">-->
 
-            <TextView
-                android:id="@+id/station_longitude"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/station_longitude"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                />
+            <!--<TextView-->
+                <!--android:id="@+id/station_longitude"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/station_longitude"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--/>-->
 
-            <TextView
-                android:id="@+id/station_latitude"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/station_latitude"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/station_latitude"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/station_latitude"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.6dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginTop="6dp"
-        android:background="@color/divider_color"/>
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0.6dp"-->
+        <!--android:layout_marginBottom="6dp"-->
+        <!--android:layout_marginTop="6dp"-->
+        <!--android:background="@color/divider_color"/>-->
 
     <LinearLayout
         android:id="@+id/ll_change_time_area"

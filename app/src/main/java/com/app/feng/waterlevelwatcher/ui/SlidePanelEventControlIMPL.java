@@ -1,11 +1,21 @@
 package com.app.feng.waterlevelwatcher.ui;
 
+import android.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Toast;
+
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
 import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
-import com.app.feng.waterlevelwatcher.utils.manager.LineChartManager;
+import com.app.feng.waterlevelwatcher.network.BaseSubscriber;
+import com.app.feng.waterlevelwatcher.network.RetrofitManager;
+import com.app.feng.waterlevelwatcher.network.bean.ResponseBean;
+import com.app.feng.waterlevelwatcher.network.interfaces.DataService;
 import com.app.feng.waterlevelwatcher.utils.RealmUtil;
+import com.app.feng.waterlevelwatcher.utils.Utils;
+import com.app.feng.waterlevelwatcher.utils.manager.LineChartManager;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.lang.reflect.Field;
@@ -13,10 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.PointValue;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by feng on 2017/3/23.
@@ -24,48 +35,87 @@ import lecho.lib.hellocharts.model.PointValue;
 
 public class SlidePanelEventControlIMPL implements ISlidePanelEventControl {
 
-    private ChangePositionRealmListener changePositionRealmListener;
-    String stringID;
-    String stringLa;
-    String stringLo;
+    //    String stringLo;
+    //    String stringLa;
+    //    private ChangePositionRealmListener changePositionRealmListener;
+    private String stringIDName;
 
-    List<AxisValue> axisValues;
-    List<PointValue> dataValueOpening;
-    List<PointValue> dataValueFront;
-    List<PointValue> dataValueBack;
-    List<PointValue> data;
+    private List<AxisValue> axisValues;
+    private List<PointValue> dataValueOpening;
+    private List<PointValue> dataValueFront;
+    private List<PointValue> dataValueBack;
+    private List<PointValue> data;
 
-    Realm realm;
+    private Realm realm;
 
-    LineChartManager lineChartManager;
+    private LineChartManager lineChartManager;
 
-    MainActivity mainActivity;
+    private MainActivity mainActivity;
+
+    private int nowSluiceID = -1;
+
+    MonitoringStationBean theBean;
+    RealmResults<SluiceBean> stationDatas;
 
     public SlidePanelEventControlIMPL(MainActivity mainActivity,Realm realm) {
         this.realm = realm;
         this.mainActivity = mainActivity;
 
-        changePositionRealmListener = new ChangePositionRealmListener();
-        stringID = mainActivity.getResources()
-                .getString(R.string.station_Id);
-        stringLa = mainActivity.getResources()
-                .getString(R.string.station_latitude);
-        stringLo = mainActivity.getResources()
-                .getString(R.string.station_longitude);
+        stringIDName = mainActivity.getResources()
+                .getString(R.string.station_Id_name);
+        //        changePositionRealmListener = new ChangePositionRealmListener();
+        //        stringLa = mainActivity.getResources()
+        //                .getString(R.string.station_latitude);
+        //        stringLo = mainActivity.getResources()
+        //                .getString(R.string.station_longitude);
 
-        lineChartManager = LineChartManager.getInstanse(mainActivity.getApplicationContext());
+        lineChartManager = LineChartManager.getInstance(mainActivity.getApplicationContext());
+    }
+
+    public int getNowSluiceID() {
+        return nowSluiceID;
     }
 
     @Override
     public void openPanel(int sluiceID) {
-        //根据sluiceID 向Realm查询其数据
-        MonitoringStationBean theBean = RealmUtil.loadStationDataById(realm,sluiceID);
-        RealmResults<SluiceBean> stationDatas = RealmUtil.loadDataById(realm,sluiceID);
+        //与当前的SluiceId相同，不必查询  (问题 : 这段代码用于重复点击同一个节制闸,不会再次查询数据 .然而会带来无法查询选定时间段数据的问题)
+        if (nowSluiceID == sluiceID) {
+            showPanel();
+            return;
+        }
+        nowSluiceID = sluiceID;
 
-        theBean.addChangeListener(changePositionRealmListener);
+        //所以我们将 openPanel() 拆分
+        queryNewTimeRange();
 
-        mainActivity.initTextViewIDName(stringID,theBean);
-        mainActivity.initStationPosition(theBean,stringLo,stringLa);
+    }
+
+    public void queryNewTimeRange() {
+        queryDatabase(nowSluiceID);
+        initPanelView();
+
+        if (shouldLoadFromNetwork()) {
+            loadFromNetworkSync(nowSluiceID);
+            return;
+        }
+
+        showPanel();
+    }
+
+    private void showPanel() {
+        mainActivity.slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+    }
+
+    @Override
+    public void closePanel() {
+        mainActivity.slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+    }
+
+    private void initPanelView() {
+        mainActivity.initTextViewIDName(stringIDName,theBean);
+        //        位置相关代码
+        //        theBean.addChangeListener(changePositionRealmListener);
+        //        mainActivity.initStationPosition(theBean,stringLo,stringLa);
 
         //初始化图表
         //X 单位 时间
@@ -83,28 +133,87 @@ public class SlidePanelEventControlIMPL implements ISlidePanelEventControl {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
-        //打开Panel
-        mainActivity.slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
     }
 
-    @Override
-    public void closePanel() {
-        mainActivity.slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+    private void loadFromNetworkSync(final int sluiceID) {
+        String timeStartString = (String) mainActivity.tv_starttime.getTag();
+        String timeEndString = (String) mainActivity.tv_endtime.getTag();
+
+        //读网查询
+        RetrofitManager.getRetrofit()
+                .create(DataService.class)
+                .queryOneStationByTimeRange(String.valueOf(sluiceID),timeStartString,timeEndString)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<SluiceBean>(mainActivity.getApplicationContext()) {
+                    AlertDialog dialog;
+
+                    @Override
+                    public void onStartLoad() {
+                        //打开加载框
+                        View loading = LayoutInflater.from(mainActivity)
+                                .inflate(R.layout.loading_view,null);
+                        dialog = new AlertDialog.Builder(mainActivity).setTitle("网络加载")
+                                .setView(loading)
+                                .setCancelable(false)
+                                .create();
+                        dialog.show();
+                    }
+
+                    @Override
+                    public void onEndLoad() {
+                        if (dialog != null) {
+                            dialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(
+                            ResponseBean<SluiceBean> responseBean) {
+                        showPanel();
+                        List<SluiceBean> sluiceBeanList = responseBean.getDatas();
+                        if (Utils.isListEmpty(sluiceBeanList)) {
+                            Toast.makeText(mainActivity,"当前时间段没有数据",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        //保存数据库
+                        RealmUtil.saveToRealm(sluiceBeanList);
+
+                        //重新查询
+                        queryDatabase(sluiceID);
+                        initPanelView();
+                        showPanel();
+                    }
+                });
     }
 
-    private void mapData(RealmResults<SluiceBean> realmResults) {
+    private boolean shouldLoadFromNetwork() {
+        return Utils.isListEmpty(stationDatas);
+    }
+
+    private void queryDatabase(int sluiceID) {
+        //查询起始、结束字符串
+        String timeStartString = (String) mainActivity.tv_starttime.getTag();
+        String timeEndString = (String) mainActivity.tv_endtime.getTag();
+
+        //根据sluiceID 向Realm查询其数据
+        theBean = RealmUtil.loadStationDataById(realm,sluiceID);
+        stationDatas = RealmUtil.loadDataByIdAndTimeRange(realm,sluiceID,timeStartString,
+                                                          timeEndString);
+    }
+
+    private void mapData(RealmResults<SluiceBean> stationDatas) {
         List<String> XLabel = new ArrayList<>();
         List<Float> Y_Opening = new ArrayList<>();
         List<Float> Y_Front = new ArrayList<>();
         List<Float> Y_Back = new ArrayList<>();
 
-        for (SluiceBean bean : realmResults) {
-            XLabel.add(bean.getFormatTime()
-                               .substring(5,bean.getFormatTime()
-                                       .length()));
+        for (SluiceBean bean : stationDatas) {
+            String formatTime = Utils.format(bean.getTime());
+            XLabel.add(formatTime.substring(5,formatTime.length()));
 
-            Y_Opening.add(bean.getSluiceOpening());
+            Y_Opening.add(bean.getSluiceOpening1());
             Y_Front.add(bean.getWaterLevel_front());
             Y_Back.add(bean.getWaterLevel_back());
         }
@@ -121,28 +230,36 @@ public class SlidePanelEventControlIMPL implements ISlidePanelEventControl {
         }
     }
 
-    public void changeDataOpening() {
+    @Override
+    public boolean isPanelOpen() {
+        SlidingUpPanelLayout.PanelState state = mainActivity.slidingUpPanelLayout.getPanelState();
+        return state != SlidingUpPanelLayout.PanelState.HIDDEN;
+    }
+
+    void changeDataOpening() {
         lineChartManager.changeData(mainActivity.lineChart,dataValueOpening);
     }
 
-    public void changeDataFront() {
+    void changeDataFront() {
         lineChartManager.changeData(mainActivity.lineChart,dataValueFront);
 
     }
 
-    public void changeDataBlack() {
+    void changeDataBlack() {
         lineChartManager.changeData(mainActivity.lineChart,dataValueBack);
     }
 
-    private class ChangePositionRealmListener implements RealmChangeListener<MonitoringStationBean> {
-        @Override
-        public void onChange(MonitoringStationBean element) {
-            // 当数据有更新,Realm会自动提示
-            mainActivity.initStationPosition(element,stringLo,stringLa);
 
-            //将此处的位置更新映射到Map上
-            mainActivity.fragmentUtil.mapFragment.markerManager.updateMarker(element);
-        }
-    }
+
+    //    private class ChangePositionRealmListener implements RealmChangeListener<MonitoringStationBean> {
+    //        @Override
+    //        public void onChange(MonitoringStationBean element) {
+    //            // 当数据有更新,Realm会自动提示
+    //            mainActivity.initStationPosition(element,stringLo,stringLa);
+    //
+    //            //将此处的位置更新映射到Map上
+    //            mainActivity.fragmentUtil.mapFragment.markerManager.updateMarker(element);
+    //        }
+    //    }
 
 }

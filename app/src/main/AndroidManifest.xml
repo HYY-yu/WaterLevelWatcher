@@ -15,6 +15,11 @@
     <!-- 允许程序访问CellID或WiFi热点来获取粗略的位置 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+
     <application
         android:name=".application.MyApplication"
         android:allowBackup="true"
@@ -31,11 +36,7 @@
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/ThemeFullscreen">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
@@ -52,6 +53,17 @@
         <activity
             android:name=".ui.FullScreenTableActivity"
             android:theme="@style/ThemeFullscreen">
+        </activity>
+        <activity
+            android:name=".ui.LoginActivity"
+            >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
         </activity>
     </application>
 

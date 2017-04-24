@@ -1,13 +1,16 @@
 package com.app.feng.waterlevelwatcher.utils.manager;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
+import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.PolylineOptions;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
 import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
 import com.app.feng.waterlevelwatcher.ui.view.MarkView;
+import com.app.feng.waterlevelwatcher.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,6 +28,8 @@ public class MarkerManager {
 
     List<MarkView> markViewList = new ArrayList<>();
     ISlidePanelEventControl panelControler;
+
+    MarkView selectView;
 
     public MarkerManager(Context context) {
         this.context = context;
@@ -46,14 +51,37 @@ public class MarkerManager {
 
     public void clickMarker(Marker marker) {
         int temp = (int) marker.getObject();
+        int i = 0;
         for (MarkView m : markViewList) {
             if (temp == m.getSluiceID()) {
                 //find this MarkView
+                selectMarker(i,marker);
                 //提示Activity弹窗
                 panelControler.openPanel(m.getSluiceID());
                 break;
             }
+            i++;
         }
+    }
+
+    public void selectMarker(int index,Marker marker) {
+        MarkView markView = markViewList.get(index);
+        if (selectView == markView) {
+            return;
+        }
+
+        if (selectView != null) {
+            selectView.resetSelect();
+            Bitmap bitmap = Utils.getViewBitmap(selectView);
+            selectView.getMarker().setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+            bitmap.recycle();
+        }
+
+        selectView = markView;
+        selectView.select();
+        Bitmap bitmap = Utils.getViewBitmap(selectView);
+        marker.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
+        bitmap.recycle();
     }
 
     public void setPanelControl(ISlidePanelEventControl panelControl) {

@@ -31,10 +31,10 @@ public class MyApplication extends Application {
         TimeRangeUtil.initDefaultTimeRange(getApplicationContext());
 
         initDayNight();
+
+
         //确保此方法最后执行
         loadJSON();
-
-
     }
 
     private void initDayNight() {
@@ -65,6 +65,7 @@ public class MyApplication extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
+
     }
 
 

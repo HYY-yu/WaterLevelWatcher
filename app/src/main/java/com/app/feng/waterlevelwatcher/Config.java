@@ -5,9 +5,7 @@ package com.app.feng.waterlevelwatcher;
  */
 
 public class Config {
-
     public static String SP_NAME = "waterlevelwatcher";
-    public static boolean LOG_SWITCH = true;
     public static int MAP_ZOOM_LEVEL = 9;
 
     public static class Constant {
@@ -17,13 +15,15 @@ public class Config {
         public static String OVERVIEW = "overview";
 
         public static String TIME_FORMAT = "yyyy/MM/dd HH:mm";
+        public static String GLOBAL_START_TIME = "2015/12/24 00:00";
 
-        //        public enum CHART_YAXIS_TYPE {
-        //            OPENING,// 开度
-        //            FRONT, // 前水位
-        //            BACK // 后水位
-        //        }
+    }
 
+    public static class API{
+        public static final String baseUrl = "http://10.0.2.2:8080/nsbdserver/";
+        public static final String loginUrl = "login";
+        public static final String overviewAllStationUrl = "schedule/overviewAllStationByTime";
+        public static final String queryOneStationByTimeRange = "schedule/queryOneStationByTimeRange";
     }
 
     public static class KEY {
@@ -36,6 +36,5 @@ public class Config {
         public static final Object CHANGE_DEFAULT_TIME = "CHANGE_DEFAULT_TIME";
         public static final String FIXTABLE_TITLE = "FIXTABLE_TITLE";
         public static final String FIXTABLE_DATA = "FIXTABLE_DATA";
-        public static final String FIXTABLE_DATA_COLUMN = "FIXTABLE_DATA_COLUMN";
     }
 }

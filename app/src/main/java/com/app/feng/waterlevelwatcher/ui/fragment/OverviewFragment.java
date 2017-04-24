@@ -4,27 +4,28 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.ScaleAnimation;
+import android.widget.Toast;
 
 import com.app.feng.waterlevelwatcher.BuildConfig;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.SluiceBean;
 import com.app.feng.waterlevelwatcher.interfaces.ISlidePanelEventControl;
+import com.app.feng.waterlevelwatcher.network.BaseSubscriber;
+import com.app.feng.waterlevelwatcher.network.RetrofitManager;
+import com.app.feng.waterlevelwatcher.network.bean.ResponseBean;
+import com.app.feng.waterlevelwatcher.network.interfaces.DataService;
 import com.app.feng.waterlevelwatcher.ui.MainActivity;
-import com.app.feng.waterlevelwatcher.utils.AnimSetUtil;
-import com.app.feng.waterlevelwatcher.utils.FragmentUtil;
+import com.app.feng.waterlevelwatcher.utils.*;
 import com.app.feng.waterlevelwatcher.utils.manager.LineChartManager;
-import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.eleven.lib.library.ECSegmentedControl;
 
 import org.feezu.liuli.timeselector.TimeSelector;
-import org.feezu.liuli.timeselector.Utils.DateUtil;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,12 +37,17 @@ import io.realm.RealmResults;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.PointValue;
 import lecho.lib.hellocharts.view.LineChartView;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
+ * 进入后,判断数据库中是否有默认时间点的数据,没有就到服务器上去取,并保存或者更新到本地数据库.
+ * 选择一个时间点,判断本地数据库中是否有该时间点的数据,有则显示,没有就去服务器上加载.
+ * <p>
  * Created by feng on 2017/3/8.
  */
 
-public class OverviewFragment extends Fragment {
+public class OverviewFragment extends BaseLoadingFragment {
 
     private ISlidePanelEventControl panelControl;
 
@@ -63,7 +69,6 @@ public class OverviewFragment extends Fragment {
 
     Realm realm;
 
-    String currentTime = DateUtil.format(new Date(),Config.Constant.TIME_FORMAT);
     String selectTime;
 
     public OverviewFragment() {
@@ -80,6 +85,7 @@ public class OverviewFragment extends Fragment {
     @Override
     public View onCreateView(
             LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
+        super.onCreateView(inflater,container,savedInstanceState);
         setRetainInstance(true);
 
         View v = inflater.inflate(R.layout.fragment_overview,container,false);
@@ -95,7 +101,7 @@ public class OverviewFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         lineChart = (LineChartView) v.findViewById(R.id.lc_overview);
 
-        lineChartManager = LineChartManager.getInstanse(getContext().getApplicationContext());
+        lineChartManager = LineChartManager.getInstance(getContext().getApplicationContext());
 
         return v;
     }
@@ -125,8 +131,9 @@ public class OverviewFragment extends Fragment {
         List<Float> Y_Back = new ArrayList<>();
 
         for (SluiceBean bean : realmResults) {
-            XLabel.add(bean.getSluiceID() + "");
-            Y_Opening.add(bean.getSluiceOpening());
+            XLabel.add(String.valueOf(bean.getSluiceID()));
+
+            Y_Opening.add(bean.getSluiceOpening1());
             Y_Front.add(bean.getWaterLevel_front());
             Y_Back.add(bean.getWaterLevel_back());
         }
@@ -143,29 +150,30 @@ public class OverviewFragment extends Fragment {
         }
     }
 
+
     private void initData() {
         Calendar currentCalendar = Calendar.getInstance();
-        currentCalendar.setTime(DateUtil.parse(currentTime,Config.Constant.TIME_FORMAT));
-        int hour = currentCalendar.get(Calendar.HOUR_OF_DAY);
-        if (hour % 2 != 0) {
-            //若为奇数
-            --hour;
-        }
-        currentCalendar.set(Calendar.HOUR_OF_DAY,hour);
+        String dEndTime = SharedPref.getInstance(getContext())
+                .getString(Config.KEY.DEFAULT_END_TIME,Utils.format(new Date()));
+        currentCalendar.setTime(Utils.parse(dEndTime));
 
         if (BuildConfig.DEBUG) {
             //取定值
-            Date tempDate = DateUtil.parse("2015/12/24 00:00",Config.Constant.TIME_FORMAT);
+            Date tempDate = Utils.parse(Config.Constant.GLOBAL_START_TIME);
             currentCalendar = Calendar.getInstance();
             currentCalendar.setTime(tempDate);
         }
 
-        selectTime = DateUtil.format(currentCalendar.getTime(),Config.Constant.TIME_FORMAT);
-        realmResults = RealmUtil.loadDataByTime(realm,selectTime);
-
+        selectTime = Utils.format(currentCalendar.getTime());
+        realmResults = RealmUtil.loadDataByTime(realm,currentCalendar.getTime());
+        if (Utils.isListEmpty(realmResults)) {
+            loadFromNetworkSync(selectTime);
+        }
     }
 
     private void initEvent() {
+        final String dEndTime = SharedPref.getInstance(getContext())
+                .getString(Config.KEY.DEFAULT_END_TIME,Utils.format(new Date()));
         fab_change_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,19 +183,22 @@ public class OverviewFragment extends Fragment {
                                                                  @Override
                                                                  public void handle(String time) {
                                                                      //select new Time
-
                                                                      selectTime = time;
-                                                                     // 加载其它时间的数据
-                                                                     realmResults = RealmUtil.loadDataByTime(
-                                                                             realm,time);
-                                                                     //重新初始化图表
-                                                                     initChart();
-
+                                                                     handleTimeSelect();
                                                                  }
-                                                             },"2015/12/24 00:00",currentTime);
+                                                             },Config.Constant.GLOBAL_START_TIME,
+                                                             dEndTime);
 
                 timeSelector.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
                 timeSelector.show();
+            }
+
+            private void handleTimeSelect() {
+                // 加载其它时间的数据
+                realmResults = RealmUtil.loadDataByTime(realm,Utils.parse(selectTime));
+                if (Utils.isListEmpty(realmResults)) {
+                    loadFromNetworkSync(selectTime);
+                }
             }
         });
 
@@ -208,6 +219,45 @@ public class OverviewFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    // 注意此方法是异步方法   不要在此方法下查询网络返回结果
+    private void loadFromNetworkSync(String time) {
+        RetrofitManager.getRetrofit()
+                .create(DataService.class)
+                .overviewAllStationByTime(time)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<SluiceBean>(getContext().getApplicationContext()) {
+
+                    @Override
+                    public void onStartLoad() {
+                        loadingData();
+                    }
+
+                    @Override
+                    public void onEndLoad() {
+                        loadComplete();
+                    }
+
+                    @Override
+                    public void onSuccess(
+                            ResponseBean<SluiceBean> responseBean) {
+                        convertNetToDB(responseBean.getDatas());
+                        realmResults = RealmUtil.loadDataByTime(realm,Utils.parse(selectTime));
+                        //重新初始化图表
+                        initChart();
+                    }
+                });
+    }
+
+    private void convertNetToDB(List<SluiceBean> sluiceBeans) {
+        if (Utils.isListEmpty(sluiceBeans)) {
+            Toast.makeText(getContext(),"此时间无数据",Toast.LENGTH_SHORT)
+                    .show();
+            return;
+        }
+        RealmUtil.saveToRealm(sluiceBeans);
     }
 
     @Override

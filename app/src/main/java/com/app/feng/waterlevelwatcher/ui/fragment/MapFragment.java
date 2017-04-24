@@ -29,6 +29,7 @@ import com.app.feng.waterlevelwatcher.utils.manager.MarkerManager;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
+import java.util.List;
 
 import co.mobiwise.materialintro.shape.ShapeType;
 import co.mobiwise.materialintro.view.MaterialIntroView;
@@ -290,6 +291,16 @@ public class MapFragment extends Fragment {
         double lo = Double.parseDouble(stationBean.getLongitude());
         CameraUpdate cameraUpdate = CameraUpdateFactory.changeLatLng(new LatLng(la,lo));
 //        aMap.animateCamera(cameraUpdate,1000L,null);
+        List<Marker> markers = aMap.getMapScreenMarkers();
+        int i = 0;
+        for (Marker m : markers) {
+            int temp = (int) m.getObject();
+            if (temp == id) {
+                markerManager.selectMarker(i,m);
+            }
+            i++;
+        }
+        aMap.removecache();
         aMap.moveCamera(cameraUpdate);
     }
 

@@ -48,7 +48,7 @@ public class LineChartManager {
 
     }
 
-    public static LineChartManager getInstanse(Context context) {
+    public static LineChartManager getInstance(Context context) {
         if (lineChartManager == null) {
             lineChartManager = new LineChartManager(context);
         }
@@ -77,6 +77,7 @@ public class LineChartManager {
         Line line = new Line(data);
         line.setColor(line_color);
         line.setHasLabelsOnlyForSelected(true);
+        line.setPointRadius(context.getResources().getDimensionPixelOffset(R.dimen.chart_point_size));
 
         List<Line> lineList = new ArrayList<>();
         lineList.add(line);

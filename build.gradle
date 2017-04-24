@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+
         flatDir{
             dirs "libs"
         }
@@ -21,9 +22,11 @@ allprojects {
         maven {
             url "https://jitpack.io"
         }
+
         flatDir{
             dirs "libs"
         }
+
     }
 }
 

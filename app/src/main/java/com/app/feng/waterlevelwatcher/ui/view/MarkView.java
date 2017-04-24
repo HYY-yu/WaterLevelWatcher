@@ -25,8 +25,6 @@ public class MarkView extends View {
     private int widthOval = 45;
     private int heightOval = 40;
 
-    private String text;
-
     public Paint paint;
 
     private RectF ovalRect;
@@ -35,6 +33,8 @@ public class MarkView extends View {
     private int offset = 6;
 
     private int colorAccent;
+    private int colorSelect;
+    private int color;
 
     private int mode = MODE_NORMAL;
 
@@ -81,8 +81,11 @@ public class MarkView extends View {
 
         colorAccent = context.getResources()
                 .getColor(R.color.colorAccent);
+        colorSelect = context.getResources()
+                .getColor(R.color.marker_select_color);
+        color = colorAccent;
+
         paint = new Paint();
-        paint.setColor(colorAccent);
         paint.setAntiAlias(true);
         setLayerType(View.LAYER_TYPE_SOFTWARE,null);
 
@@ -101,6 +104,7 @@ public class MarkView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        paint.setColor(color);
 
         drawShadow(canvas);
 
@@ -145,7 +149,7 @@ public class MarkView extends View {
         canvas.drawPath(trianglePath,paint);
 
         paint.setAlpha(255);
-        paint.setColor(colorAccent);
+        paint.setColor(color);
     }
 
     private void drawAlarm(Canvas canvas) {
@@ -161,7 +165,7 @@ public class MarkView extends View {
         ovalRect.bottom = newH + radius * 2f;
 
         canvas.drawRoundRect(ovalRect,offset,offset,paint);
-        paint.setColor(colorAccent);
+        paint.setColor(color);
     }
 
     private void drawCenterCircleShadow(Canvas canvas) {
@@ -170,14 +174,13 @@ public class MarkView extends View {
         canvas.drawCircle(widthOval * 0.5f + 3,heightOval * 0.5f + 3,heightOval * 0.25f,paint);
 
         paint.setAlpha(255);
-        paint.setColor(colorAccent);
+        paint.setColor(color);
     }
 
     private void drawCenterCircle(Canvas canvas) {
-
         paint.setColor(Color.WHITE);
         canvas.drawCircle(widthOval * 0.5f,heightOval * 0.5f,heightOval * 0.25f,paint);
-        paint.setColor(colorAccent);
+        paint.setColor(color);
     }
 
     private void drawTriangle(Canvas canvas) {
@@ -220,7 +223,7 @@ public class MarkView extends View {
         return this;
     }
 
-    public LatLng getPosition(){
+    public LatLng getPosition() {
         return laLng;
     }
 
@@ -233,16 +236,14 @@ public class MarkView extends View {
         return markerOptions;
     }
 
-    public void setWidthOval(int widthOval) {
-        this.widthOval = widthOval;
+    public void select() {
+        color = colorSelect;
+        invalidate();
     }
 
-    public void setHeightOval(int heightOval) {
-        this.heightOval = heightOval;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+    public void resetSelect() {
+        color = colorAccent;
+        invalidate();
     }
 
     private int flag;
@@ -266,4 +267,6 @@ public class MarkView extends View {
         this.marker = marker;
         return this;
     }
+
+
 }

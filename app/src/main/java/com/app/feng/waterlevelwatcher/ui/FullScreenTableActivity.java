@@ -7,6 +7,7 @@ import com.app.feng.fixtablelayout.FixTableLayout;
 import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.adapter.FixTableAdapter;
+import com.app.feng.waterlevelwatcher.bean.DataBean;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,6 @@ public class FullScreenTableActivity extends AppCompatActivity {
     FixTableAdapter fixTableAdapter;
 
     String[] title;
-    String[][] data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,26 +25,9 @@ public class FullScreenTableActivity extends AppCompatActivity {
 
         fixTableLayout = (FixTableLayout) findViewById(R.id.fixtablelayout);
         title = getIntent().getStringArrayExtra(Config.KEY.FIXTABLE_TITLE);
-        ArrayList<String> tempList = getIntent().getStringArrayListExtra(Config.KEY.FIXTABLE_DATA);
-        int len = getIntent().getIntExtra(Config.KEY.FIXTABLE_DATA_COLUMN,0);
-        data = new String[tempList.size() / len][len];
+        ArrayList<DataBean> tempList = getIntent().getParcelableArrayListExtra(Config.KEY.FIXTABLE_DATA);
 
-        int col = 0;
-        int row = 0;
-        for (int i = 0; i < tempList.size(); i++) {
-            String aData = tempList.get(i);
-            data[row][col] = aData;
-
-            if (col == len - 1) {
-                col = 0;
-                row++;
-            } else {
-                col++;
-            }
-
-        }
-
-        fixTableAdapter = new FixTableAdapter(title,data);
+        fixTableAdapter = new FixTableAdapter(title,tempList);
 
         fixTableLayout.setAdapter(fixTableAdapter);
     }

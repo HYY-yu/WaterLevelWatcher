@@ -1,9 +1,12 @@
 package com.app.feng.waterlevelwatcher.utils;
 
 import android.content.Context;
-import android.widget.TextView;
 
 import com.app.feng.waterlevelwatcher.Config;
+import com.app.feng.waterlevelwatcher.R;
+import com.app.feng.waterlevelwatcher.ui.MainActivity;
+
+import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,10 +19,10 @@ import java.util.Date;
 public class TimeRangeUtil {
 
     public static void initDefaultTimeRange(Context context) {
-        //如果用户没有修改, 默认显示最近七天的数据
+        //如果用户没有修改, 默认显示最近三天的数据
         //如果用户修改了,则每次启动都保证是用户修改的时间段
         if (!checkIsUserEdit(context)) {
-            setTimeByRange(context,-7);
+            setTimeByRange(context,-3);
         }
     }
 
@@ -60,30 +63,51 @@ public class TimeRangeUtil {
     }
 
     public static void showTimeRangeSelector(
-            final Context context,TextView tvStartTime,TextView tvEndTime) {
+            final MainActivity mainActivity) {
 
-        String startTimeString = (String) tvStartTime.getTag();
-        String endTimeString = (String) tvEndTime.getTag();
+        final String dEndTime = SharedPref.getInstance(mainActivity)
+                .getString(Config.KEY.DEFAULT_END_TIME,Utils.format(new Date()));
 
-        //        //  开启 start 时间选择
-        //        final TimeSelector timeSelectorStart = new TimeSelector(context,new TimeSelector.ResultHandler() {
-        //            @Override
-        //            public void handle(String s) {
-        //                //在这里 开启 end 时间选择
-        //                TimeSelector timeSelectorEnd = new TimeSelector(context,new TimeSelector.ResultHandler() {
-        //                    @Override
-        //                    public void handle(String s) {
-        //
-        //                    }
-        //                },,);
-        //                timeSelectorEnd.setTitle(context.getString(R.string.chioce_end_time_string));
-        //                timeSelectorEnd.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
-        //                timeSelectorEnd.show();
-        //            }
-        //        },, );
-        //
-        //        timeSelectorStart.setTitle(context.getString(R.string.chioce_start_time_stirng));
-        //        timeSelectorStart.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
-        //        timeSelectorStart.show();
+        //  开启 start 时间选择
+        final TimeSelector timeSelectorStart = new TimeSelector(mainActivity,
+                                                                new TimeSelector.ResultHandler() {
+                                                                    @Override
+                                                                    public void handle(String s) {
+                                                                        mainActivity.setTimeRangeTextStart(
+                                                                                s);
+
+                                                                        //在这里 开启 end 时间选择
+                                                                        openEndTimeSelector(
+                                                                                mainActivity,s,
+                                                                                dEndTime);
+
+                                                                    }
+                                                                },Config.Constant.GLOBAL_START_TIME,
+                                                                dEndTime);
+
+        timeSelectorStart.setTitle(mainActivity.getString(R.string.chioce_start_time_stirng));
+        timeSelectorStart.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
+        timeSelectorStart.show();
+    }
+
+    private static void openEndTimeSelector(
+            final MainActivity mainActivity,String startTimeString,String dEndTime) {
+        TimeSelector timeSelectorEnd = new TimeSelector(mainActivity,
+                                                        new TimeSelector.ResultHandler() {
+                                                            @Override
+                                                            public void handle(
+                                                                    String s) {
+                                                                mainActivity.setTimeRangeTextEnd(s);
+
+                                                                //把id设置为-1 表示选择时间范围后必须查询 否则会不查询
+                                                                mainActivity.slidePanelEventControlIMPL.queryNewTimeRange();
+
+                                                            }
+
+                                                        },startTimeString,dEndTime);
+        timeSelectorEnd.setTitle(mainActivity.getString(R.string.chioce_end_time_string));
+        timeSelectorEnd.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
+        timeSelectorEnd.show();
+
     }
 }

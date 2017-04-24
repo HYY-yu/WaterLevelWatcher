@@ -1,5 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -21,13 +20,15 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_admin_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="管理员:1234552"
+                android:text="@string/admin_name"
                 android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"/>
 
             <Button
+                android:id="@+id/btn_exit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -46,6 +47,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:layout_below="@+id/ll_admin_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never">
@@ -145,10 +147,6 @@
                     android:layout_alignParentEnd="true"/>
 
             </RelativeLayout>
-
         </LinearLayout>
-
     </ScrollView>
-
-
-</LinearLayout>
+</RelativeLayout>
