@@ -36,7 +36,6 @@
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/ThemeFullscreen">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
@@ -54,16 +53,15 @@
             android:name=".ui.FullScreenTableActivity"
             android:theme="@style/ThemeFullscreen">
         </activity>
-        <activity
-            android:name=".ui.LoginActivity"
-            >
-
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
+        </activity>
+        <activity android:name=".ui.Hour24JzzActivity"
+                  android:theme="@style/ThemeFullscreen">
         </activity>
     </application>
 

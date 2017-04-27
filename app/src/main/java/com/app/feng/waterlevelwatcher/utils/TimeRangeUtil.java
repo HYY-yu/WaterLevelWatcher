@@ -8,9 +8,9 @@ import com.app.feng.waterlevelwatcher.ui.MainActivity;
 
 import org.feezu.liuli.timeselector.TimeSelector;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by feng on 2017/3/23.
@@ -27,20 +27,17 @@ public class TimeRangeUtil {
     }
 
     public static void setTimeByRange(Context context,int range) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
         TimeRangeUtil.matchCalendar(calendar);
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Config.Constant.TIME_FORMAT);
-
         SharedPref.getInstance(context)
-                .putString(Config.KEY.DEFAULT_END_TIME,simpleDateFormat.format(calendar.getTime()));
+                .putString(Config.KEY.DEFAULT_END_TIME,Utils.format(calendar.getTime()));
 
         calendar.add(Calendar.DAY_OF_MONTH,range);
 
         SharedPref.getInstance(context)
                 .putString(Config.KEY.DEFAULT_START_TIME,
-                           simpleDateFormat.format(calendar.getTime()));
+                           Utils.format(calendar.getTime()));
     }
 
     private static boolean checkIsUserEdit(Context context) {
@@ -49,17 +46,39 @@ public class TimeRangeUtil {
     }
 
     /**
-     * 将calendar修改为最近的偶数时间(向下找), 返回格式 xxxx/xx/xx 02:00
+     * 将calendar修改为最近的偶数时间(向下找), 返回格式 xxxx/xx/xx 02:00:00
      *
      * @param calendar
      * @return
      */
-    public static void matchCalendar(Calendar calendar) {
+    public static Calendar matchCalendar(Calendar calendar) {
         int hourDay = calendar.get(Calendar.HOUR_OF_DAY);
         if (hourDay % 2 != 0) {
             calendar.add(Calendar.HOUR_OF_DAY,-1);
         }
         calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,0);
+        return calendar;
+    }
+
+    public static void showTimeSelector(
+            Context context,String startTime,String endTime,
+            TimeSelector.ResultHandler resultHandler) {
+        //打开TimePicker
+        TimeSelector timeSelector = new TimeSelector(context,resultHandler,startTime,endTime);
+
+        timeSelector.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
+        timeSelector.show();
+    }
+
+    public static void showTimeSelectorByYYYYMMDD(Context context,String startTime,String endTime,
+                                                  TimeSelector.ResultHandler resultHandler) {
+        //打开TimePicker
+        TimeSelector timeSelector = new TimeSelector(context,resultHandler,startTime,endTime);
+
+        timeSelector.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
+        timeSelector.disScrollUnit(TimeSelector.SCROLLTYPE.HOUR);
+        timeSelector.show();
     }
 
     public static void showTimeRangeSelector(

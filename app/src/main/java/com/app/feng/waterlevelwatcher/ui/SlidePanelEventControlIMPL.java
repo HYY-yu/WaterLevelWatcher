@@ -1,8 +1,6 @@
 package com.app.feng.waterlevelwatcher.ui;
 
-import android.app.AlertDialog;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.app.Dialog;
 import android.widget.Toast;
 
 import com.app.feng.waterlevelwatcher.R;
@@ -16,6 +14,7 @@ import com.app.feng.waterlevelwatcher.network.interfaces.DataService;
 import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.app.feng.waterlevelwatcher.utils.Utils;
 import com.app.feng.waterlevelwatcher.utils.manager.LineChartManager;
+import com.app.feng.waterlevelwatcher.utils.manager.LoadingDialogManager;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.lang.reflect.Field;
@@ -146,25 +145,17 @@ public class SlidePanelEventControlIMPL implements ISlidePanelEventControl {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<SluiceBean>(mainActivity.getApplicationContext()) {
-                    AlertDialog dialog;
+                    Dialog dialog;
 
                     @Override
                     public void onStartLoad() {
                         //打开加载框
-                        View loading = LayoutInflater.from(mainActivity)
-                                .inflate(R.layout.loading_view,null);
-                        dialog = new AlertDialog.Builder(mainActivity).setTitle("网络加载")
-                                .setView(loading)
-                                .setCancelable(false)
-                                .create();
-                        dialog.show();
+                        dialog = LoadingDialogManager.openDialog(mainActivity);
                     }
 
                     @Override
-                    public void onEndLoad() {
-                        if (dialog != null) {
-                            dialog.dismiss();
-                        }
+                    public void onEndLoad(boolean load) {
+                        LoadingDialogManager.closeDialog(dialog);
                     }
 
                     @Override

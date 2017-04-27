@@ -19,6 +19,7 @@ import com.app.feng.waterlevelwatcher.Config;
 import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.UserBean;
 import com.app.feng.waterlevelwatcher.ui.LoginActivity;
+import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.app.feng.waterlevelwatcher.utils.SharedPref;
 import com.app.feng.waterlevelwatcher.utils.TimeRangeUtil;
 import com.app.feng.waterlevelwatcher.utils.manager.DayNightModeManager;
@@ -78,16 +79,14 @@ public class SettingFragment extends Fragment {
 
     private void initAdmin() {
         String sTemp = getResources().getString(R.string.admin_name);
-        String username = realm.where(UserBean.class)
-                .findFirst()
+        String username = RealmUtil.loadUser(realm)
                 .getDisplayName();
         tvAdminName.setText(String.format(sTemp,username));
 
     }
 
     public void exitSystem() {
-        UserBean userBean = realm.where(UserBean.class)
-                .findFirst();
+        UserBean userBean = RealmUtil.loadUser(realm);
         realm.beginTransaction();
         userBean.deleteFromRealm();
         realm.commitTransaction();

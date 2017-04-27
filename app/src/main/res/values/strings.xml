@@ -16,7 +16,6 @@
 
     <array name="statistics_title">
         <item>全线调度辅助分析</item>
-        <item>水位统计</item>
         <item>流速统计</item>
         <item>水深统计</item>
         <item>分水统计</item>
@@ -46,6 +45,7 @@
     <string name="error_incorrect_password">用户名或密码错误</string>
     <string name="error_field_required">该值不能为空</string>
     <string name="admin_name">管理员:%s</string>
+    <string name="view_page_time">时间点: %s</string>
     <!--<string name="error_field_required">This field is required</string>-->
 
 </resources>

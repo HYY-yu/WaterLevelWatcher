@@ -16,14 +16,24 @@ public class Config {
 
         public static String TIME_FORMAT = "yyyy/MM/dd HH:mm";
         public static String GLOBAL_START_TIME = "2015/12/24 00:00";
+//
+//        public static String GLOBAL_CURRENT_TIME = Utils.format(
+//                TimeRangeUtil.matchCalendar(Calendar.getInstance(Locale.CHINA))
+//                        .getTime());
 
     }
 
-    public static class API{
+    public static class API {
         public static final String baseUrl = "http://10.0.2.2:8080/nsbdserver/";
         public static final String loginUrl = "login";
         public static final String overviewAllStationUrl = "schedule/overviewAllStationByTime";
         public static final String queryOneStationByTimeRange = "schedule/queryOneStationByTimeRange";
+        public static final String allScheduleAnalysis = "schedule/allScheduleAnalysis";
+        public static final String allLineFLowSpeed = "schedule/allLineFLowSpeed";
+        public static final String allLineWaterDepth = "schedule/allLineWaterDepth";
+        public static final String jzzFrontWLTrend = "schedule/jzzFrontWLTrend";
+        public static final String fsStatistics = "schedule/fsStatistics";
+        public static final String zddmStatistics = "schedule/zddmStatistics";
     }
 
     public static class KEY {
@@ -34,7 +44,9 @@ public class Config {
         public static final String SHOW_MASK = "SHOW_MASK";
         public static final String ISNIGHT = "ISNIGHT";
         public static final Object CHANGE_DEFAULT_TIME = "CHANGE_DEFAULT_TIME";
-        public static final String FIXTABLE_TITLE = "FIXTABLE_TITLE";
-        public static final String FIXTABLE_DATA = "FIXTABLE_DATA";
+        public static final String QUERY_POS = "QUERY_POS";
+        public static final String QUERY_TIME = "QUERY_TIME";
+        public static final String HOUR24TIME = "HOUR24TIME";
+        public static final String HOUR24ID = "HOUR24ID";
     }
 }

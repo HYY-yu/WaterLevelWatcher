@@ -25,6 +25,7 @@ public class LineChartManager {
 
     public static int MODE_PANEL = 1;
     public static int MODE_FRAGMENT = 2;
+    public static int MODE_ACTIVITY = 3;
 
     private int mode;
 
@@ -62,6 +63,11 @@ public class LineChartManager {
         xAxis.setName(title);
         xAxis.setTextColor(point_color);
         xAxis.setHasLines(false);
+
+        if (mode == MODE_ACTIVITY) {
+            xAxis.setHasTiltedLabels(true);
+        }
+
         if (mode == MODE_PANEL) {
             xAxis.setHasTiltedLabels(true);
             xAxis.setMaxLabelChars(8);
@@ -99,8 +105,8 @@ public class LineChartManager {
         chartView.invalidate();
 
         if (mode == MODE_PANEL) {
-            return;
-        } else {
+
+        } else if(mode == MODE_FRAGMENT){
             //chartView.setZoomLevelWithAnimation(3,0,1.3f);
             chartView.setOnValueTouchListener(new LineChartOnValueSelectListener() {
                 @Override
@@ -115,6 +121,8 @@ public class LineChartManager {
 
                 }
             });
+        } else if (mode == MODE_ACTIVITY) {
+
         }
     }
 

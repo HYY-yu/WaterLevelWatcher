@@ -48,9 +48,15 @@ public abstract class BaseLoadingFragment extends Fragment {
 
     public void loadingData() {
         RelativeLayout rootView = (RelativeLayout) getView();
-        rootView.addView(loadingView,rootView.getChildCount(),new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+        rootView.addView(loadingView,rootView.getChildCount(),
+                         new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                         ViewGroup.LayoutParams.MATCH_PARENT));
     }
+
+    public boolean isLoading() {
+        return loadingView.getParent() != null;
+    }
+
 
 
     public void loadComplete() {
@@ -60,19 +66,22 @@ public abstract class BaseLoadingFragment extends Fragment {
 
     public void loadError() {
         final RelativeLayout rootView = (RelativeLayout) getView();
-        rootView.addView(errorView,rootView.getChildCount(),new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
+        rootView.removeView(errorView);
+        rootView.addView(errorView,rootView.getChildCount(),
+                         new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                         ViewGroup.LayoutParams.MATCH_PARENT));
         final View reloadBtn = errorView.findViewById(R.id.btn_reload);
         reloadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 rootView.removeView(errorView);
+                rootView.removeView(loadingView);
                 reloadingData();
             }
         });
     }
 
-    private void reloadingData() {
+    protected void reloadingData() {
 
     }
 

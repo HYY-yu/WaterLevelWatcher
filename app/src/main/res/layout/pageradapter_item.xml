@@ -12,7 +12,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:padding="4dp"
-        android:text="时间点: 2015/02/03 10:00"
+        android:text="@string/view_page_time"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"/>
 
     <com.app.feng.fixtablelayout.FixTableLayout

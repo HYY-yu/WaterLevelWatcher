@@ -76,6 +76,12 @@ public class OverviewFragment extends BaseLoadingFragment {
         scaleAnimation_hidden = AnimSetUtil.getScaleAnimationFABHIDDEN();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
+    }
+
     public static OverviewFragment newInstance() {
         OverviewFragment overviewFragment = new OverviewFragment();
         return overviewFragment;
@@ -177,20 +183,14 @@ public class OverviewFragment extends BaseLoadingFragment {
         fab_change_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //打开TimePicker
-                TimeSelector timeSelector = new TimeSelector(getContext(),
-                                                             new TimeSelector.ResultHandler() {
-                                                                 @Override
-                                                                 public void handle(String time) {
-                                                                     //select new Time
-                                                                     selectTime = time;
-                                                                     handleTimeSelect();
-                                                                 }
-                                                             },Config.Constant.GLOBAL_START_TIME,
-                                                             dEndTime);
-
-                timeSelector.disScrollUnit(TimeSelector.SCROLLTYPE.MINUTE);
-                timeSelector.show();
+                TimeRangeUtil.showTimeSelector(getContext(),Config.Constant.GLOBAL_START_TIME,
+                                               dEndTime,new TimeSelector.ResultHandler() {
+                            @Override
+                            public void handle(String s) {
+                                selectTime = s;
+                                handleTimeSelect();
+                            }
+                        });
             }
 
             private void handleTimeSelect() {
@@ -236,8 +236,12 @@ public class OverviewFragment extends BaseLoadingFragment {
                     }
 
                     @Override
-                    public void onEndLoad() {
-                        loadComplete();
+                    public void onEndLoad(boolean load) {
+                        if(load){
+                            loadComplete();
+                        }else{
+                            loadError();
+                        }
                     }
 
                     @Override
@@ -248,7 +252,13 @@ public class OverviewFragment extends BaseLoadingFragment {
                         //重新初始化图表
                         initChart();
                     }
+
                 });
+    }
+
+    @Override
+    protected void reloadingData() {
+        loadFromNetworkSync(selectTime);
     }
 
     private void convertNetToDB(List<SluiceBean> sluiceBeans) {

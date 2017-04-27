@@ -1,8 +1,9 @@
 package com.app.feng.waterlevelwatcher.utils;
 
-import com.app.feng.waterlevelwatcher.bean.MonitoringStationBean;
-import com.app.feng.waterlevelwatcher.bean.SluiceBean;
+import com.app.feng.waterlevelwatcher.bean.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,6 @@ import io.realm.Sort;
 import static com.app.feng.waterlevelwatcher.utils.Utils.isListEmpty;
 
 /**
- *
  * 数据库的操作集合
  * Created by feng on 2017/3/10.
  */
@@ -32,9 +32,8 @@ public class RealmUtil {
                 .findAllSorted(SluiceBean.TIME,Sort.ASCENDING);
     }
 
-    public static RealmResults<SluiceBean> loadDataByIdAndTimeRange(Realm realm,int sluiceID,
-                                                                    String startTimeString,String
-                                                                            endTimeString) {
+    public static RealmResults<SluiceBean> loadDataByIdAndTimeRange(
+            Realm realm,int sluiceID,String startTimeString,String endTimeString) {
         Date startTime = Utils.parse(startTimeString);
         Date endTime = Utils.parse(endTimeString);
         return realm.where(SluiceBean.class)
@@ -71,5 +70,37 @@ public class RealmUtil {
         realm.copyToRealm(sluiceBeanList);
         realm.commitTransaction();
         realm.close();
+    }
+
+    public static UserBean loadUser(Realm realm) {
+        return realm.where(UserBean.class)
+                .findFirst();
+    }
+
+    public static RealmResults loadAllAllLineBeanByTime(
+            Class clazz,
+            Realm realm,Date time) {
+
+        return realm.where(clazz)
+                .equalTo(AllLineSchedulingAnalysisBean.QUERYDATE,time)
+                .findAllSorted(AllLineSchedulingAnalysisBean.JCTID,Sort.ASCENDING);
+    }
+
+    public static RealmResults loadAllAllLineBeanByTimeString(Class clazz,Realm realm,String time) {
+        return realm.where(clazz)
+                .equalTo(FS_StatisticsBean.DRID,changeTimeType(time))
+                .findAll();
+    }
+
+    private static String changeTimeType(String time) {
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            Date date = dateFormat.parse(time);
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyyMMdd");
+
+            return dateFormat1.format(date);
+        } catch (ParseException e) {
+            return "";
+        }
     }
 }

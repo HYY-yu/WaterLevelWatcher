@@ -31,6 +31,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<ResponseBean<T>> {
             Toast.makeText(context,"当前网络不可用，请检查链接",Toast.LENGTH_SHORT)
                     .show();
             onCompleted();
+            onEndLoad(false);
         }
 
         onStartLoad();
@@ -42,7 +43,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<ResponseBean<T>> {
         Toast.makeText(context,"网络异常",Toast.LENGTH_SHORT)
                 .show();
 
-        onEndLoad();
+        onEndLoad(false);
     }
 
     @Override
@@ -55,7 +56,7 @@ public abstract class BaseSubscriber<T> extends Subscriber<ResponseBean<T>> {
                     .show();
             onFail(responseBean);
         }
-        onCompleted();
+        onEndLoad(true);
     }
 
     public abstract void onStartLoad();
@@ -66,10 +67,10 @@ public abstract class BaseSubscriber<T> extends Subscriber<ResponseBean<T>> {
 
     }
 
-    public abstract void onEndLoad();
+    public abstract void onEndLoad(boolean loadSuccess);
 
     @Override
     public void onCompleted() {
-        onEndLoad();
+
     }
 }

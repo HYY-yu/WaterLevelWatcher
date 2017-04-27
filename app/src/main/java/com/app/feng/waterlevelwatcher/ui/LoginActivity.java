@@ -18,6 +18,7 @@ import com.app.feng.waterlevelwatcher.network.BaseSubscriber;
 import com.app.feng.waterlevelwatcher.network.RetrofitManager;
 import com.app.feng.waterlevelwatcher.network.bean.ResponseBean;
 import com.app.feng.waterlevelwatcher.network.interfaces.LoginService;
+import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.orhanobut.logger.Logger;
 
 import io.realm.Realm;
@@ -76,8 +77,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void isAutoLoginEnable() {
-        UserBean userBean = realm.where(UserBean.class)
-                .findFirst();
+        UserBean userBean = RealmUtil.loadUser(realm);
 
         if (userBean != null && userBean.autoLogin) {
             jumpToMain();
@@ -142,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onEndLoad() {
+                    public void onEndLoad(boolean load) {
                         showProgress(false);
                     }
 

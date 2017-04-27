@@ -15,6 +15,7 @@
     <dimen name="table_item_padding">8dp</dimen>
 
     <dimen name="chart_point_size">2dp</dimen>
+    <dimen name="allline_table_arrow_size">16dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
