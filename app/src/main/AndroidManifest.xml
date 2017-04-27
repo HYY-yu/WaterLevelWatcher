@@ -53,7 +53,8 @@
             android:name=".ui.FullScreenTableActivity"
             android:theme="@style/ThemeFullscreen">
         </activity>
-        <activity android:name=".ui.LoginActivity">
+        <activity android:name=".ui.LoginActivity"
+            android:theme="@style/ThemeFullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
