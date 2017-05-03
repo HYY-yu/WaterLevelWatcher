@@ -1,45 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/full_white"
-                android:orientation="vertical"
-                android:padding="16dp">
 
-    <lecho.lib.hellocharts.view.LineChartView
-        android:id="@+id/lc_overview"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/full_white"
+              android:orientation="vertical">
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ec_change_data_type"
         />
 
-    <com.eleven.lib.library.ECSegmentedControl
-        android:id="@+id/ec_change_data_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/fab_chang_time"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        app:segmentedBackground="@drawable/selector_segmented_bg"
-        app:segmentedDivider="@drawable/selector_segmented_divider"
-        app:segmentedEnableDivider="true"
-        app:segmentedForeground="@drawable/selector_segmented_fg"
-        app:segmentedTexts="@array/chart_yaxis_text"
-        app:textColor="@color/select_segmented_style"
-        />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </android.support.v4.view.ViewPager>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_chang_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        app:borderWidth="0dp"
-        app:fabSize="normal"
-        app:rippleColor="@color/ripple_color"
-        app:srcCompat="@drawable/ic_calendar_time_fab"
-        app:useCompatPadding="true"
-        />
+</LinearLayout>
 
-</RelativeLayout>

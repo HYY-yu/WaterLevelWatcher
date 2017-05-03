@@ -14,7 +14,6 @@ import java.util.List;
 
 public class FSStatisticsFixTableAdapter extends FixTableAdapter {
 
-
     private List<FS_StatisticsBean> data;
 
     public FSStatisticsFixTableAdapter(String[] titles,List<FS_StatisticsBean> data) {

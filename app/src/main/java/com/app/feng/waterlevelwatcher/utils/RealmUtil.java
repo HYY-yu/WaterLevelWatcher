@@ -26,6 +26,12 @@ public class RealmUtil {
                 .findAllSorted(MonitoringStationBean.SLUICEID,Sort.ASCENDING);
     }
 
+    public static RealmResults<FSKBean> loadFSKByTime(Realm realm,Date time) {
+        return realm.where(FSKBean.class)
+                .equalTo(FSKBean.JCTIME,time)
+                .findAll();
+    }
+
     public static RealmResults<SluiceBean> loadDataById(Realm realm,int sluiceID) {
         return realm.where(SluiceBean.class)
                 .equalTo(SluiceBean.SLUICEID,sluiceID)

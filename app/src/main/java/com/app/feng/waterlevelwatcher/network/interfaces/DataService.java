@@ -20,6 +20,10 @@ public interface DataService {
     Observable<ResponseBean<SluiceBean>> overviewAllStationByTime(@Field("time") String time);
 
     @FormUrlEncoded
+    @POST(Config.API.overviewFSKBeanByTime)
+    Observable<ResponseBean<FSKBean>> overviewFSKBeanByTime(@Field("time") String time);
+
+    @FormUrlEncoded
     @POST(Config.API.queryOneStationByTimeRange)
     Observable<ResponseBean<SluiceBean>> queryOneStationByTimeRange(
             @Field("sluiceID") String sluiceID,@Field("timeStartString") String timeStartString,

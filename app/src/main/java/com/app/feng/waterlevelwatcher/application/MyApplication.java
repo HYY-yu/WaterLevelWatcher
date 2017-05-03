@@ -32,7 +32,6 @@ public class MyApplication extends Application {
 
         initDayNight();
 
-
         //确保此方法最后执行
         loadJSON();
     }
@@ -65,7 +64,6 @@ public class MyApplication extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
-
     }
 
 

@@ -24,9 +24,10 @@ public class Config {
     }
 
     public static class API {
-        public static final String baseUrl = "http://10.0.2.2:8080/nsbdserver/";
+        public static final String baseUrl = "http://210.35.32.180:8080/nsbdserver/";
         public static final String loginUrl = "login";
         public static final String overviewAllStationUrl = "schedule/overviewAllStationByTime";
+        public static final String overviewFSKBeanByTime = "schedule/overviewFSKBeanByTime";
         public static final String queryOneStationByTimeRange = "schedule/queryOneStationByTimeRange";
         public static final String allScheduleAnalysis = "schedule/allScheduleAnalysis";
         public static final String allLineFLowSpeed = "schedule/allLineFLowSpeed";

@@ -24,8 +24,9 @@ public class LineChartManager {
     private Context context;
 
     public static int MODE_PANEL = 1;
-    public static int MODE_FRAGMENT = 2;
-    public static int MODE_ACTIVITY = 3;
+    public static int MODE_FRAGMENT_JZZ = 2;
+    public static int MODE_FRAGMENT_FSK = 3;
+    public static int MODE_ACTIVITY = 4;
 
     private int mode;
 
@@ -106,7 +107,7 @@ public class LineChartManager {
 
         if (mode == MODE_PANEL) {
 
-        } else if(mode == MODE_FRAGMENT){
+        } else if(mode == MODE_FRAGMENT_JZZ){
             //chartView.setZoomLevelWithAnimation(3,0,1.3f);
             chartView.setOnValueTouchListener(new LineChartOnValueSelectListener() {
                 @Override
@@ -122,6 +123,8 @@ public class LineChartManager {
                 }
             });
         } else if (mode == MODE_ACTIVITY) {
+
+        } else if (mode == MODE_FRAGMENT_FSK) {
 
         }
     }
