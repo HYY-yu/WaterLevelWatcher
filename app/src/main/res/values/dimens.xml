@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">0dp</dimen>
+
+    <dimen name="map_marker_width">18dp</dimen>
+    <dimen name="map_marker_height">16dp</dimen>
+    <dimen name="map_offset">3dp</dimen>
+    <dimen name="sv_list_margin">8dp</dimen>
+    <dimen name="dp_100">100dp</dimen>
+    <dimen name="dp_240">240dp</dimen>
+    <dimen name="sv_list_height">240dp</dimen>
+
+    <dimen name="table_divider_height">0.6dp</dimen>
+    <dimen name="table_item_width">100dp</dimen>
+    <dimen name="table_item_padding">8dp</dimen>
+
+    <dimen name="chart_point_size">2dp</dimen>
+    <dimen name="allline_table_arrow_size">16dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+</resources>

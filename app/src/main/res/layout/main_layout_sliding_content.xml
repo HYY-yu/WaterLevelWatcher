@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    android:id="@+id/slide_panel_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/full_white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -14,39 +16,191 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="20dp"
+            android:id="@+id/iv_drag"
+            android:layout_width="45dp"
+            android:layout_height="24dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_action_dragable"
+            app:srcCompat="@drawable/ic_drag_handle_black_24dp"
+            />
+
+        <TextView
+            android:id="@+id/station_ID_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_drag"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:lines="2"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:text="@string/station_Id_name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             />
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:layout_marginBottom="6dp"
+        android:background="@color/divider_color"/>
 
-    <TextView
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:divider="@drawable/gray_divider"-->
+        <!--android:dividerPadding="8dp"-->
+        <!--android:gravity="center"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:showDividers="middle">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/station_name"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:clickable="true"-->
+            <!--android:ellipsize="marquee"-->
+            <!--android:focusable="true"-->
+            <!--android:gravity="center"-->
+            <!--android:lines="1"-->
+            <!--android:marqueeRepeatLimit="marquee_forever"-->
+
+            <!--android:padding="2dp"-->
+            <!--android:paddingEnd="10dp"-->
+            <!--android:paddingStart="10dp"-->
+            <!--android:text="名称"-->
+            <!--android:textAppearance="?android:attr/textAppearanceSmall"/>-->
+
+        <!--<View-->
+            <!--android:layout_width="0.6dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginEnd="6dp"-->
+            <!--android:layout_marginStart="6dp"-->
+            <!--android:background="@color/divider_color"/>-->
+
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_change_position"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:divider="@drawable/gray_divider"-->
+            <!--android:dividerPadding="3dp"-->
+            <!--android:orientation="vertical"-->
+            <!--android:paddingEnd="8dp"-->
+            <!--android:showDividers="middle">-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/station_longitude"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/station_longitude"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/station_latitude"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/station_latitude"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--/>-->
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0.6dp"-->
+        <!--android:layout_marginBottom="6dp"-->
+        <!--android:layout_marginTop="6dp"-->
+        <!--android:background="@color/divider_color"/>-->
+
+    <LinearLayout
+        android:id="@+id/ll_change_time_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="监测站:13"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        />
+        android:orientation="horizontal">
 
-    <TextView
+        <TextView
+            android:id="@+id/tv_panel_starttime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/start_time_string"/>
+
+        <View
+            android:layout_width="0.6dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
+            android:layout_marginStart="6dp"
+            android:background="@color/divider_color"/>
+
+        <TextView
+            android:id="@+id/tv_panel_endtime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/end_time_string"/>
+
+    </LinearLayout>
+
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:lines="3"
-        android:padding="10dp"
-        android:text="详细介绍: \n 经度:32.4332222 \n 纬度: 11.43222"
-        android:textAppearance="?android:attr/textAppearanceSmall"/>
+        android:layout_height="0.6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/divider_color"/>
 
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChart"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:layout_marginTop="24dp"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <lecho.lib.hellocharts.view.LineChartView
+                android:id="@+id/lc_station"
+                android:layout_width="match_parent"
+                android:layout_height="260dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"/>
+
+            <com.eleven.lib.library.ECSegmentedControl
+                android:id="@+id/ec_station_change_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                app:segmentedBackground="@drawable/selector_segmented_bg"
+                app:segmentedDivider="@drawable/selector_segmented_divider"
+                app:segmentedEnableDivider="true"
+                app:segmentedForeground="@drawable/selector_segmented_fg"
+                app:segmentedTexts="@array/chart_yaxis_text"
+                app:textColor="@color/select_segmented_style"
+                />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab_close_panel_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:backgroundTint="@color/full_white"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_close_black_24dp"
+                app:useCompatPadding="true"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
 
