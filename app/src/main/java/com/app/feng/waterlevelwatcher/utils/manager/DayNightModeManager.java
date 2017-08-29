@@ -15,7 +15,6 @@ import org.greenrobot.eventbus.EventBus;
 
 public class DayNightModeManager {
 
-
     public static void setDayMode(Context context) {
         SharedPref.getInstance(context)
                 .putBoolean(Config.KEY.ISNIGHT,false);

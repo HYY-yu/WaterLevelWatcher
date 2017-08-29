@@ -59,7 +59,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.2.7'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.orhanobut:logger:1.15'
-    compile 'com.eleven.lib:ecsegmentedcontrol:+'
+    compile 'com.eleven.lib:ecsegmentedcontrol:1.0.3'
     compile 'com.github.iammert:MaterialIntroView:1.6.0'
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
 

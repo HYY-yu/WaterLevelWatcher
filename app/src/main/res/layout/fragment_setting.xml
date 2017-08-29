@@ -47,9 +47,9 @@
     </LinearLayout>
 
     <ScrollView
-        android:layout_below="@+id/ll_admin_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_admin_panel"
         android:overScrollMode="never">
 
         <LinearLayout
@@ -146,6 +146,35 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"/>
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_cleanCache"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_layout_setting"
+                android:orientation="vertical"
+                android:padding="16dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="清除缓存"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_cache_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="19M"
+                    android:textColor="@color/divider_color"
+                    />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

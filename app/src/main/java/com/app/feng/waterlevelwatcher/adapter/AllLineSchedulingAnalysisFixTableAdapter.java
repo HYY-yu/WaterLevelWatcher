@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.view.View;
 import android.widget.TextView;
@@ -38,16 +37,8 @@ public class AllLineSchedulingAnalysisFixTableAdapter extends FixTableAdapter {
 
     @Override
     public void convertData(int position,List<TextView> bindViews) {
+        super.convertData(position,bindViews);
         AllLineSchedulingAnalysisBean bean = data.get(position);
-
-        for (TextView bindView : bindViews) {
-            bindView.setLines(1);
-            int itemWidth = bindView.getContext()
-                    .getResources()
-                    .getDimensionPixelOffset(R.dimen.table_item_width);
-            bindView.setMaxWidth(itemWidth);
-            bindView.setEllipsize(TextUtils.TruncateAt.END);
-        }
         //        jctname varchar(100),		--节制闸名称
         //        objectstage float,			--目标水位(m)
         //        designstage float,			--设计水位(m)
@@ -137,10 +128,10 @@ public class AllLineSchedulingAnalysisFixTableAdapter extends FixTableAdapter {
 
 
     @Override
-    public void convertLeftData(int position,TextView bindView) {
+    public void convertLeftData(int position,TextView textView) {
+        super.convertLeftData(position,textView);
+
         AllLineSchedulingAnalysisBean dataBean = data.get(position);
-        bindView.setLines(1);
-        bindView.setEllipsize(TextUtils.TruncateAt.END);
-        bindView.setText(dataBean.getJctname());
+        textView.setText(dataBean.getJctname());
     }
 }

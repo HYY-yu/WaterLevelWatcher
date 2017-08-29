@@ -7,6 +7,7 @@ package com.app.feng.waterlevelwatcher;
 public class Config {
     public static String SP_NAME = "waterlevelwatcher";
     public static int MAP_ZOOM_LEVEL = 9;
+    public static boolean localServerMode = true;
 
     public static class Constant {
         public static final String SETTING = "setting";
@@ -16,15 +17,18 @@ public class Config {
 
         public static String TIME_FORMAT = "yyyy/MM/dd HH:mm";
         public static String GLOBAL_START_TIME = "2015/12/24 00:00";
-//
-//        public static String GLOBAL_CURRENT_TIME = Utils.format(
-//                TimeRangeUtil.matchCalendar(Calendar.getInstance(Locale.CHINA))
-//                        .getTime());
+        //
+        //        public static String GLOBAL_CURRENT_TIME = Utils.format(
+        //                TimeRangeUtil.matchCalendar(Calendar.getInstance(Locale.CHINA))
+        //                        .getTime());
 
     }
 
     public static class API {
-        public static final String baseUrl = "http://210.35.32.180:8080/nsbdserver/";
+        public static final String localBaseUrl = "10.0.2.2";
+        public static final String netBaseUrl = "210.35.32.180";
+        public static final String bUrl;
+        public static final String baseUrl = "http://" + bUrl + ":8080/nsbdserver/";
         public static final String loginUrl = "login";
         public static final String overviewAllStationUrl = "schedule/overviewAllStationByTime";
         public static final String overviewFSKBeanByTime = "schedule/overviewFSKBeanByTime";
@@ -35,6 +39,14 @@ public class Config {
         public static final String jzzFrontWLTrend = "schedule/jzzFrontWLTrend";
         public static final String fsStatistics = "schedule/fsStatistics";
         public static final String zddmStatistics = "schedule/zddmStatistics";
+
+        static {
+            if (localServerMode) {
+                bUrl = localBaseUrl;
+            } else {
+                bUrl = netBaseUrl;
+            }
+        }
     }
 
     public static class KEY {

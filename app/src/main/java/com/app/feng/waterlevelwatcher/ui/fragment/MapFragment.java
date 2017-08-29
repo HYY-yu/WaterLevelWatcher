@@ -39,15 +39,11 @@ import io.realm.RealmResults;
 
 public class MapFragment extends Fragment {
 
+    public AMap aMap;
+    public MarkerManager markerManager;
+    Realm realm;
     private MapView mapView;
     private SearchView searchView;
-
-    public AMap aMap;
-
-    Realm realm;
-
-    public MarkerManager markerManager;
-
     private ISlidePanelEventControl panelControl;
 
     public MapFragment() {
@@ -110,6 +106,7 @@ public class MapFragment extends Fragment {
                 return false;
             }
         });
+
     }
 
     private void initSearchView() {
@@ -165,11 +162,9 @@ public class MapFragment extends Fragment {
                         }
                     });
 
-
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
-
     }
 
     private void initMarker() {

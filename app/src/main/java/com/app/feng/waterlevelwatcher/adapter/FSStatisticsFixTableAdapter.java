@@ -1,9 +1,7 @@
 package com.app.feng.waterlevelwatcher.adapter;
 
-import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.FS_StatisticsBean;
 
 import java.util.List;
@@ -28,16 +26,8 @@ public class FSStatisticsFixTableAdapter extends FixTableAdapter {
 
     @Override
     public void convertData(int i,List<TextView> bindViews) {
+        super.convertData(i,bindViews);
         FS_StatisticsBean bean = data.get(i);
-
-        for (TextView bindView : bindViews) {
-            bindView.setLines(1);
-            int itemWidth = bindView.getContext()
-                    .getResources()
-                    .getDimensionPixelOffset(R.dimen.table_item_width);
-            bindView.setMaxWidth(itemWidth);
-            bindView.setEllipsize(TextUtils.TruncateAt.END);
-        }
 
         bindViews.get(0)
                 .setText(bean.getFsknm());
@@ -51,9 +41,9 @@ public class FSStatisticsFixTableAdapter extends FixTableAdapter {
 
     @Override
     public void convertLeftData(int i,TextView textView) {
+        super.convertLeftData(i,textView);
         FS_StatisticsBean bean = data.get(i);
-        textView.setLines(1);
-        textView.setEllipsize(TextUtils.TruncateAt.END);
+
         textView.setText(bean.getFsknm());
     }
 }

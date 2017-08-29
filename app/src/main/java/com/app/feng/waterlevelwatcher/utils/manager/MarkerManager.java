@@ -73,6 +73,7 @@ public class MarkerManager {
         if (selectView != null) {
             selectView.resetSelect();
             Bitmap bitmap = Utils.getViewBitmap(selectView);
+
             selectView.getMarker().setIcon(BitmapDescriptorFactory.fromBitmap(bitmap));
             bitmap.recycle();
         }

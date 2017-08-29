@@ -1,9 +1,7 @@
 package com.app.feng.waterlevelwatcher.adapter;
 
-import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.AllLineWaterDepthBean;
 
 import java.util.List;
@@ -28,17 +26,11 @@ public class AllLineWaterDepthFixTableAdapter extends FixTableAdapter {
     }
 
     @Override
-    public void convertData(int i,List<TextView> bindViews) {
-        AllLineWaterDepthBean bean = data.get(i);
+    public void convertData(int position,List<TextView> bindViews) {
+        super.convertData(position,bindViews);
 
-        for (TextView bindView : bindViews) {
-            bindView.setLines(1);
-            int itemWidth = bindView.getContext()
-                    .getResources()
-                    .getDimensionPixelOffset(R.dimen.table_item_width);
-            bindView.setMaxWidth(itemWidth);
-            bindView.setEllipsize(TextUtils.TruncateAt.END);
-        }
+        AllLineWaterDepthBean bean = data.get(position);
+
         //jctid numeric(18, 0),
         //jctname varchar(100),		--节制闸名称
         //fronttopelev float,			--闸前渠底高程(m)
@@ -62,10 +54,11 @@ public class AllLineWaterDepthFixTableAdapter extends FixTableAdapter {
     }
 
     @Override
-    public void convertLeftData(int i,TextView textView) {
-        AllLineWaterDepthBean dataBean = data.get(i);
-        textView.setLines(1);
-        textView.setEllipsize(TextUtils.TruncateAt.END);
+    public void convertLeftData(int position,TextView textView) {
+        super.convertLeftData(position,textView);
+
+        AllLineWaterDepthBean dataBean = data.get(position);
+
         textView.setText(dataBean.getJctname());
     }
 }

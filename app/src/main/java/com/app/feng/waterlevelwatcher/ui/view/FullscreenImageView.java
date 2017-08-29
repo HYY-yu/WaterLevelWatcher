@@ -12,8 +12,6 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.Transformation;
 
-import com.app.feng.waterlevelwatcher.R;
-
 
 /**
  * Created by feng on 2016/5/25.
@@ -33,44 +31,13 @@ public class FullscreenImageView extends android.support.v7.widget.AppCompatImag
 
     private int distance;
 
-    private class MoveImageAnimator extends Animation {
-        @Override
-        public void initialize(int width,int height,int parentWidth,int parentHeight) {
-            super.initialize(width,height,parentWidth,parentHeight);
-            distance = imageWidth - width;
-        }
-
-        @Override
-        protected void applyTransformation(float interpolatedTime,Transformation t) {
-            super.applyTransformation(interpolatedTime,t);
-            /*if (interpolatedTime == 1) {
-                back = true;
-                Log.i(TAG,"applyTransformation: Time : 1");
-
-            }
-            if (interpolatedTime == 0) {
-                back = false;
-                Log.i(TAG,"applyTransformation: Time : 0");
-            }*/
-            RectF r = getMatrixRectF();
-
-            if (r.left > 0 || r.right < getWidth()) {
-                back = !back;
-            }
-
-            if (back) {
-                matrix.postTranslate(2,0);
-
-            } else {
-                matrix.postTranslate(-2,0);
-            }
-            setImageMatrix(matrix);
-        }
-    }
+    private int resId;
 
     public FullscreenImageView(Context context,AttributeSet attrs,int defStyleAttr) {
         super(context,attrs,defStyleAttr);
 
+        setScaleType(ScaleType.MATRIX);
+        setClickable(false);
     }
 
     public FullscreenImageView(Context context,AttributeSet attrs) {
@@ -79,7 +46,6 @@ public class FullscreenImageView extends android.support.v7.widget.AppCompatImag
 
     public FullscreenImageView(Context context) {
         this(context,null);
-
     }
 
     @Override
@@ -88,7 +54,7 @@ public class FullscreenImageView extends android.support.v7.widget.AppCompatImag
         //获取图片宽高
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(getResources(),R.drawable.nsbd,options);
+        BitmapFactory.decodeResource(getResources(),resId,options);
         imageWidth = options.outWidth;
         imageHeight = options.outHeight;
         int inSampleSize = 1;
@@ -113,8 +79,7 @@ public class FullscreenImageView extends android.support.v7.widget.AppCompatImag
         options.inPreferredConfig = Bitmap.Config.ALPHA_8;
         options.inJustDecodeBounds = false;
 
-        Bitmap background = BitmapFactory.decodeResource(getResources(),R.drawable.nsbd,options);
-
+        Bitmap background = BitmapFactory.decodeResource(getResources(),resId,options);
         setImageBitmap(background);
 
         //获取图片的宽高
@@ -131,7 +96,6 @@ public class FullscreenImageView extends android.support.v7.widget.AppCompatImag
         setImageMatrix(matrix);
         startAnimation();
     }
-
 
     @Override
     protected void onDetachedFromWindow() {
@@ -172,5 +136,44 @@ public class FullscreenImageView extends android.support.v7.widget.AppCompatImag
         }
 
         return rectF;
+    }
+
+    public void setBgImage(int resId) {
+        this.resId = resId;
+    }
+
+    private class MoveImageAnimator extends Animation {
+        @Override
+        public void initialize(int width,int height,int parentWidth,int parentHeight) {
+            super.initialize(width,height,parentWidth,parentHeight);
+            distance = imageWidth - width;
+        }
+
+        @Override
+        protected void applyTransformation(float interpolatedTime,Transformation t) {
+            super.applyTransformation(interpolatedTime,t);
+            /*if (interpolatedTime == 1) {
+                back = true;
+                Log.i(TAG,"applyTransformation: Time : 1");
+
+            }
+            if (interpolatedTime == 0) {
+                back = false;
+                Log.i(TAG,"applyTransformation: Time : 0");
+            }*/
+            RectF r = getMatrixRectF();
+
+            if (r.left > 0 || r.right < getWidth()) {
+                back = !back;
+            }
+
+            if (back) {
+                matrix.postTranslate(2,0);
+
+            } else {
+                matrix.postTranslate(-2,0);
+            }
+            setImageMatrix(matrix);
+        }
     }
 }

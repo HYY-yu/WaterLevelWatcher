@@ -34,6 +34,7 @@ public class StatisticsFragment extends BaseLoadingFragment {
     private View fab_change_time;
     ViewPager viewPager;
 
+
     Realm realm;
     private boolean changeTimeSelector;
 

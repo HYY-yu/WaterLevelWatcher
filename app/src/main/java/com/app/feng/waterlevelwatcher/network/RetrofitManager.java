@@ -21,10 +21,14 @@ public class RetrofitManager {
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(
             new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
             .build();
-    static GsonBuilder builder;
+    private static GsonBuilder builder = new GsonBuilder();
+    private static Retrofit retrofit = new Retrofit.Builder().baseUrl(Config.API.baseUrl)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create(builder.create()))
+            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+            .build();
 
     static {
-        builder = new GsonBuilder();
         builder.setDateFormat(Config.Constant.TIME_FORMAT);
 
         // Register an adapter to manage the date types as long values
@@ -35,12 +39,6 @@ public class RetrofitManager {
         });
 
     }
-
-    private static Retrofit retrofit = new Retrofit.Builder().baseUrl(Config.API.baseUrl)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(builder.create()))
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            .build();
 
     public static Retrofit getRetrofit() {
         return retrofit;

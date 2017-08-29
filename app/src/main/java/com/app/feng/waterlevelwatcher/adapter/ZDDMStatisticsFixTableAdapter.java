@@ -1,9 +1,7 @@
 package com.app.feng.waterlevelwatcher.adapter;
 
-import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.ZDDM_StatisticsBean;
 
 import java.util.List;
@@ -26,17 +24,10 @@ public class ZDDMStatisticsFixTableAdapter extends FixTableAdapter {
     }
 
     @Override
-    public void convertData(int i,List<TextView> bindViews) {
-        ZDDM_StatisticsBean bean = data.get(i);
+    public void convertData(int position,List<TextView> bindViews) {
+        super.convertData(position,bindViews);
 
-        for (TextView bindView : bindViews) {
-            bindView.setLines(1);
-            int itemWidth = bindView.getContext()
-                    .getResources()
-                    .getDimensionPixelOffset(R.dimen.table_item_width);
-            bindView.setMaxWidth(itemWidth);
-            bindView.setEllipsize(TextUtils.TruncateAt.END);
-        }
+        ZDDM_StatisticsBean bean = data.get(position);
 
         bindViews.get(0).setText(bean.jctName);
         bindViews.get(1).setText(String.valueOf(bean.getFlow()));
@@ -46,11 +37,11 @@ public class ZDDMStatisticsFixTableAdapter extends FixTableAdapter {
     }
 
     @Override
-    public void convertLeftData(int i,TextView textView) {
-        ZDDM_StatisticsBean bean = data.get(i);
+    public void convertLeftData(int position,TextView textView) {
+        super.convertLeftData(position,textView);
 
-        textView.setLines(1);
-        textView.setEllipsize(TextUtils.TruncateAt.END);
+        ZDDM_StatisticsBean bean = data.get(position);
+
         textView.setText(bean.jctName);
     }
 }

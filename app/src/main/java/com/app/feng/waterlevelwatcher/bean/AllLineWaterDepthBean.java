@@ -17,8 +17,9 @@ public class AllLineWaterDepthBean extends RealmObject {
     //backwl float,				--闸后水位(m)
     //frontchannelwl float,		--闸前渠道水深(m)
     //backchannelwl float,		--闸后渠道水深(m)
-    //todesignstage float			--当前水位与设计水位差(m)
+    //todesignstage float,			--当前水位与设计水位差(m)
 
+    public Date queryDate;
     private int jctid;
     private String jctname;
     private Float fronttopelev;
@@ -34,8 +35,6 @@ public class AllLineWaterDepthBean extends RealmObject {
         return new String[]{"节制闸名称","闸前渠底高程(m)","闸后渠底高程(m)","设计水位(m)","闸前水位(m)","闸后水位(m)","闸前渠道水深(m)",
                             "闸后渠道水深(m)","当前水位与设计水位差"};
     }
-
-    public Date queryDate;
 
     public int getJctid() {
         return jctid;

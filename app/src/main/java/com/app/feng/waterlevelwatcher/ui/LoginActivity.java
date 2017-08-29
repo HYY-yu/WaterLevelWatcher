@@ -18,6 +18,7 @@ import com.app.feng.waterlevelwatcher.network.BaseSubscriber;
 import com.app.feng.waterlevelwatcher.network.RetrofitManager;
 import com.app.feng.waterlevelwatcher.network.bean.ResponseBean;
 import com.app.feng.waterlevelwatcher.network.interfaces.LoginService;
+import com.app.feng.waterlevelwatcher.ui.view.FullscreenImageView;
 import com.app.feng.waterlevelwatcher.utils.RealmUtil;
 import com.orhanobut.logger.Logger;
 
@@ -36,12 +37,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private Realm realm;
 
+    private FullscreenImageView fullscreenImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         realm = Realm.getDefaultInstance();
+
+        fullscreenImageView = (FullscreenImageView) findViewById(R.id.full_imageview);
+        fullscreenImageView.setBgImage(R.drawable.nsbd);
 
         ////  判断是否自动登陆
         isAutoLoginEnable();

@@ -1,9 +1,7 @@
 package com.app.feng.waterlevelwatcher.adapter;
 
-import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.app.feng.waterlevelwatcher.R;
 import com.app.feng.waterlevelwatcher.bean.AllLineFlowSpeedBean;
 
 import java.util.List;
@@ -27,17 +25,11 @@ public class AllLineFlowSpeedFixTableAdapter extends FixTableAdapter {
     }
 
     @Override
-    public void convertData(int i,List<TextView> bindViews) {
-        AllLineFlowSpeedBean bean = data.get(i);
+    public void convertData(int position,List<TextView> bindViews) {
+        super.convertData(position,bindViews);
+        AllLineFlowSpeedBean bean = data.get(position);
 
-        for (TextView bindView : bindViews) {
-            bindView.setLines(1);
-            int itemWidth = bindView.getContext()
-                    .getResources()
-                    .getDimensionPixelOffset(R.dimen.table_item_width);
-            bindView.setMaxWidth(itemWidth);
-            bindView.setEllipsize(TextUtils.TruncateAt.END);
-        }
+
         //jctname varchar(100),		--节制闸名称
         //location varchar(100),		--安装位置
         //timepoint1 float,			--时间点1
@@ -49,8 +41,8 @@ public class AllLineFlowSpeedFixTableAdapter extends FixTableAdapter {
         //timepoint7 float,			--时间点7
         //timepoint8 float,			--时间点8
         //timepoint9 float,			--时间点9
-        //timepoint10 float,			--时间点10
-        //timepoint11 float,			--时间点11
+        //timepoint10 float,		--时间点10
+        //timepoint11 float,		--时间点11
         //timepoint12 float			--时间点12
 
         bindViews.get(0).setText(bean.getJctname());
@@ -70,10 +62,11 @@ public class AllLineFlowSpeedFixTableAdapter extends FixTableAdapter {
     }
 
     @Override
-    public void convertLeftData(int i,TextView textView) {
-        AllLineFlowSpeedBean dataBean = data.get(i);
-        textView.setLines(1);
-        textView.setEllipsize(TextUtils.TruncateAt.END);
+    public void convertLeftData(int position,TextView textView) {
+        super.convertLeftData(position,textView);
+
+        AllLineFlowSpeedBean dataBean = data.get(position);
+
         textView.setText(dataBean.getJctname());
     }
 }
